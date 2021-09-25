@@ -106,6 +106,7 @@ List of supported commands:
 - **/price_task_stop *COIN_ID COIN_VS***: stop the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.
     - *COIN_ID*: CoinGecko *ID*
     - *COIN_VS*: CoinGecko *vs_currency*
+- **/price_task_stop_all**: stop all price tasks in the current chat
 - **/price_task_pause *COIN_ID COIN_VS***: pause the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.
     - *COIN_ID*: CoinGecko *ID*
     - *COIN_VS*: CoinGecko *vs_currency*
