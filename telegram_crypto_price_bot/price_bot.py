@@ -106,13 +106,20 @@ class PriceBot:
                                                            CommandTypes.PRICE_TASK_START_CMD,
                                                            coin_info_tasks=self.coin_info_tasks),
             filters.command(["price_task_start"])))
-        # Price task start command
+        # Price task stop command
         self.client.add_handler(MessageHandler(
             lambda client, message: self.__DispatchCommand(client,
                                                            message,
                                                            CommandTypes.PRICE_TASK_STOP_CMD,
                                                            coin_info_tasks=self.coin_info_tasks),
             filters.command(["price_task_stop"])))
+        # Price task stop all command
+        self.client.add_handler(MessageHandler(
+            lambda client, message: self.__DispatchCommand(client,
+                                                           message,
+                                                           CommandTypes.PRICE_TASK_STOP_ALL_CMD,
+                                                           coin_info_tasks=self.coin_info_tasks),
+            filters.command(["price_task_stop_all"])))
         # Price task pause command
         self.client.add_handler(MessageHandler(
             lambda client, message: self.__DispatchCommand(client,

@@ -218,6 +218,25 @@ class CoinInfoTasks:
             f"Stopped task {task_id} in chat {chat.id}, number of active tasks: {self.__GetTotalTaskCount()}"
         )
 
+    # Stop all tasks
+    def StopAll(self,
+                chat: pyrogram.types.Chat) -> None:
+        # Check if there are tasks to stop
+        if chat.id not in self.tasks:
+            self.logger.GetLogger().info(f"No task to stop in chat {chat.id}, exiting...")
+            return
+
+        # Stop all tasks
+        for task_id in self.tasks[chat.id].keys():
+            self.scheduler.remove_job(task_id)
+            self.logger.GetLogger().info(f"Stopped task {task_id} in chat {chat.id}")
+        # Delete entry
+        del self.tasks[chat.id]
+        # Log
+        self.logger.GetLogger().info(
+            f"Removed all tasks in chat {chat.id}, number of active tasks: {self.__GetTotalTaskCount()}"
+        )
+
     # Pause task
     def Pause(self,
               chat: pyrogram.types.Chat,

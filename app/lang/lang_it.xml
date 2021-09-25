@@ -14,6 +14,7 @@ Qui trovi la lista dei comandi supportati.
 /price_get_single __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : mostra i dati e grafico del prezzo (chiamata singola)
 /price_task_start __PERIOD_HOURS COIN_ID COIN_VS LAST_DAYS__ : avvia un task di avviso prezzo nella chat corrente
 /price_task_stop __COIN_ID COIN_VS__ : ferma il task specificato nella chat corrente
+/price_task_stop_all : ferma tutti i task nella chat corrente
 /price_task_pause __COIN_ID COIN_VS__ : mette in pausa il task specificato nella chat corrente
 /price_task_resume __COIN_ID COIN_VS__ : riavvia il task specificato nella chat corrente
 /price_task_send_in_same_msg __COIN_ID COIN_VS true/false__ : attiva/disattiva l'invio del grafico e informazioni prezzo nello stesso messaggio per il task specificato nella chat corrente
@@ -52,6 +53,10 @@ Parametri:
     <!-- Stop price task ok message -->
     <sentence id="PRICE_TASK_STOP_OK_CMD">**CONTROLLO TASK**
 ✅ Task di avviso prezzo [{coin_id}, {coin_vs}] fermato con successo.</sentence>
+
+    <!-- Stop all price tasks message -->
+    <sentence id="PRICE_TASK_STOP_ALL_CMD">**CONTROLLO TASK**
+✅ Tutti i task di avviso prezzo fermati con successo.</sentence>
 
     <!-- Pause price task ok message -->
     <sentence id="PRICE_TASK_PAUSE_OK_CMD">**CONTROLLO TASK**

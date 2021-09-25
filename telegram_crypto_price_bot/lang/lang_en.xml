@@ -13,6 +13,7 @@ Here is the list of supported commands.
 /price_get_single __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : show chart and price information of the specified pair (single call)
 /price_task_start __PERIOD_HOURS COIN_ID COIN_VS LAST_DAYS__ : start a price task in the current chat
 /price_task_stop __COIN_ID COIN_VS__ : stop the specified price task in the current chat
+/price_task_stop_all : stop all price tasks in the current chat
 /price_task_pause __COIN_ID COIN_VS__ : pause the specified price task in the current chat
 /price_task_resume __COIN_ID COIN_VS__ : resume the specified price task in the current chat
 /price_task_send_in_same_msg __COIN_ID COIN_VS true/false__ : enable/disable sending chart and price information in the same message for the specified price task in the current chat
@@ -51,6 +52,10 @@ Parameters:
     <!-- Stop price task ok message -->
     <sentence id="PRICE_TASK_STOP_OK_CMD">**TASK CONTROL**
 ✅ Price task [{coin_id}, {coin_vs}] successfully stopped.</sentence>
+
+    <!-- Stop all price tasks message -->
+    <sentence id="PRICE_TASK_STOP_ALL_CMD">**TASK CONTROL**
+✅ All price tasks successfully stopped.</sentence>
 
     <!-- Pause price task ok message -->
     <sentence id="PRICE_TASK_PAUSE_OK_CMD">**TASK CONTROL**

@@ -204,6 +204,20 @@ class PriceTaskStopCmd(CommandBase):
 
 
 #
+# Price task stop all command
+#
+class PriceTaskStopAllCmd(CommandBase):
+    # Execute command
+    @GroupChatOnly
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
+        kwargs["coin_info_tasks"].StopAll(self.cmd_data.Chat())
+        self._SendMessage(
+            self.translator.GetSentence("PRICE_TASK_STOP_ALL_CMD")
+        )
+
+
+#
 # Price task pause command
 #
 class PriceTaskPauseCmd(CommandBase):
