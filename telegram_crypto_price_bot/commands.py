@@ -162,7 +162,7 @@ class PriceTaskStartCmd(CommandBase):
                                                 last_days=last_days)
                 )
             except CoinInfoTaskInvalidPeriodError:
-                self._SendMessage(self.translator.GetSentence("PERIOD_ERR_MSG"))
+                self._SendMessage(self.translator.GetSentence("TASK_PERIOD_ERR_MSG"))
             except CoinInfoTaskMaxNumError:
                 self._SendMessage(self.translator.GetSentence("MAX_TASK_ERR_MSG"))
             except CoinInfoTaskAlreadyExistentError:

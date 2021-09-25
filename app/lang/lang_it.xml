@@ -93,18 +93,18 @@ Nessun task attivo in questa chat.</sentence>
     <!-- Parameter error message -->
     <sentence id="PARAM_ERR_MSG">**ERRORE**
 ❌ Parametri non validi.</sentence>
-    <!-- Period error message -->
-    <sentence id="PERIOD_ERR_MSG">**ERRORE**
-❌ Il periodo deve essere compreso tra 1 e 24.</sentence>
-    <!-- Maximum tasks error message -->
-    <sentence id="MAX_TASK_ERR_MSG">**ERRORE**
-❌ Massimo numero di task raggiunto. Ferma qualche task per avviarne dei nuovi.</sentence>
     <!-- Task already existent error message -->
     <sentence id="TASK_EXISTENT_ERR_MSG">**ERRORE**
 ❌ Task di avviso prezzo [{coin_id}, {coin_vs}] già attivo in questa chat. Ferma il task per avviarne un altro con le stesse coin.</sentence>
     <!-- Task not existent error message -->
     <sentence id="TASK_NOT_EXISTENT_ERR_MSG">**ERRORE**
 ❌ Task di avviso prezzo [{coin_id}, {coin_vs}] non attivo in questa chat.</sentence>
+    <!-- Task period error message -->
+    <sentence id="TASK_PERIOD_ERR_MSG">**ERRORE**
+❌ Il periodo deve essere compreso tra 1 e 24.</sentence>
+    <!-- Maximum tasks error message -->
+    <sentence id="MAX_TASK_ERR_MSG">**ERRORE**
+❌ Massimo numero di task raggiunto. Ferma qualche task per avviarne dei nuovi.</sentence>
     <!-- Single task information message -->
     <sentence id="SINGLE_TASK_INFO_MSG">- Coin: __{coin_id}/{coin_vs}__, periodo: __{period}h__, ultimi giorni: __{last_days}__, stato: __{state}__</sentence>
     <!-- Task running message -->
