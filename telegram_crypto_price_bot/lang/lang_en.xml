@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <translation>
-    <!-- Generic error message -->
-    <sentence id="GENERIC_ERR">**ERROR**
-An error occurred while executing command.</sentence>
     <!-- Help command message -->
     <sentence id="HELP_CMD">**HELP**
 Hi {name},
@@ -80,6 +77,9 @@ Tasks list:
     <sentence id="PRICE_TASK_INFO_NO_TASK_CMD">**PRICE TASKS INFO**
 No task is active in this chat.</sentence>
 
+    <!-- Generic error message -->
+    <sentence id="GENERIC_ERR">**ERROR**
+❌ An error occurred while executing command.</sentence>
     <!-- API error message -->
     <sentence id="API_ERR_MSG">**ERROR**
 ❌ API error for coin {coin_id}/{coin_vs}, check network or coin ID.</sentence>
