@@ -79,8 +79,14 @@ Lista dei task:
 Nessun task attivo in questa chat.</sentence>
 
     <!-- Generic error message -->
-    <sentence id="GENERIC_ERR">**ERRORE**
+    <sentence id="GENERIC_ERR_MSG">**ERRORE**
 ❌ Si è verificato un errore durante l'esecuzione del comando.</sentence>
+    <!-- Authorized-only users error message -->
+    <sentence id="AUTH_ONLY_ERR_MSG">**ERRORE**
+❌ Non sei autorizzato a utilizzare il comando.</sentence>
+    <!-- Group-only error message -->
+    <sentence id="GROUP_ONLY_ERR_MSG">**ERRORE**
+❌ Questo comando può essere eseguito solo nel gruppo.</sentence>
     <!-- API error message -->
     <sentence id="API_ERR_MSG">**ERRORE**
 ❌ Errore API per la coin {coin_id}/{coin_vs}, controllare la connessione o il simbolo della coin.</sentence>

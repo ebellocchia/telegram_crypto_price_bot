@@ -78,8 +78,14 @@ Tasks list:
 No task is active in this chat.</sentence>
 
     <!-- Generic error message -->
-    <sentence id="GENERIC_ERR">**ERROR**
+    <sentence id="GENERIC_ERR_MSG">**ERROR**
 ❌ An error occurred while executing command.</sentence>
+    <!-- Authorized-only users message -->
+    <sentence id="AUTH_ONLY_ERR_MSG">**ERROR**
+❌ You are not authorized to use the command.</sentence>
+    <!-- Group-only error message -->
+    <sentence id="GROUP_ONLY_ERR_MSG">**ERROR**
+❌ This command can be executed only in the chat group.</sentence>
     <!-- API error message -->
     <sentence id="API_ERR_MSG">**ERROR**
 ❌ API error for coin {coin_id}/{coin_vs}, check network or coin ID.</sentence>

@@ -21,7 +21,7 @@
 #
 # Imports
 #
-from typing import Any
+from typing import Any, Callable
 from telegram_crypto_price_bot.coin_info_message_sender import CoinInfoMessageSender
 from telegram_crypto_price_bot.coin_info_tasks import (
     CoinInfoTaskAlreadyExistentError, CoinInfoTaskNotExistentError,
@@ -31,6 +31,23 @@ from telegram_crypto_price_bot.command_base import CommandBase
 from telegram_crypto_price_bot.command_data import CommandParameterError
 from telegram_crypto_price_bot.config import ConfigTypes
 from telegram_crypto_price_bot.helpers import UserHelper
+
+
+#
+# Decorators
+#
+
+# Decorator for group-only commands
+def GroupChatOnly(exec_cmd_fct: Callable[..., None]) -> Callable[..., None]:
+    def decorated(self,
+                  **kwargs: Any):
+        # Check if private chat
+        if self._IsPrivateChat():
+            self._SendMessage(self.translator.GetSentence("GROUP_ONLY_ERR_MSG"))
+        else:
+            exec_cmd_fct(self, **kwargs)
+
+    return decorated
 
 
 #
@@ -65,6 +82,7 @@ class AliveCmd(CommandBase):
 #
 class SetTestModeCmd(CommandBase):
     # Execute command
+    @GroupChatOnly
     def _ExecuteCommand(self,
                         **kwargs: Any) -> None:
         try:
@@ -122,6 +140,7 @@ class PriceGetSingleCmd(CommandBase):
 #
 class PriceTaskStartCmd(CommandBase):
     # Execute command
+    @GroupChatOnly
     def _ExecuteCommand(self,
                         **kwargs: Any) -> None:
         # Get parameters
@@ -159,6 +178,7 @@ class PriceTaskStartCmd(CommandBase):
 #
 class PriceTaskStopCmd(CommandBase):
     # Execute command
+    @GroupChatOnly
     def _ExecuteCommand(self,
                         **kwargs: Any) -> None:
         # Get parameters
@@ -188,6 +208,7 @@ class PriceTaskStopCmd(CommandBase):
 #
 class PriceTaskPauseCmd(CommandBase):
     # Execute command
+    @GroupChatOnly
     def _ExecuteCommand(self,
                         **kwargs: Any) -> None:
         # Get parameters
@@ -217,6 +238,7 @@ class PriceTaskPauseCmd(CommandBase):
 #
 class PriceTaskResumeCmd(CommandBase):
     # Execute command
+    @GroupChatOnly
     def _ExecuteCommand(self,
                         **kwargs: Any) -> None:
         # Get parameters
@@ -246,6 +268,7 @@ class PriceTaskResumeCmd(CommandBase):
 #
 class PriceTaskSendInSameMsgCmd(CommandBase):
     # Execute command
+    @GroupChatOnly
     def _ExecuteCommand(self,
                         **kwargs: Any) -> None:
         # Get parameters
@@ -277,6 +300,7 @@ class PriceTaskSendInSameMsgCmd(CommandBase):
 #
 class PriceTaskDeleteLastMsgCmd(CommandBase):
     # Execute command
+    @GroupChatOnly
     def _ExecuteCommand(self,
                         **kwargs: Any) -> None:
         # Get parameters
@@ -308,6 +332,7 @@ class PriceTaskDeleteLastMsgCmd(CommandBase):
 #
 class PriceTaskInfoCmd(CommandBase):
     # Execute command
+    @GroupChatOnly
     def _ExecuteCommand(self,
                         **kwargs: Any) -> None:
         tasks_list = kwargs["coin_info_tasks"].GetTasksInChat(self.cmd_data.Chat())

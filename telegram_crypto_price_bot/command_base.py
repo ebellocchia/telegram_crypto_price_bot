@@ -73,13 +73,13 @@ class CommandBase(ABC):
             try:
                 self._ExecuteCommand(**kwargs)
             except RPCError:
-                self._SendMessage(self.translator.GetSentence("GENERIC_ERR"))
+                self._SendMessage(self.translator.GetSentence("GENERIC_ERR_MSG"))
                 self.logger.GetLogger().exception(
                     f"An error occurred while executing command {self.cmd_data.Name()}"
                 )
         else:
             if self._IsPrivateChat():
-                self._SendMessage(self.translator.GetSentence("AUTH_ONLY_ERR"))
+                self._SendMessage(self.translator.GetSentence("AUTH_ONLY_ERR_MSG"))
 
             self.logger.GetLogger().warning(
                 f"User {UserHelper.GetNameOrId(self.cmd_data.User())} tried to execute the command but it's not authorized"
