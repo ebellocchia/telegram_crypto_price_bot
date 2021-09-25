@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<translation>
+    <!-- Generic error message -->
+    <sentence id="GENERIC_ERR">**ERRORE**
+Si è verificato un errore durante l'esecuzione del comando.</sentence>
+    <!-- Help command message -->
+    <sentence id="HELP_CMD">**MENU DI AIUTO**
+Ciao {name},
+benvenuto nel Telegram Price Bot.
+Qui trovi la lista dei comandi supportati.
+
+/start : mostra questo messaggio
+/help : mostra questo messaggio
+/alive : mostra se il bot è attivo
+/set_test_mode __true/false__ : attiva/disattiva la modalità di test
+/is_test_mode : mostra se la modalità di test è attiva
+/price_get_single __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : mostra i dati e grafico del prezzo (chiamata singola)
+/price_task_start __PERIOD_HOURS COIN_ID COIN_VS LAST_DAYS__ : avvia un task di avviso prezzo nella chat corrente
+/price_task_stop __COIN_ID COIN_VS__ : ferma il task specificato nella chat corrente
+/price_task_pause __COIN_ID COIN_VS__ : mette in pausa il task specificato nella chat corrente
+/price_task_resume __COIN_ID COIN_VS__ : riavvia il task specificato nella chat corrente
+/price_task_send_in_same_msg __COIN_ID COIN_VS true/false__ : attiva/disattiva l'invio del grafico e informazioni prezzo nello stesso messaggio per il task specificato nella chat corrente
+/price_task_delete_last_msg __COIN_ID COIN_VS true/false__ : attiva/disattiva la rimozione degli ultimi messaggi inviati per il task specificato nella chat corrente
+/price_task_info : mostra la lista di tutti i task attivi nella chat corrente
+
+I parametri tra parentesi quadre sono opzionali.</sentence>
+    <!-- Alive command message -->
+    <sentence id="ALIVE_CMD">**STATO**
+✅ Il bot è attivo.</sentence>
+
+    <!-- Set test mode command enabled message -->
+    <sentence id="SET_TEST_MODE_EN_CMD">**MODALITÀ TEST**
+✅ Modalità di test attivata.</sentence>
+    <!-- Set test mode command disabled message -->
+    <sentence id="SET_TEST_MODE_DIS_CMD">**MODALITÀ TEST**
+✅ Modalità di test disattivata.</sentence>
+
+    <!-- Is test mode command enabled message -->
+    <sentence id="IS_TEST_MODE_EN_CMD">**MODALITÀ TEST**
+La modalità di test è attualmente attivata.</sentence>
+    <!-- Is test mode command disabled message -->
+    <sentence id="IS_TEST_MODE_DIS_CMD">**MODALITÀ TEST**
+La modalità di test è attualmente disattivata.</sentence>
+
+    <!-- Start price task ok message -->
+    <sentence id="PRICE_TASK_START_OK_CMD">**CONTROLLO TASK**
+✅ Task di avviso prezzo avviato con successo.
+
+Parametri:
+- Periodo: __{period}h__
+- Coin ID: __{coin_id}__
+- Coin VS: __{coin_vs}__
+- Ultimi giorni: __{last_days}__</sentence>
+
+    <!-- Stop price task ok message -->
+    <sentence id="PRICE_TASK_STOP_OK_CMD">**CONTROLLO TASK**
+✅ Task di avviso prezzo [{coin_id}, {coin_vs}] fermato con successo.</sentence>
+
+    <!-- Pause price task ok message -->
+    <sentence id="PRICE_TASK_PAUSE_OK_CMD">**CONTROLLO TASK**
+✅ Task di avviso prezzo [{coin_id}, {coin_vs}] messo in pausa con successo.</sentence>
+
+    <!-- Resume price task ok message -->
+    <sentence id="PRICE_TASK_RESUME_OK_CMD">**CONTROLLO TASK**
+✅ Task di avviso prezzo [{coin_id}, {coin_vs}] riavviato con successo.</sentence>
+
+    <!-- Send in same message ok message -->
+    <sentence id="PRICE_TASK_SEND_IN_SAME_MSG_OK_CMD">**CONTROLLO TASK**
+✅ Task di avviso prezzo [{coin_id}, {coin_vs}] invio grafico/prezzo nello stesso messaggio impostato a: {flag}.</sentence>
+
+    <!-- Delete last message ok message -->
+    <sentence id="PRICE_TASK_DELETE_LAST_MSG_OK_CMD">**CONTROLLO TASK**
+✅ Task di avviso prezzo [{coin_id}, {coin_vs}] cancella ultimo messaggio impostato a: {flag}.</sentence>
+
+    <!-- Price task info message -->
+    <sentence id="PRICE_TASK_INFO_CMD">**INFORMAZIONI TASK**
+Numero di task attivi in questa chat: **{tasks_num}**
+Lista dei task:
+{tasks_list}</sentence>
+    <!-- Price task info no task message -->
+    <sentence id="PRICE_TASK_INFO_NO_TASK_CMD">**INFORMAZIONI TASK**
+Nessun task attivo in questa chat.</sentence>
+
+    <!-- API error message -->
+    <sentence id="API_ERR_MSG">**ERRORE**
+❌ Errore API per la coin {coin_id}/{coin_vs}, controllare la connessione o il simbolo della coin.</sentence>
+    <!-- Parameter error message -->
+    <sentence id="PARAM_ERR_MSG">**ERRORE**
+❌ Parametri non validi.</sentence>
+    <!-- Period error message -->
+    <sentence id="PERIOD_ERR_MSG">**ERRORE**
+❌ Il periodo deve essere compreso tra 1 e 24.</sentence>
+    <!-- Maximum tasks error message -->
+    <sentence id="MAX_TASK_ERR_MSG">**ERRORE**
+❌ Massimo numero di task raggiunto. Ferma qualche task per avviarne dei nuovi.</sentence>
+    <!-- Task already existent error message -->
+    <sentence id="TASK_EXISTENT_ERR_MSG">**ERRORE**
+❌ Task di avviso prezzo [{coin_id}, {coin_vs}] già attivo in questa chat. Ferma il task per avviarne un altro con le stesse coin.</sentence>
+    <!-- Task not existent error message -->
+    <sentence id="TASK_NOT_EXISTENT_ERR_MSG">**ERRORE**
+❌ Task di avviso prezzo [{coin_id}, {coin_vs}] non attivo in questa chat.</sentence>
+    <!-- Single task information message -->
+    <sentence id="SINGLE_TASK_INFO_MSG">- Coin: __{coin_id}/{coin_vs}__, periodo: __{period}h__, ultimi giorni: __{last_days}__</sentence>
+    <!-- Price info title message -->
+    <sentence id="PRICE_INFO_TITLE_MSG">**{coin_name} - Informazioni Prezzo**\n\n</sentence>
+    <!-- Chart info title message -->
+    <sentence id="CHART_INFO_TITLE_MSG">{coin_id}/{coin_vs} - Prezzo degli ultimi {last_days} giorni</sentence>
+</translation>
