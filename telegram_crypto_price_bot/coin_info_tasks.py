@@ -122,7 +122,11 @@ class CoinInfoTasksList(WrappedList):
                                          coin_id=task_data.CoinId(),
                                          coin_vs=task_data.CoinVs(),
                                          period=task_data.PeriodHours(),
-                                         last_days=task_data.LastDays())
+                                         last_days=task_data.LastDays(),
+                                         state=(self.translator.GetSentence("TASK_RUNNING_MSG")
+                                                if task_data.IsRunning()
+                                                else self.translator.GetSentence("TASK_PAUSED_MSG"))
+                                         )
              for task_data in self.list_elements]
         )
 

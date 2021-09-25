@@ -99,7 +99,11 @@ No task is active in this chat.</sentence>
     <sentence id="TASK_NOT_EXISTENT_ERR_MSG">**ERROR**
 ❌ Price task [{coin_id}, {coin_vs}] is not active in this chat.</sentence>
     <!-- Single task information message -->
-    <sentence id="SINGLE_TASK_INFO_MSG">- Coin: __{coin_id}/{coin_vs}__, period: __{period}h__, last days: __{last_days}__</sentence>
+    <sentence id="SINGLE_TASK_INFO_MSG">- Coin: __{coin_id}/{coin_vs}__, period: __{period}h__, last days: __{last_days}__, state: __{state}__</sentence>
+    <!-- Task running message -->
+    <sentence id="TASK_RUNNING_MSG">runnnig</sentence>
+    <!-- Task paused message -->
+    <sentence id="TASK_PAUSED_MSG">paused</sentence>
     <!-- Price info title message -->
     <sentence id="PRICE_INFO_TITLE_MSG">**{coin_name} - Price Info**\n\n</sentence>
     <!-- Chart info title message -->
