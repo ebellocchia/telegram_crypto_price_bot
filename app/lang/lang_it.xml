@@ -83,6 +83,12 @@ Lista dei task:
     <sentence id="PRICE_TASK_INFO_NO_TASK_CMD">**INFORMAZIONI TASK**
 Nessun task attivo in questa chat.</sentence>
 
+    <!-- Bot welcome message -->
+    <sentence id="BOT_WELCOME_MSG">Ciao!
+Grazie per aver scelto il Telegram Crypto Price Bot.
+Usa __/help__ per vedere la lista dei comandi supportati.
+Non dimenticarti di **farmi amministratore del gruppo** o non potrò funzionare correttamente.</sentence>
+
     <!-- Generic error message -->
     <sentence id="GENERIC_ERR_MSG">**ERRORE**
 ❌ Si è verificato un errore durante l'esecuzione del comando.</sentence>

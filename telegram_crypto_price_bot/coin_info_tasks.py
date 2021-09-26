@@ -237,6 +237,12 @@ class CoinInfoTasks:
             f"Removed all tasks in chat {chat.id}, number of active tasks: {self.__GetTotalTaskCount()}"
         )
 
+    # Called when chat is left by the bot
+    def ChatLeft(self,
+                 chat: pyrogram.types.Chat) -> None:
+        self.logger.GetLogger().info(f"Left chat {chat.id}, stopping all chat tasks...")
+        self.StopAll(chat)
+
     # Pause task
     def Pause(self,
               chat: pyrogram.types.Chat,

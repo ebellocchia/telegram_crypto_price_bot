@@ -30,6 +30,7 @@ from telegram_crypto_price_bot.coin_info_tasks import CoinInfoTasks
 from telegram_crypto_price_bot.config import ConfigTypes
 from telegram_crypto_price_bot.config_loader import ConfigLoader
 from telegram_crypto_price_bot.logger import Logger
+from telegram_crypto_price_bot.message_dispatcher import MessageDispatcher
 from telegram_crypto_price_bot.translation_loader import TranslationLoader
 
 
@@ -61,6 +62,7 @@ class PriceBot:
                                              self.translator)
         # Initialize helper classes
         self.cmd_dispatcher = CommandDispatcher(self.config, self.logger, self.translator)
+        self.msg_dispatcher = MessageDispatcher(self.config, self.logger, self.translator)
         # Setup handlers
         self.__SetupHandlers()
         # Log
@@ -155,6 +157,12 @@ class PriceBot:
                                                            CommandTypes.PRICE_TASK_INFO_CMD,
                                                            coin_info_tasks=self.coin_info_tasks),
             filters.command(["price_task_info"])))
+        # Handler for messages
+        self.client.add_handler(MessageHandler(
+            lambda client, message: self.__HandleMessage(client,
+                                                         message,
+                                                         coin_info_tasks=self.coin_info_tasks),
+            ~filters.private))
         # Print
         self.logger.GetLogger().info("Bot handlers set")
 
@@ -165,3 +173,10 @@ class PriceBot:
                           cmd_type: CommandTypes,
                           **kwargs: Any) -> None:
         self.cmd_dispatcher.Dispatch(client, message, cmd_type, **kwargs)
+
+    # Handle message
+    def __HandleMessage(self,
+                        client: pyrogram.Client,
+                        message: pyrogram.types.Message,
+                        **kwargs: Any) -> None:
+        self.msg_dispatcher.Dispatch(client, message, **kwargs)
