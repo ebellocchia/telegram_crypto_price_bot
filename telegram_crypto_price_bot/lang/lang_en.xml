@@ -74,12 +74,12 @@ Parameters:
 ✅ Price task [{coin_id}, {coin_vs}] delete last message set to: {flag}.</sentence>
 
     <!-- Price task info message -->
-    <sentence id="PRICE_TASK_INFO_CMD">**PRICE TASKS INFO**
+    <sentence id="PRICE_TASK_INFO_CMD">**TASKS INFO**
 Number of active tasks in this chat: **{tasks_num}**
 Tasks list:
 {tasks_list}</sentence>
     <!-- Price task info no task message -->
-    <sentence id="PRICE_TASK_INFO_NO_TASK_CMD">**PRICE TASKS INFO**
+    <sentence id="PRICE_TASK_INFO_NO_TASK_CMD">**TASKS INFO**
 No task is active in this chat.</sentence>
 
     <!-- Bot welcome message -->
