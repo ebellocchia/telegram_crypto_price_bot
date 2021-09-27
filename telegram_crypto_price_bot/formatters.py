@@ -52,13 +52,14 @@ class MarketCapFormatter:
     def Format(market_cap: int,
                coin_vs: Optional[str] = None) -> str:
         coin_vs = coin_vs or ""
+        space = " " if coin_vs not in ("$", "€") else ""
 
         if market_cap > 1e9:
             return f"{market_cap / 1e9:.2f}B {coin_vs}"
         elif market_cap > 1e6:
             return f"{market_cap / 1e6:.2f}M {coin_vs}"
         else:
-            return f"{market_cap:,}{coin_vs}"
+            return f"{market_cap:,}{space}{coin_vs}"
 
 
 # Price formatter class
@@ -68,17 +69,18 @@ class PriceFormatter:
     def Format(price: float,
                coin_vs: Optional[str] = None) -> str:
         coin_vs = coin_vs or ""
+        space = " " if coin_vs not in ("$", "€") else ""
 
         if price >= 1000:
-            return f"{price:.0f}{coin_vs}"
+            return f"{price:.0f}{space}{coin_vs}"
         elif price >= 100:
-            return f"{price:.1f}{coin_vs}"
+            return f"{price:.1f}{space}{coin_vs}"
         elif price >= 1:
-            return f"{price:.2f}{coin_vs}"
+            return f"{price:.2f}{space}{coin_vs}"
         elif price >= 0.0001:
-            return f"{price:.4f}{coin_vs}"
+            return f"{price:.4f}{space}{coin_vs}"
         else:
-            return f"{price:f}{coin_vs}"
+            return f"{price:f}{space}{coin_vs}"
 
 
 # Price change percentage formatter class
@@ -96,10 +98,11 @@ class VolumeFormatter:
     def Format(volume: int,
                coin_vs: Optional[str] = None) -> str:
         coin_vs = coin_vs or ""
+        space = " " if coin_vs not in ("$", "€") else ""
 
         if volume > 1e9:
             return f"{volume / 1e9:.2f}B {coin_vs}"
         elif volume > 1e6:
             return f"{volume / 1e6:.2f}M {coin_vs}"
         else:
-            return f"{volume:,}{coin_vs}"
+            return f"{volume:,}{space}{coin_vs}"
