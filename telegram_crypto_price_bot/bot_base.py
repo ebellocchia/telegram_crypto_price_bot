@@ -22,29 +22,39 @@
 # Imports
 #
 import pyrogram
-from abc import ABC, abstractmethod
 from pyrogram import Client
-from typing import Any
+from typing import Any, Dict, List
 from telegram_crypto_price_bot.command_dispatcher import CommandDispatcher, CommandTypes
 from telegram_crypto_price_bot.config import ConfigTypes
-from telegram_crypto_price_bot.config_loader import ConfigLoader
+from telegram_crypto_price_bot.config_loader import ConfigCfgType, ConfigLoader
 from telegram_crypto_price_bot.logger import Logger
 from telegram_crypto_price_bot.message_dispatcher import MessageDispatcher
 from telegram_crypto_price_bot.translation_loader import TranslationLoader
 
 
 #
+# Types
+#
+
+# Handlers configuration type
+HandlersCfgType = Dict[Any, List[Dict[str, Any]]]
+
+
+#
 # Classes
 #
 
+
 # Bot base class
-class BotBase(ABC):
+class BotBase:
     # Constructor
     def __init__(self,
-                 config_file: str) -> None:
+                 config_file: str,
+                 config_cfg: ConfigCfgType,
+                 handlers_cfg: HandlersCfgType) -> None:
         # Load configuration
-        config_ldr = ConfigLoader(config_file)
-        config_ldr.Load()
+        config_ldr = ConfigLoader(config_cfg)
+        config_ldr.Load(config_file)
         self.config = config_ldr.GetConfig()
         # Initialize logger
         self.logger = Logger(self.config)
@@ -58,7 +68,7 @@ class BotBase(ABC):
         self.cmd_dispatcher = CommandDispatcher(self.config, self.logger, self.translator)
         self.msg_dispatcher = MessageDispatcher(self.config, self.logger, self.translator)
         # Setup handlers
-        self._SetupHandlers()
+        self._SetupHandlers(handlers_cfg)
         # Log
         self.logger.GetLogger().info("Bot initialization completed")
 
@@ -68,6 +78,23 @@ class BotBase(ABC):
         self.logger.GetLogger().info("Bot started!\n")
         # Run client
         self.client.run()
+
+    # Setup handlers
+    def _SetupHandlers(self,
+                       handlers_cfg: HandlersCfgType) -> None:
+        # Add all configured handlers
+        for curr_hnd_type, curr_hnd_cfg in handlers_cfg.items():
+            for handler_cfg in curr_hnd_cfg:
+                self.client.add_handler(
+                    # Little "hack" to keep a local scope for current configuration
+                    (
+                        lambda curr_type=curr_hnd_type, curr_cfg=handler_cfg:
+                            curr_type(lambda client, message: curr_cfg["callback"](self, client, message),
+                                      curr_cfg["filters"])
+                    )()
+                )
+        # Log
+        self.logger.GetLogger().info("Bot handlers set")
 
     # Dispatch command
     def _DispatchCommand(self,
@@ -83,8 +110,3 @@ class BotBase(ABC):
                        message: pyrogram.types.Message,
                        **kwargs: Any) -> None:
         self.msg_dispatcher.Dispatch(client, message, **kwargs)
-
-    # Setup handlers
-    @abstractmethod
-    def _SetupHandlers(self) -> None:
-        pass

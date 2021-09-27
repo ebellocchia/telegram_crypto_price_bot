@@ -34,7 +34,7 @@ from telegram_crypto_price_bot.wrapped_list import WrappedList
 
 # Chat members list class
 class ChatMembersList(WrappedList):
-   # Get by ID
+    # Get by ID
     def GetById(self,
                 user_id: int) -> Optional[pyrogram.types.ChatMember]:
         res = [member for member in self.list_elements if user_id == member.user.id]

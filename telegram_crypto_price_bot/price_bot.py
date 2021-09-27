@@ -21,12 +21,10 @@
 #
 # Imports
 #
-import pyrogram
-from pyrogram import filters
-from pyrogram.handlers import MessageHandler
 from telegram_crypto_price_bot.bot_base import BotBase
-from telegram_crypto_price_bot.command_dispatcher import CommandTypes
 from telegram_crypto_price_bot.coin_info_tasks import CoinInfoTasks
+from telegram_crypto_price_bot.price_bot_config_cfg import PriceBotConfigCfg
+from telegram_crypto_price_bot.price_bot_handlers_cfg import PriceBotHandlersCfg
 
 
 #
@@ -38,100 +36,11 @@ class PriceBot(BotBase):
     # Constructor
     def __init__(self,
                  config_file: str) -> None:
-        super().__init__(config_file)
+        super().__init__(config_file,
+                         PriceBotConfigCfg,
+                         PriceBotHandlersCfg)
         # Initialize coin info tasks
         self.coin_info_tasks = CoinInfoTasks(self.client,
                                              self.config,
                                              self.logger,
                                              self.translator)
-
-    # Setup handlers
-    def _SetupHandlers(self) -> None:
-        # Start command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client, message, CommandTypes.START_CMD),
-            filters.private & filters.command(["start"])))
-        # Help command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client, message, CommandTypes.HELP_CMD),
-            filters.command(["help"])))
-        # Alive command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client, message, CommandTypes.ALIVE_CMD),
-            filters.command(["alive"])))
-        # Set test mode command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client, message, CommandTypes.SET_TEST_MODE_CMD),
-            filters.command(["set_test_mode"])))
-        # Check test mode command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client, message, CommandTypes.IS_TEST_MODE_CMD),
-            filters.command(["is_test_mode"])))
-        # Get single price command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client, message, CommandTypes.PRICE_GET_SINGLE_CMD),
-            filters.command(["price_get_single"])))
-        # Price task start command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client,
-                                                          message,
-                                                          CommandTypes.PRICE_TASK_START_CMD,
-                                                          coin_info_tasks=self.coin_info_tasks),
-            filters.command(["price_task_start"])))
-        # Price task stop command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client,
-                                                          message,
-                                                          CommandTypes.PRICE_TASK_STOP_CMD,
-                                                          coin_info_tasks=self.coin_info_tasks),
-            filters.command(["price_task_stop"])))
-        # Price task stop all command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client,
-                                                          message,
-                                                          CommandTypes.PRICE_TASK_STOP_ALL_CMD,
-                                                          coin_info_tasks=self.coin_info_tasks),
-            filters.command(["price_task_stop_all"])))
-        # Price task pause command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client,
-                                                          message,
-                                                          CommandTypes.PRICE_TASK_PAUSE_CMD,
-                                                          coin_info_tasks=self.coin_info_tasks),
-            filters.command(["price_task_pause"])))
-        # Price task resume command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client,
-                                                          message,
-                                                          CommandTypes.PRICE_TASK_RESUME_CMD,
-                                                          coin_info_tasks=self.coin_info_tasks),
-            filters.command(["price_task_resume"])))
-        # Price task send in same message command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client,
-                                                          message,
-                                                          CommandTypes.PRICE_TASK_SEND_IN_SAME_MSG_CMD,
-                                                          coin_info_tasks=self.coin_info_tasks),
-            filters.command(["price_task_send_in_same_msg"])))
-        # Price task delete last message command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client,
-                                                          message,
-                                                          CommandTypes.PRICE_TASK_DELETE_LAST_MSG_CMD,
-                                                          coin_info_tasks=self.coin_info_tasks),
-            filters.command(["price_task_delete_last_msg"])))
-        # Price task info command
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._DispatchCommand(client,
-                                                          message,
-                                                          CommandTypes.PRICE_TASK_INFO_CMD,
-                                                          coin_info_tasks=self.coin_info_tasks),
-            filters.command(["price_task_info"])))
-        # Handler for messages
-        self.client.add_handler(MessageHandler(
-            lambda client, message: self._HandleMessage(client,
-                                                        message,
-                                                        coin_info_tasks=self.coin_info_tasks),
-            ~filters.private))
-        # Print
-        self.logger.GetLogger().info("Bot handlers set")

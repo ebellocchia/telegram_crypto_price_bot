@@ -24,7 +24,14 @@
 import configparser
 from typing import Any, Dict, List
 from telegram_crypto_price_bot.config import ConfigError, Config
-from telegram_crypto_price_bot.config_data import ConfigDataConst
+
+
+#
+# Types
+#
+FieldCfgType = Dict[str, Any]
+FieldsCfgType = List[FieldCfgType]
+ConfigCfgType = Dict[str, FieldsCfgType]
 
 
 #
@@ -35,16 +42,17 @@ from telegram_crypto_price_bot.config_data import ConfigDataConst
 class ConfigLoader:
     # Constructor
     def __init__(self,
-                 config_file: str) -> None:
-        self.config_file = config_file
+                 config_cfg: ConfigCfgType) -> None:
+        self.config_cfg = config_cfg
         self.config = Config()
         self.config_parser = None
 
     # Load configuration
-    def Load(self) -> None:
+    def Load(self,
+             config_file: str) -> None:
         # Read file
         self.config_parser = configparser.ConfigParser()
-        self.config_parser.read(self.config_file)
+        self.config_parser.read(config_file)
 
         # Print
         print("Loading configuration...\n")
@@ -60,7 +68,7 @@ class ConfigLoader:
     # Load sections
     def __LoadSections(self) -> None:
         # For each section
-        for section, fields in ConfigDataConst.CONFIG.items():
+        for section, fields in self.config_cfg.items():
             # Print section
             print(f"Section [{section}]")
             # Load fields
@@ -69,7 +77,7 @@ class ConfigLoader:
     # Load fields
     def __LoadFields(self,
                      section: str,
-                     fields: List[Dict[str, Any]]) -> None:
+                     fields: FieldsCfgType) -> None:
         # For each field
         for field in fields:
             # Load if needed
@@ -80,13 +88,13 @@ class ConfigLoader:
 
     # Get if field shall be loaded
     def __FieldShallBeLoaded(self,
-                             field: Dict[str, Any]) -> bool:
+                             field: FieldCfgType) -> bool:
         return field["load_if"](self.config) if "load_if" in field else True
 
     # Set field value
     def __SetFieldValue(self,
                         section: str,
-                        field: Dict[str, Any]) -> None:
+                        field: FieldCfgType) -> None:
         try:
             field_val = self.config_parser[section][field["name"]]
         # Field not present, set default value if specified
@@ -107,7 +115,7 @@ class ConfigLoader:
 
     # Print field value
     def __PrintFieldValue(self,
-                          field: Dict[str, Any]) -> None:
+                          field: FieldCfgType) -> None:
         if "print_fct" in field:
             print(f"- {field['name']}: {field['print_fct'](self.config.GetValue(field['type']))}")
         else:
