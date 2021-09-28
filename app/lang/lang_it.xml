@@ -85,7 +85,7 @@ Nessun task attivo in questa chat.</sentence>
 
     <!-- Bot welcome message -->
     <sentence id="BOT_WELCOME_MSG">Ciao!
-Grazie per aver scelto il Telegram Crypto Price Bot.
+Grazie per aver scelto il **Telegram Crypto Price Bot**.
 Usa __/help__ per vedere la lista dei comandi supportati.
 Non dimenticarti di **farmi amministratore del gruppo** o non potrò funzionare correttamente.</sentence>
 

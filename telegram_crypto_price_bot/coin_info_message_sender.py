@@ -61,7 +61,7 @@ class CoinInfoMessageSender:
 
     # Set send in same message
     def SendInSameMessage(self,
-                              flag: bool) -> None:
+                          flag: bool) -> None:
         self.send_in_same_msg = flag
 
     # Send message

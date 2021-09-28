@@ -40,8 +40,8 @@ from telegram_crypto_price_bot.utils import Synchronized
 # Variables
 #
 
-# Mutex for plotting charts, since matplotlib works only in single thread
-plot_mutex = Lock()
+# Lock for plotting charts, since matplotlib works only in single thread
+plot_lock = Lock()
 
 
 #
@@ -64,7 +64,7 @@ class ChartInfoFileSaver:
         self.translator = translator
 
     # Save chart to file
-    @Synchronized(plot_mutex)
+    @Synchronized(plot_lock)
     def SaveToFile(self,
                    chart_info: ChartInfo,
                    file_name: str) -> None:
