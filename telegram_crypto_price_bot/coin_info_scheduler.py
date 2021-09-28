@@ -108,7 +108,7 @@ class CoinInfoScheduler:
 
     # Get the list of active jobs in chat
     def GetJobsInChat(self,
-                       chat: pyrogram.types.Chat) -> CoinInfoJobsList:
+                      chat: pyrogram.types.Chat) -> CoinInfoJobsList:
         jobs_list = CoinInfoJobsList(self.translator)
         jobs_list.AddMultiple(
             [job.Data() for (_, job) in self.jobs[chat.id].items()] if chat.id in self.jobs else []
@@ -326,8 +326,8 @@ class CoinInfoScheduler:
     # Get job ID
     @staticmethod
     def __GetJobId(chat: pyrogram.types.Chat,
-                    coin_id: str,
-                    coin_vs: str) -> str:
+                   coin_id: str,
+                   coin_vs: str) -> str:
         return f"{chat.id}-{coin_id}-{coin_vs}"
 
     # Get total job count
