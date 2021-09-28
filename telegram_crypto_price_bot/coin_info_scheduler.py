@@ -152,7 +152,7 @@ class CoinInfoScheduler:
         # Check total jobs number
         tot_job_cnt = self.__GetTotalJobCount()
         if tot_job_cnt >= self.config.GetValue(ConfigTypes.TASKS_MAX_NUM):
-            self.logger.GetLogger().error(f"Maximum number of jobs reached, cannot start a new one")
+            self.logger.GetLogger().error("Maximum number of jobs reached, cannot start a new one")
             raise CoinInfoJobMaxNumError()
 
         # Create job
@@ -184,13 +184,17 @@ class CoinInfoScheduler:
                 chat: pyrogram.types.Chat) -> None:
         # Check if there are jobs to stop
         if chat.id not in self.jobs:
-            self.logger.GetLogger().info(f"No job to stop in chat {ChatHelper.GetTitleOrId(chat)}, exiting...")
+            self.logger.GetLogger().info(
+                f"No job to stop in chat {ChatHelper.GetTitleOrId(chat)}, exiting..."
+            )
             return
 
         # Stop all jobs
         for job_id in self.jobs[chat.id].keys():
             self.scheduler.remove_job(job_id)
-            self.logger.GetLogger().info(f"Stopped job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}")
+            self.logger.GetLogger().info(
+                f"Stopped job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+            )
         # Delete entry
         del self.jobs[chat.id]
         # Log
@@ -253,7 +257,9 @@ class CoinInfoScheduler:
         job_id = self.__GetJobId(chat, coin_id, coin_vs)
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}")
+            self.logger.GetLogger().error(
+                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}"
+            )
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].SendInSameMessage(flag)
@@ -270,7 +276,9 @@ class CoinInfoScheduler:
         job_id = self.__GetJobId(chat, coin_id, coin_vs)
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}")
+            self.logger.GetLogger().error(
+                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}"
+            )
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].DeleteLastSentMessage(flag)
