@@ -25,6 +25,7 @@ import pyrogram
 from apscheduler.schedulers.background import BackgroundScheduler
 from telegram_crypto_price_bot.coin_info_job import CoinInfoJobData, CoinInfoJob
 from telegram_crypto_price_bot.config import ConfigTypes, Config
+from telegram_crypto_price_bot.helpers import ChatHelper
 from telegram_crypto_price_bot.logger import Logger
 from telegram_crypto_price_bot.translation_loader import TranslationLoader
 from telegram_crypto_price_bot.wrapped_list import WrappedList
@@ -136,12 +137,16 @@ class CoinInfoScheduler:
 
         # Check if existent
         if self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f"Job {job_id} already active in chat {chat.id}, cannot start it")
+            self.logger.GetLogger().error(
+                f"Job {job_id} already active in chat {ChatHelper.GetTitleOrId(chat)}, cannot start it"
+            )
             raise CoinInfoJobAlreadyExistentError()
 
         # Check period
         if period_hours < CoinInfoSchedulerConst.MIN_PERIOD_HOURS or period_hours > CoinInfoSchedulerConst.MAX_PERIOD_HOURS:
-            self.logger.GetLogger().error(f"Invalid period {period_hours} for job {job_id}, cannot start it")
+            self.logger.GetLogger().error(
+                f"Invalid period {period_hours} for job {job_id}, cannot start it"
+            )
             raise CoinInfoJobInvalidPeriodError()
 
         # Check total jobs number
@@ -163,13 +168,15 @@ class CoinInfoScheduler:
         job_id = self.__GetJobId(chat, coin_id, coin_vs)
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f"Job {job_id} not active in chat {chat.id}, cannot stop it")
+            self.logger.GetLogger().error(
+                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot stop it"
+            )
             raise CoinInfoJobNotExistentError()
 
         del self.jobs[chat.id][job_id]
         self.scheduler.remove_job(job_id)
         self.logger.GetLogger().info(
-            f"Stopped job {job_id} in chat {chat.id}, number of active jobs: {self.__GetTotalJobCount()}"
+            f"Stopped job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}"
         )
 
     # Stop all jobs
@@ -177,24 +184,26 @@ class CoinInfoScheduler:
                 chat: pyrogram.types.Chat) -> None:
         # Check if there are jobs to stop
         if chat.id not in self.jobs:
-            self.logger.GetLogger().info(f"No job to stop in chat {chat.id}, exiting...")
+            self.logger.GetLogger().info(f"No job to stop in chat {ChatHelper.GetTitleOrId(chat)}, exiting...")
             return
 
         # Stop all jobs
         for job_id in self.jobs[chat.id].keys():
             self.scheduler.remove_job(job_id)
-            self.logger.GetLogger().info(f"Stopped job {job_id} in chat {chat.id}")
+            self.logger.GetLogger().info(f"Stopped job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}")
         # Delete entry
         del self.jobs[chat.id]
         # Log
         self.logger.GetLogger().info(
-            f"Removed all jobs in chat {chat.id}, number of active jobs: {self.__GetTotalJobCount()}"
+            f"Removed all jobs in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}"
         )
 
     # Called when chat is left by the bot
     def ChatLeft(self,
                  chat: pyrogram.types.Chat) -> None:
-        self.logger.GetLogger().info(f"Left chat {chat.id}, stopping all chat jobs...")
+        self.logger.GetLogger().info(
+            f"Left chat {ChatHelper.GetTitleOrId(chat)}, stopping all chat jobs..."
+        )
         self.StopAll(chat)
 
     # Pause job
@@ -205,12 +214,16 @@ class CoinInfoScheduler:
         job_id = self.__GetJobId(chat, coin_id, coin_vs)
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f"Job {job_id} not active in chat {chat.id}, cannot pause it")
+            self.logger.GetLogger().error(
+                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot pause it"
+            )
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].SetRunning(False)
         self.scheduler.pause_job(job_id)
-        self.logger.GetLogger().info(f"Paused job {job_id} in chat {chat.id}")
+        self.logger.GetLogger().info(
+            f"Paused job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+        )
 
     # Resume job
     def Resume(self,
@@ -220,12 +233,16 @@ class CoinInfoScheduler:
         job_id = self.__GetJobId(chat, coin_id, coin_vs)
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f"Job {job_id} not active in chat {chat.id}, cannot resume it")
+            self.logger.GetLogger().error(
+                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot resume it"
+            )
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].SetRunning(True)
         self.scheduler.resume_job(job_id)
-        self.logger.GetLogger().info(f"Resumed job {job_id} in chat {chat.id}")
+        self.logger.GetLogger().info(
+            f"Resumed job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+        )
 
     # Set send in same message flag
     def SendInSameMessage(self,
@@ -236,11 +253,13 @@ class CoinInfoScheduler:
         job_id = self.__GetJobId(chat, coin_id, coin_vs)
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f"Job {job_id} not active in chat {chat.id}")
+            self.logger.GetLogger().error(f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}")
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].SendInSameMessage(flag)
-        self.logger.GetLogger().info(f"Set send in same message to {flag} for job {job_id} in chat {chat.id}")
+        self.logger.GetLogger().info(
+            f"Set send in same message to {flag} for job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+        )
 
     # Set delete last sent message flag
     def DeleteLastSentMessage(self,
@@ -251,11 +270,13 @@ class CoinInfoScheduler:
         job_id = self.__GetJobId(chat, coin_id, coin_vs)
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f"Job {job_id} not active in chat {chat.id}")
+            self.logger.GetLogger().error(f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}")
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].DeleteLastSentMessage(flag)
-        self.logger.GetLogger().info(f"Set delete last message to {flag} for job {job_id} in chat {chat.id}")
+        self.logger.GetLogger().info(
+            f"Set delete last message to {flag} for job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+        )
 
     # Create tak
     def __CreateJob(self,
@@ -298,8 +319,8 @@ class CoinInfoScheduler:
         # Log
         per_sym = "minute(s)" if is_test_mode else "hour(s)"
         self.logger.GetLogger().info(
-            f"Started job {job_id} in chat {chat.id} ({period} {per_sym}, "
-            f"{coin_id}, {coin_vs}, {last_days}), number of active jobs: {self.__GetTotalJobCount()}"
+            f"Started job {job_id} in chat {ChatHelper.GetTitleOrId(chat)} [parameters: {period} {per_sym}, "
+            f"{coin_id}, {coin_vs}, {last_days}], number of active jobs: {self.__GetTotalJobCount()}"
         )
 
     # Get job ID

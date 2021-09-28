@@ -24,6 +24,7 @@
 import pyrogram
 from telegram_crypto_price_bot.coin_info_message_sender import CoinInfoMessageSender
 from telegram_crypto_price_bot.config import Config
+from telegram_crypto_price_bot.helpers import ChatHelper
 from telegram_crypto_price_bot.logger import Logger
 from telegram_crypto_price_bot.translation_loader import TranslationLoader
 
@@ -87,6 +88,7 @@ class CoinInfoJob:
                  translator: TranslationLoader,
                  data: CoinInfoJobData) -> None:
         self.data = data
+        self.logger = logger
         self.coin_info_msg_sender = CoinInfoMessageSender(client, config, logger, translator)
 
     # Get data
@@ -114,4 +116,5 @@ class CoinInfoJob:
               coin_id: str,
               coin_vs: str,
               last_days: int) -> None:
+        self.logger.GetLogger().info(f"Coin job started in chat {ChatHelper.GetTitleOrId(chat)}")
         self.coin_info_msg_sender.SendMessage(chat, coin_id, coin_vs, last_days)
