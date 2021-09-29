@@ -2,8 +2,8 @@
 
 Telegram bot for displaying cryptocurrencies prices and charts based on *pyrogram* and *matplotlib* libraries.\
 Data is retrieved using CoinGecko APIs.\
-It is possible to show coin information either on demand (by calling a command) or periodically using a background task.\
-A single bot instance can be used with multiple coins and in multiple groups, since it uses multiple tasks.\
+It is possible to show coin information either on demand (by manually calling a command) or periodically using background tasks.\
+A single bot instance can be used with multiple coins and in multiple groups.\
 The usage of the bot is restricted to admins, in order to avoid users to flood the chat with price requests.
 
 ## Setup
@@ -54,7 +54,7 @@ The list of all possible fields that can be set is shown below.
 |app_is_test_mode|True to activate test mode false otherwise|
 |app_lang_file|Language file in XML format (default: English)|
 |**[task]**|Configuration for tasks|
-|tasks_max_num|Maximum number of running tasks (totally, in all groups)|
+|tasks_max_num|Maximum number of running tasks (totally, in all groups). Default: 20.|
 |**[chart]**|Configuration for price chart|
 |chart_display|True to display price chart, false otherwise (default: true). If false, all the next fields will be skipped.|
 |chart_date_format|Date format for price chart (default: %%d/%%m/%%Y %%H:00)|
