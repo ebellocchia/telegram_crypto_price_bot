@@ -22,7 +22,7 @@
 # Imports
 #
 import logging
-from typing import Dict
+from typing import Dict, Tuple
 from telegram_crypto_price_bot.config import ConfigTypes
 from telegram_crypto_price_bot.config_loader import ConfigCfgType
 from telegram_crypto_price_bot.utils import Utils
@@ -57,6 +57,11 @@ class _ConfigTypeConverter:
         return list(_ConfigTypeConverter.STR_TO_LOG_LEVEL.keys())[idx]
 
 
+# Constants for price bot configuration
+class PriceBotConfigConst:
+    LINE_STYLES: Tuple[str, ...] = ("-", "--", "-.", ":", " ", "")
+
+
 # Price bot configuration
 PriceBotConfigCfg: ConfigCfgType = {
     # Pyrogram
@@ -86,6 +91,7 @@ PriceBotConfigCfg: ConfigCfgType = {
             "name": "tasks_max_num",
             "conv_fct": Utils.StrToInt,
             "def_val": 20,
+            "valid_if": lambda cfg, val: val > 0,
         },
     ],
     # Chart
@@ -137,6 +143,7 @@ PriceBotConfigCfg: ConfigCfgType = {
             "name": "chart_line_style",
             "def_val": "-",
             "load_if": lambda cfg: cfg.GetValue(ConfigTypes.CHART_DISPLAY),
+            "valid_if": lambda cfg, val: val in PriceBotConfigConst.LINE_STYLES,
         },
         {
             "type": ConfigTypes.CHART_LINE_WIDTH,
@@ -144,6 +151,7 @@ PriceBotConfigCfg: ConfigCfgType = {
             "conv_fct": Utils.StrToInt,
             "def_val": 1,
             "load_if": lambda cfg: cfg.GetValue(ConfigTypes.CHART_DISPLAY),
+            "valid_if": lambda cfg, val: val > 0,
         },
         {
             "type": ConfigTypes.CHART_DISPLAY_GRID,
@@ -159,6 +167,7 @@ PriceBotConfigCfg: ConfigCfgType = {
             "def_val": 4,
             "load_if": lambda cfg: (cfg.GetValue(ConfigTypes.CHART_DISPLAY) and
                                     cfg.GetValue(ConfigTypes.CHART_DISPLAY_GRID)),
+            "valid_if": lambda cfg, val: val > 0,
         },
         {
             "type": ConfigTypes.CHART_GRID_COLOR,
@@ -173,6 +182,7 @@ PriceBotConfigCfg: ConfigCfgType = {
             "def_val": "--",
             "load_if": lambda cfg: (cfg.GetValue(ConfigTypes.CHART_DISPLAY) and
                                     cfg.GetValue(ConfigTypes.CHART_DISPLAY_GRID)),
+            "valid_if": lambda cfg, val: val in PriceBotConfigConst.LINE_STYLES,
         },
         {
             "type": ConfigTypes.CHART_GRID_LINE_WIDTH,
@@ -181,6 +191,7 @@ PriceBotConfigCfg: ConfigCfgType = {
             "def_val": 1,
             "load_if": lambda cfg: (cfg.GetValue(ConfigTypes.CHART_DISPLAY) and
                                     cfg.GetValue(ConfigTypes.CHART_DISPLAY_GRID)),
+            "valid_if": lambda cfg, val: val > 0,
         },
     ],
     # Price
