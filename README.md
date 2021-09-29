@@ -1,5 +1,8 @@
 # Telegram Crypto Price Bot
 
+[![PyPI version](https://badge.fury.io/py/telegram-crypto-price-bot.svg)](https://badge.fury.io/py/telegram-crypto-price-bot)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/ebellocchia/bip_utils/master/LICENSE)
+
 Telegram bot for displaying cryptocurrencies prices and charts based on *pyrogram* and *matplotlib* libraries.\
 Data is retrieved using CoinGecko APIs.\
 It is possible to show coin information either on demand (by manually calling a command) or periodically using background tasks.\
