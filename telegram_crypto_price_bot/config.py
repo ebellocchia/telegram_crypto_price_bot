@@ -32,39 +32,39 @@ from enum import Enum, auto, unique
 # Configuration types
 @unique
 class ConfigTypes(Enum):
-    SESSION_NAME = auto(),
+    SESSION_NAME = auto()
     # App
-    APP_TEST_MODE = auto(),
-    APP_LANG_FILE = auto(),
+    APP_TEST_MODE = auto()
+    APP_LANG_FILE = auto()
     # Task
-    TASKS_MAX_NUM = auto(),
+    TASKS_MAX_NUM = auto()
     # Chart
-    CHART_DISPLAY = auto(),
-    CHART_DATE_FORMAT = auto(),
-    CHART_BACKGROUND_COLOR = auto(),
-    CHART_TITLE_COLOR = auto(),
-    CHART_FRAME_COLOR = auto(),
-    CHART_AXES_COLOR = auto(),
-    CHART_LINE_COLOR = auto(),
-    CHART_LINE_STYLE = auto(),
-    CHART_LINE_WIDTH = auto(),
-    CHART_DISPLAY_GRID = auto(),
-    CHART_GRID_MAX_SIZE = auto(),
-    CHART_GRID_COLOR = auto(),
-    CHART_GRID_LINE_STYLE = auto(),
-    CHART_GRID_LINE_WIDTH = auto(),
+    CHART_DISPLAY = auto()
+    CHART_DATE_FORMAT = auto()
+    CHART_BACKGROUND_COLOR = auto()
+    CHART_TITLE_COLOR = auto()
+    CHART_FRAME_COLOR = auto()
+    CHART_AXES_COLOR = auto()
+    CHART_LINE_COLOR = auto()
+    CHART_LINE_STYLE = auto()
+    CHART_LINE_WIDTH = auto()
+    CHART_DISPLAY_GRID = auto()
+    CHART_GRID_MAX_SIZE = auto()
+    CHART_GRID_COLOR = auto()
+    CHART_GRID_LINE_STYLE = auto()
+    CHART_GRID_LINE_WIDTH = auto()
     # Price
-    PRICE_DISPLAY_MARKET_CAP = auto(),
-    PRICE_DISPLAY_MARKET_CAP_RANK = auto(),
+    PRICE_DISPLAY_MARKET_CAP = auto()
+    PRICE_DISPLAY_MARKET_CAP_RANK = auto()
     # Logging
-    LOG_LEVEL = auto(),
-    LOG_CONSOLE_ENABLED = auto(),
-    LOG_FILE_ENABLED = auto(),
-    LOG_FILE_NAME = auto(),
-    LOG_FILE_USE_ROTATING = auto(),
-    LOG_FILE_APPEND = auto(),
-    LOG_FILE_MAX_BYTES = auto(),
-    LOG_FILE_BACKUP_CNT = auto(),
+    LOG_LEVEL = auto()
+    LOG_CONSOLE_ENABLED = auto()
+    LOG_FILE_ENABLED = auto()
+    LOG_FILE_NAME = auto()
+    LOG_FILE_USE_ROTATING = auto()
+    LOG_FILE_APPEND = auto()
+    LOG_FILE_MAX_BYTES = auto()
+    LOG_FILE_BACKUP_CNT = auto()
 
 
 #

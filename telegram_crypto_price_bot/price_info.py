@@ -33,24 +33,20 @@ from telegram_crypto_price_bot.utils import Utils
 # Price data types
 @unique
 class PriceInfoTypes(Enum):
-    COIN_NAME = auto(),
-    COIN_SYMBOL = auto(),
-    COIN_VS = auto(),
-    COIN_VS_SYMBOL = auto(),
-    CURR_PRICE = auto(),
-    MARKET_CAP = auto(),
-    MARKET_CAP_RANK = auto(),
-    HIGH_24H = auto(),
-    LOW_24H = auto(),
-    TOTAL_VOLUME = auto(),
-    PRICE_CHANGE_PERC_24H = auto(),
-    PRICE_CHANGE_PERC_7D = auto(),
-    PRICE_CHANGE_PERC_14D = auto(),
-    PRICE_CHANGE_PERC_30D = auto(),
-    PRICE_CHANGE_CURR_24H = auto(),
-    PRICE_CHANGE_CURR_7D = auto(),
-    PRICE_CHANGE_CURR_14D = auto(),
-    PRICE_CHANGE_CURR_30D = auto(),
+    COIN_NAME = auto()
+    COIN_SYMBOL = auto()
+    COIN_VS = auto()
+    COIN_VS_SYMBOL = auto()
+    CURR_PRICE = auto()
+    MARKET_CAP = auto()
+    MARKET_CAP_RANK = auto()
+    HIGH_24H = auto()
+    LOW_24H = auto()
+    TOTAL_VOLUME = auto()
+    PRICE_CHANGE_PERC_24H = auto()
+    PRICE_CHANGE_PERC_7D = auto()
+    PRICE_CHANGE_PERC_14D = auto()
+    PRICE_CHANGE_PERC_30D = auto()
 
 
 #

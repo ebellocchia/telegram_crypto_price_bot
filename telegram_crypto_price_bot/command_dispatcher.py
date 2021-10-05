@@ -38,20 +38,20 @@ from telegram_crypto_price_bot.translation_loader import TranslationLoader
 # Command types
 @unique
 class CommandTypes(Enum):
-    START_CMD = auto(),
-    HELP_CMD = auto(),
-    ALIVE_CMD = auto(),
-    SET_TEST_MODE_CMD = auto(),
-    IS_TEST_MODE_CMD = auto(),
-    PRICE_GET_SINGLE_CMD = auto(),
-    PRICE_TASK_START_CMD = auto(),
-    PRICE_TASK_STOP_CMD = auto(),
-    PRICE_TASK_STOP_ALL_CMD = auto(),
-    PRICE_TASK_PAUSE_CMD = auto(),
-    PRICE_TASK_RESUME_CMD = auto(),
-    PRICE_TASK_SEND_IN_SAME_MSG_CMD = auto(),
-    PRICE_TASK_DELETE_LAST_MSG_CMD = auto(),
-    PRICE_TASK_INFO_CMD = auto(),
+    START_CMD = auto()
+    HELP_CMD = auto()
+    ALIVE_CMD = auto()
+    SET_TEST_MODE_CMD = auto()
+    IS_TEST_MODE_CMD = auto()
+    PRICE_GET_SINGLE_CMD = auto()
+    PRICE_TASK_START_CMD = auto()
+    PRICE_TASK_STOP_CMD = auto()
+    PRICE_TASK_STOP_ALL_CMD = auto()
+    PRICE_TASK_PAUSE_CMD = auto()
+    PRICE_TASK_RESUME_CMD = auto()
+    PRICE_TASK_SEND_IN_SAME_MSG_CMD = auto()
+    PRICE_TASK_DELETE_LAST_MSG_CMD = auto()
+    PRICE_TASK_INFO_CMD = auto()
 
 
 #
