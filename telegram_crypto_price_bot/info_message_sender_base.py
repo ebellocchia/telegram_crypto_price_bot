@@ -23,7 +23,7 @@
 #
 import pyrogram
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional
 from telegram_crypto_price_bot.coingecko_price_api import CoinGeckoPriceApi
 from telegram_crypto_price_bot.config import Config
 from telegram_crypto_price_bot.logger import Logger
@@ -37,6 +37,12 @@ from telegram_crypto_price_bot.message_sender import MessageSender
 
 # Info message sender base class
 class InfoMessageSenderBase(ABC):
+
+    last_sent_msg: Optional[pyrogram.types.Message]
+    coingecko_api: CoinGeckoPriceApi
+    message_deleter: MessageDeleter
+    message_sender: MessageSender
+
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,

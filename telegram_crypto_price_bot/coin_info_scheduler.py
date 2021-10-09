@@ -23,6 +23,7 @@
 #
 import pyrogram
 from apscheduler.schedulers.background import BackgroundScheduler
+from typing import Dict
 from telegram_crypto_price_bot.coin_info_job import CoinInfoJobData, CoinInfoJob
 from telegram_crypto_price_bot.config import ConfigTypes, Config
 from telegram_crypto_price_bot.helpers import ChatHelper
@@ -64,6 +65,9 @@ class CoinInfoSchedulerConst:
 
 # Coin info jobs list class
 class CoinInfoJobsList(WrappedList):
+
+    translator: TranslationLoader
+
     # Constructor
     def __init__(self,
                  translator: TranslationLoader) -> None:
@@ -92,6 +96,14 @@ class CoinInfoJobsList(WrappedList):
 
 # Coin info scheduler class
 class CoinInfoScheduler:
+
+    client: pyrogram.Client
+    config: Config
+    logger: Logger
+    translator: TranslationLoader
+    jobs: Dict[int, Dict[str, CoinInfoJob]]
+    scheduler: BackgroundScheduler
+
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
@@ -298,10 +310,10 @@ class CoinInfoScheduler:
             self.jobs[chat.id] = {}
 
         self.jobs[chat.id][job_id] = CoinInfoJob(self.client,
-                                                   self.config,
-                                                   self.logger,
-                                                   self.translator,
-                                                   CoinInfoJobData(chat, period, coin_id, coin_vs, last_days))
+                                                 self.config,
+                                                 self.logger,
+                                                 self.translator,
+                                                 CoinInfoJobData(chat, period, coin_id, coin_vs, last_days))
 
     # Add job
     def __AddJob(self,

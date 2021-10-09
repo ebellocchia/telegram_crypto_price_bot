@@ -21,7 +21,7 @@
 #
 # Imports
 #
-from typing import Any
+from typing import Any, Dict
 from enum import Enum, auto, unique
 
 
@@ -78,6 +78,9 @@ class ConfigError(Exception):
 
 # Configuration class
 class Config:
+
+    config: Dict[ConfigTypes, Any]
+
     # Constructor
     def __init__(self) -> None:
         self.config = {}

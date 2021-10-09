@@ -24,6 +24,7 @@
 import logging
 import logging.handlers
 import os
+from typing import Union
 from telegram_crypto_price_bot.config import ConfigTypes, Config
 
 
@@ -87,6 +88,7 @@ class Logger:
             self.__MakeLogDir(log_file_name)
 
             # Create file handler
+            fh: Union[logging.handlers.RotatingFileHandler, logging.FileHandler]
             if self.config.GetValue(ConfigTypes.LOG_FILE_USE_ROTATING):
                 fh = logging.handlers.RotatingFileHandler(log_file_name,
                                                           maxBytes=self.config.GetValue(ConfigTypes.LOG_FILE_MAX_BYTES),

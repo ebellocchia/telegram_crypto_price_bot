@@ -40,24 +40,27 @@ ConfigCfgType = Dict[str, FieldsCfgType]
 
 # Configuration loader class
 class ConfigLoader:
+
+    config_cfg: ConfigCfgType
+    config: Config
+
     # Constructor
     def __init__(self,
                  config_cfg: ConfigCfgType) -> None:
         self.config_cfg = config_cfg
         self.config = Config()
-        self.config_parser = None
 
     # Load configuration
     def Load(self,
              config_file: str) -> None:
         # Read file
-        self.config_parser = configparser.ConfigParser()
-        self.config_parser.read(config_file)
+        config_parser = configparser.ConfigParser()
+        config_parser.read(config_file)
 
         # Print
         print("Loading configuration...\n")
         # Load sections
-        self.__LoadSections()
+        self.__LoadSections(config_parser)
         # New line
         print("")
 
@@ -66,24 +69,26 @@ class ConfigLoader:
         return self.config
 
     # Load sections
-    def __LoadSections(self) -> None:
+    def __LoadSections(self,
+                       config_parser: configparser.ConfigParser) -> None:
         # For each section
         for section, fields in self.config_cfg.items():
             # Print section
             print(f"Section [{section}]")
             # Load fields
-            self.__LoadFields(section, fields)
+            self.__LoadFields(section, fields, config_parser)
 
     # Load fields
     def __LoadFields(self,
                      section: str,
-                     fields: FieldsCfgType) -> None:
+                     fields: FieldsCfgType,
+                     config_parser: configparser.ConfigParser) -> None:
         # For each field
         for field in fields:
             # Load if needed
             if self.__FieldShallBeLoaded(field):
                 # Set field value and print it
-                self.__SetFieldValue(section, field)
+                self.__SetFieldValue(section, field, config_parser)
                 self.__PrintFieldValue(field)
 
     # Get if field shall be loaded
@@ -94,9 +99,10 @@ class ConfigLoader:
     # Set field value
     def __SetFieldValue(self,
                         section: str,
-                        field: FieldCfgType) -> None:
+                        field: FieldCfgType,
+                        config_parser: configparser.ConfigParser) -> None:
         try:
-            field_val = self.config_parser[section][field["name"]]
+            field_val = config_parser[section][field["name"]]
         # Field not present, set default value if specified
         except KeyError:
             if "def_val" not in field:

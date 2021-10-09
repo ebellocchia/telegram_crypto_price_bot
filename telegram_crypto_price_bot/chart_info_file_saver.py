@@ -41,7 +41,7 @@ from telegram_crypto_price_bot.utils import Synchronized
 #
 
 # Lock for plotting charts, since matplotlib works only in single thread
-plot_lock = Lock()
+plot_lock: Lock = Lock()
 
 
 #
@@ -51,11 +51,15 @@ plot_lock = Lock()
 # Constants for chart info file saver class
 class ChartInfoFileSaverConst:
     # Chart image extension
-    CHART_IMG_EXT = ".png"
+    CHART_IMG_EXT: str = ".png"
 
 
 # Chart info file saver class
 class ChartInfoFileSaver:
+
+    config: Config
+    translator: TranslationLoader
+
     # Constructor
     def __init__(self,
                  config: Config,
@@ -178,6 +182,11 @@ class ChartInfoFileSaver:
 
 # Chart info temporary file saver class
 class ChartInfoTmpFileSaver:
+
+    logger: Logger
+    tmp_file_name: Optional[str]
+    chart_info_file_saver: ChartInfoFileSaver
+
     # Constructor
     def __init__(self,
                  config: Config,
@@ -197,7 +206,7 @@ class ChartInfoTmpFileSaver:
         # Delete old file
         self.DeleteTmpFile()
         # Save new file
-        self.tmp_file_name = self.__GetTmpFileName()
+        self.tmp_file_name = self.__NewTmpFileName()
         self.chart_info_file_saver.SaveToFile(chart_info,
                                               self.tmp_file_name)
         # Log
@@ -222,7 +231,7 @@ class ChartInfoTmpFileSaver:
             finally:
                 self.tmp_file_name = None
 
-    # Get temporary file name
+    # Get new temporary file name
     @staticmethod
-    def __GetTmpFileName() -> str:
-        return f"{next(tempfile._get_candidate_names())}{ChartInfoFileSaverConst.CHART_IMG_EXT}"
+    def __NewTmpFileName() -> str:
+        return f"{next(tempfile._get_candidate_names())}{ChartInfoFileSaverConst.CHART_IMG_EXT}"    # type: ignore

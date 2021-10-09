@@ -30,6 +30,13 @@ from typing import Dict, List, Union
 
 # Chart info class
 class ChartInfo:
+
+    coin_id: str
+    coin_vs: str
+    last_days: int
+    x: List[int]
+    y: List[float]
+
     # Constructor
     def __init__(self,
                  chart_info: Dict[str, List[List[Union[int, float]]]],

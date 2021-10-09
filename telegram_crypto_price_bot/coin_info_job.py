@@ -35,6 +35,14 @@ from telegram_crypto_price_bot.translation_loader import TranslationLoader
 
 # Coin info job class
 class CoinInfoJobData:
+
+    chat: pyrogram.types.Chat
+    period_hours: int
+    coin_id: str
+    coin_vs: str
+    last_days: int
+    running: bool
+
     # Constructor
     def __init__(self,
                  chat: pyrogram.types.Chat,

@@ -55,6 +55,9 @@ class PriceInfoTypes(Enum):
 
 # Price info class
 class PriceInfo:
+
+    info: Dict[PriceInfoTypes, Any]
+
     # Constructor
     def __init__(self,
                  coin_data: Dict[str, Any],

@@ -37,6 +37,9 @@ class CoinGeckoPriceApiError(Exception):
 
 # Coingecko price API class
 class CoinGeckoPriceApi:
+
+    api: CoinGeckoAPI
+
     # Constructor
     def __init__(self) -> None:
         self.api = CoinGeckoAPI()

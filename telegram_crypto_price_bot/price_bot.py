@@ -33,6 +33,9 @@ from telegram_crypto_price_bot.price_bot_handlers_cfg import PriceBotHandlersCfg
 
 # Price bot class
 class PriceBot(BotBase):
+
+    coin_info_scheduler: CoinInfoScheduler
+
     # Constructor
     def __init__(self,
                  config_file: str) -> None:

@@ -23,7 +23,7 @@
 #
 import os
 from xml.etree import ElementTree
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 from telegram_crypto_price_bot.logger import Logger
 
 
@@ -43,6 +43,10 @@ class TranslationLoaderConst:
 
 # Translation loader class
 class TranslationLoader:
+
+    logger: Logger
+    sentences: Dict[str, str]
+
     # Constructor
     def __init__(self,
                  logger: Logger) -> None:
@@ -84,7 +88,7 @@ class TranslationLoader:
 
         # Load all sentences
         for child in root:
-            if child.tag == TranslationLoaderConst.SENTENCE_XML_TAG:
+            if child.tag == TranslationLoaderConst.SENTENCE_XML_TAG and child.text is not None:
                 sentence_id = child.attrib["id"]
                 self.sentences[sentence_id] = child.text.replace("\\n", "\n")
 

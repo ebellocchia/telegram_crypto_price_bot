@@ -37,6 +37,12 @@ from telegram_crypto_price_bot.translation_loader import TranslationLoader
 
 # Chart price info message sender class (chart and price in the same message)
 class ChartPriceInfoMessageSender(InfoMessageSenderBase):
+
+    config: Config
+    logger: Logger
+    translator: TranslationLoader
+    price_info_builder: PriceInfoBuilder
+
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
@@ -63,9 +69,13 @@ class ChartPriceInfoMessageSender(InfoMessageSenderBase):
         # Save chart image
         chart_info_saver = ChartInfoTmpFileSaver(self.config, self.logger, self.translator)
         chart_info_saver.SaveToTmpFile(chart_info)
+        # Get temporary file name
+        tmp_file_name = chart_info_saver.TmpFileName()
+        if tmp_file_name is None:
+            raise RuntimeError("Unable to save chart to file")
 
         # Send chart image with price information as caption
         return self._MessageSender().SendPhoto(chat,
-                                               chart_info_saver.TmpFileName(),
+                                               tmp_file_name,
                                                caption=price_info_str,
                                                **kwargs)

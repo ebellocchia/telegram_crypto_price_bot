@@ -21,7 +21,8 @@
 #
 # Imports
 #
-from typing import Any, Iterator, List
+import typing
+from typing import Iterator, List
 from abc import ABC
 
 
@@ -31,23 +32,36 @@ from abc import ABC
 
 # Wrapped list class
 class WrappedList(ABC):
+
+    list_elements: List[typing.Any]
+
     # Constructor
     def __init__(self) -> None:
         self.list_elements = []
 
     # Add single element
     def AddSingle(self,
-                  element: Any) -> None:
+                  element: typing.Any) -> None:
         self.list_elements.append(element)
 
     # Add multiple elements
     def AddMultiple(self,
-                    elements: List[Any]) -> None:
+                    elements: List[typing.Any]) -> None:
         self.list_elements.extend(elements)
+
+    # Remove single element
+    def RemoveSingle(self,
+                     element: typing.Any) -> None:
+        self.list_elements.remove(element)
+
+    # Get if element is present
+    def IsElem(self,
+               element: typing.Any) -> bool:
+        return element in self.list_elements
 
     # Clear element
     def Clear(self) -> None:
-        self.list_elements = []
+        self.list_elements.clear()
 
     # Get elements count
     def Count(self) -> int:
@@ -62,9 +76,9 @@ class WrappedList(ABC):
         return self.Count() == 0
 
     # Get list
-    def GetList(self) -> List[Any]:
+    def GetList(self) -> List[typing.Any]:
         return self.list_elements
 
     # Get iterator
-    def __iter__(self) -> Iterator[Any]:
+    def __iter__(self) -> Iterator[typing.Any]:
         yield from self.list_elements

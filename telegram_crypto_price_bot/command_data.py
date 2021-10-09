@@ -85,6 +85,13 @@ class CommandParametersList(WrappedList):
 
 # Command data
 class CommandData:
+
+    cmd_name: str
+    cmd_params: CommandParametersList
+    cmd_chat: pyrogram.types.Chat
+    cmd_user: pyrogram.types.User
+
+    # Constructor
     def __init__(self,
                  message: pyrogram.types.Message) -> None:
         self.cmd_name = message.command[0]

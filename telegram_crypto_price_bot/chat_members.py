@@ -69,6 +69,10 @@ class ChatMembersList(WrappedList):
 
 # Chat members getter class
 class ChatMembersGetter:
+
+    client: pyrogram.Client
+    config: Config
+
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
@@ -102,12 +106,3 @@ class ChatMembersGetter:
                   chat: pyrogram.types.Chat) -> ChatMembersList:
         return self.FilterMembers(chat,
                                   lambda member: member.status == "administrator" or member.status == "creator")
-
-    # Get authorized users
-    def GetAuthorizedUsers(self,
-                           chat: pyrogram.types.Chat) -> ChatMembersList:
-        return self.FilterMembers(
-            chat,
-            lambda member: member.user.username is not None and
-                           member.user.username in self.config.GetValue(ConfigTypes.AUTHORIZED_USERS)
-        )

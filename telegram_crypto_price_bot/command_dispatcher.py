@@ -81,6 +81,11 @@ class CommandDispatcherConst:
 
 # Command dispatcher class
 class CommandDispatcher:
+
+    config: Config
+    logger: Logger
+    translator: TranslationLoader
+
     # Constructor
     def __init__(self,
                  config: Config,

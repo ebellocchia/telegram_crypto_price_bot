@@ -31,7 +31,7 @@ from typing import Any, Callable
 #
 
 # Decorator for synchronized functions or methods
-def Synchronized(lock: Lock()):
+def Synchronized(lock: Lock):
     def _decorator(wrapped: Callable[..., Any]):
         @functools.wraps(wrapped)
         def _wrapper(*args: Any,

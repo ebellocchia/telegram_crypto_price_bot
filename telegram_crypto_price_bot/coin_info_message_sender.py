@@ -38,6 +38,17 @@ from telegram_crypto_price_bot.translation_loader import TranslationLoader
 
 # Coin info message sender class
 class CoinInfoMessageSender:
+
+    config: Config
+    logger: Logger
+    translator: TranslationLoader
+    delete_last_sent_msg: bool
+    send_in_same_msg: bool
+    chart_price_info_msg_sender: ChartPriceInfoMessageSender
+    chart_info_msg_sender: ChartInfoMessageSender
+    price_info_msg_sender: PriceInfoMessageSender
+    msg_sender: MessageSender
+
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,

@@ -36,6 +36,9 @@ from telegram_crypto_price_bot.translation_loader import TranslationLoader
 
 # Price info message sender class
 class PriceInfoMessageSender(InfoMessageSenderBase):
+
+    price_info_builder: PriceInfoBuilder
+
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,

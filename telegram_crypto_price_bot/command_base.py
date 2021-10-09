@@ -42,6 +42,15 @@ from telegram_crypto_price_bot.translation_loader import TranslationLoader
 # Generic command base class
 #
 class CommandBase(ABC):
+
+    client: pyrogram.Client
+    config: Config
+    logger: Logger
+    translator: TranslationLoader
+    message: pyrogram.types.Message
+    cmd_data: CommandData
+    message_sender: MessageSender
+
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
@@ -52,9 +61,7 @@ class CommandBase(ABC):
         self.config = config
         self.logger = logger
         self.translator = translator
-        self.message = None
         # Helper classes
-        self.cmd_data = None
         self.message_sender = MessageSender(client, config, logger)
 
     # Execute command

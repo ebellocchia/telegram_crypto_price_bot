@@ -43,6 +43,10 @@ class PriceInfoBuilderConst:
 
 # Price info builder class
 class PriceInfoBuilder:
+
+    config: Config
+    translator: TranslationLoader
+
     # Constructor
     def __init__(self,
                  config: Config,
