@@ -43,6 +43,10 @@ class LoggerConst:
 
 # Logger class
 class Logger:
+
+    config: Config
+    logger: logging.Logger
+
     # Constructor
     def __init__(self,
                  config: Config) -> None:
