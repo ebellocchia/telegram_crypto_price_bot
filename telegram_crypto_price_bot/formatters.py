@@ -103,9 +103,9 @@ class VolumeFormatter:
         space = " " if coin_vs not in ("$", "€") else ""
 
         if volume > 1e9:
-            formatted_str =  f"{volume / 1e9:.2f}B {coin_vs}"
+            formatted_str = f"{volume / 1e9:.2f}B {coin_vs}"
         elif volume > 1e6:
-            formatted_str =  f"{volume / 1e6:.2f}M {coin_vs}"
+            formatted_str = f"{volume / 1e6:.2f}M {coin_vs}"
         else:
-            formatted_str =  f"{volume:,}{space}{coin_vs}"
+            formatted_str = f"{volume:,}{space}{coin_vs}"
         return formatted_str

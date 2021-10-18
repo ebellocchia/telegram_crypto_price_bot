@@ -22,8 +22,8 @@
 # Imports
 #
 import os
-from defusedxml import ElementTree
 from typing import Any, Dict, Optional
+from defusedxml import ElementTree
 from telegram_crypto_price_bot.logger import Logger
 
 
