@@ -37,7 +37,11 @@ setuptools.setup(
     keywords="telegram, bot, telegram bot, crypto, crypto prices, cryptocurrency, cryptocurrency prices",
     platforms = ["any"],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
