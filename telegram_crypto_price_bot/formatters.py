@@ -58,8 +58,7 @@ class MarketCapFormatter:
             return f"{market_cap / 1e9:.2f}B {coin_vs}"
         elif market_cap > 1e6:
             return f"{market_cap / 1e6:.2f}M {coin_vs}"
-        else:
-            return f"{market_cap:,}{space}{coin_vs}"
+        return f"{market_cap:,}{space}{coin_vs}"
 
 
 # Price formatter class
@@ -79,8 +78,7 @@ class PriceFormatter:
             return f"{price:.2f}{space}{coin_vs}"
         elif price >= 0.0001:
             return f"{price:.4f}{space}{coin_vs}"
-        else:
-            return f"{price:f}{space}{coin_vs}"
+        return f"{price:f}{space}{coin_vs}"
 
 
 # Price change percentage formatter class
@@ -104,5 +102,4 @@ class VolumeFormatter:
             return f"{volume / 1e9:.2f}B {coin_vs}"
         elif volume > 1e6:
             return f"{volume / 1e6:.2f}M {coin_vs}"
-        else:
-            return f"{volume:,}{space}{coin_vs}"
+        return f"{volume:,}{space}{coin_vs}"

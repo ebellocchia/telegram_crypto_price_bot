@@ -105,16 +105,16 @@ class BotBase:
         self.logger.GetLogger().info("Bot handlers set")
 
     # Dispatch command
-    def _DispatchCommand(self,
-                         client: pyrogram.Client,
-                         message: pyrogram.types.Message,
-                         cmd_type: CommandTypes,
-                         **kwargs: Any) -> None:
+    def DispatchCommand(self,
+                        client: pyrogram.Client,
+                        message: pyrogram.types.Message,
+                        cmd_type: CommandTypes,
+                        **kwargs: Any) -> None:
         self.cmd_dispatcher.Dispatch(client, message, cmd_type, **kwargs)
 
     # Handle message
-    def _HandleMessage(self,
-                       client: pyrogram.Client,
-                       message: pyrogram.types.Message,
-                       **kwargs: Any) -> None:
+    def HandleMessage(self,
+                      client: pyrogram.Client,
+                      message: pyrogram.types.Message,
+                      **kwargs: Any) -> None:
         self.msg_dispatcher.Dispatch(client, message, **kwargs)

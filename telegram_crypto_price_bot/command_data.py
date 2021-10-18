@@ -76,11 +76,10 @@ class CommandParametersList(WrappedList):
                           def_val: Optional[Any]) -> Any:
         try:
             return conv_fct(self.list_elements[idx])
-        except (ValueError, IndexError):
+        except (ValueError, IndexError) as ex:
             if def_val is not None:
                 return def_val
-            else:
-                raise CommandParameterError(f"Invalid command parameter #{idx}")
+            raise CommandParameterError(f"Invalid command parameter #{idx}") from ex
 
 
 # Command data

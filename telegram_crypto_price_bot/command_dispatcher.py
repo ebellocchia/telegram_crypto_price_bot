@@ -25,7 +25,12 @@ import pyrogram
 from enum import Enum, auto, unique
 from typing import Any, Dict, Type
 from telegram_crypto_price_bot.command_base import CommandBase
-from telegram_crypto_price_bot.commands import *
+from telegram_crypto_price_bot.commands import (
+    HelpCmd, AliveCmd, SetTestModeCmd, IsTestModeCmd,
+    PriceGetSingleCmd,
+    PriceTaskStartCmd, PriceTaskStopCmd, PriceTaskStopAllCmd, PriceTaskPauseCmd, PriceTaskResumeCmd,
+    PriceTaskSendInSameMsgCmd, PriceTaskDeleteLastMsgCmd, PriceTaskInfoCmd
+)
 from telegram_crypto_price_bot.config import Config
 from telegram_crypto_price_bot.logger import Logger
 from telegram_crypto_price_bot.translation_loader import TranslationLoader

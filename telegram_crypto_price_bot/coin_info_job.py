@@ -90,7 +90,8 @@ class CoinInfoJobData:
 # Coin info job class
 class CoinInfoJob:
     # Constructor
-    def __init__(self,client: pyrogram.Client,
+    def __init__(self,
+                 client: pyrogram.Client,
                  config: Config,
                  logger: Logger,
                  translator: TranslationLoader,

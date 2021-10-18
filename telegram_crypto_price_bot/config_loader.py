@@ -104,9 +104,9 @@ class ConfigLoader:
         try:
             field_val = config_parser[section][field["name"]]
         # Field not present, set default value if specified
-        except KeyError:
+        except KeyError as ex:
             if "def_val" not in field:
-                raise ConfigError(f"Configuration field \"{field['name']}\" not found")
+                raise ConfigError(f"Configuration field \"{field['name']}\" not found") from ex
             field_val = field["def_val"]
 
         # Convert value if needed

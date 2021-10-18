@@ -56,8 +56,7 @@ class Utils:
             return True
         elif s in ["false", "off", "no", "n"]:
             return False
-        else:
-            raise ValueError("Invalid string")
+        raise ValueError("Invalid string")
 
     # Convert string to integer
     @staticmethod
