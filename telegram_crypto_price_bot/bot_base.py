@@ -21,9 +21,9 @@
 #
 # Imports
 #
+from typing import Any, Dict, List
 import pyrogram
 from pyrogram import Client
-from typing import Any, Dict, List
 from telegram_crypto_price_bot.command_dispatcher import CommandDispatcher, CommandTypes
 from telegram_crypto_price_bot.config import ConfigTypes, Config
 from telegram_crypto_price_bot.config_loader import ConfigCfgType, ConfigLoader

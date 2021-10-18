@@ -21,13 +21,13 @@
 #
 # Imports
 #
-import matplotlib
 import os
 import tempfile
 from datetime import datetime
-from matplotlib import pyplot as plt
 from threading import Lock
 from typing import Optional
+import matplotlib
+from matplotlib import pyplot as plt
 from telegram_crypto_price_bot.chart_info import ChartInfo
 from telegram_crypto_price_bot.config import ConfigTypes, Config
 from telegram_crypto_price_bot.formatters import CoinIdFormatter, PriceFormatter

@@ -21,10 +21,10 @@
 #
 # Imports
 #
-import pyrogram
 from abc import ABC, abstractmethod
-from pyrogram.errors import RPCError
 from typing import Any
+import pyrogram
+from pyrogram.errors import RPCError
 from telegram_crypto_price_bot.chat_members import ChatMembersGetter
 from telegram_crypto_price_bot.command_data import CommandData
 from telegram_crypto_price_bot.config import Config

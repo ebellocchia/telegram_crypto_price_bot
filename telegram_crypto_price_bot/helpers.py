@@ -21,8 +21,8 @@
 #
 # Imports
 #
-import pyrogram
 from typing import Optional
+import pyrogram
 
 
 #

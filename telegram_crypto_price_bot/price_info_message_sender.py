@@ -21,8 +21,8 @@
 #
 # Imports
 #
-import pyrogram
 from typing import Any
+import pyrogram
 from telegram_crypto_price_bot.config import Config
 from telegram_crypto_price_bot.logger import Logger
 from telegram_crypto_price_bot.info_message_sender_base import InfoMessageSenderBase

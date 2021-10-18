@@ -21,9 +21,9 @@
 #
 # Imports
 #
-import pyrogram
 from abc import ABC, abstractmethod
 from typing import Any, Optional
+import pyrogram
 from telegram_crypto_price_bot.coingecko_price_api import CoinGeckoPriceApi
 from telegram_crypto_price_bot.config import Config
 from telegram_crypto_price_bot.logger import Logger

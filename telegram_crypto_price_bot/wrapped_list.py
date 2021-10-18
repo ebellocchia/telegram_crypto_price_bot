@@ -21,9 +21,9 @@
 #
 # Imports
 #
+from abc import ABC
 import typing
 from typing import Iterator, List
-from abc import ABC
 
 
 #

@@ -21,8 +21,8 @@
 #
 # Imports
 #
-from typing import Any, Dict
 from enum import Enum, auto, unique
+from typing import Any, Dict
 
 
 #

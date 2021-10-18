@@ -21,9 +21,9 @@
 #
 # Imports
 #
-import pyrogram
 import time
 from typing import List, Union
+import pyrogram
 from telegram_crypto_price_bot.config import Config
 from telegram_crypto_price_bot.logger import Logger
 

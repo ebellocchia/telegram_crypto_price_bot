@@ -21,9 +21,9 @@
 #
 # Imports
 #
-import pyrogram
 from enum import Enum, auto, unique
 from typing import Any, Dict, Type
+import pyrogram
 from telegram_crypto_price_bot.command_base import CommandBase
 from telegram_crypto_price_bot.commands import (
     HelpCmd, AliveCmd, SetTestModeCmd, IsTestModeCmd,

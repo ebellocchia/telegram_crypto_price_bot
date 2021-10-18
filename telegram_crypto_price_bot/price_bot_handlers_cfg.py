@@ -148,9 +148,9 @@ PriceBotHandlersCfg: HandlersCfgType = {
         #
 
         {
-            "callback": (lambda self, client, message: self._HandleMessage(client,
-                                                                           message,
-                                                                           coin_info_scheduler=self.coin_info_scheduler)),
+            "callback": (lambda self, client, message: self.HandleMessage(client,
+                                                                          message,
+                                                                          coin_info_scheduler=self.coin_info_scheduler)),
             "filters": ~filters.private,
         },
     ],

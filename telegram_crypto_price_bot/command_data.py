@@ -21,8 +21,8 @@
 #
 # Imports
 #
-import pyrogram
 from typing import Any, Callable, Optional, Union
+import pyrogram
 from telegram_crypto_price_bot.utils import Utils
 from telegram_crypto_price_bot.wrapped_list import WrappedList
 
