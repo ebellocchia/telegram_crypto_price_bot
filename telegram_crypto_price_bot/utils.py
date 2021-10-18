@@ -53,10 +53,12 @@ class Utils:
     def StrToBool(s: str) -> bool:
         s = s.lower()
         if s in ["true", "on", "yes", "y"]:
-            return True
+            res = True
         elif s in ["false", "off", "no", "n"]:
-            return False
-        raise ValueError("Invalid string")
+            res = False
+        else:
+            raise ValueError(f"Invalid boolean string: {s}")
+        return res
 
     # Convert string to integer
     @staticmethod

@@ -13,8 +13,7 @@ def load_version():
 
     if matches and len(matches) > 0:
         return matches[0]
-    else:
-        raise RuntimeError("Cannot find version string in %s" % VERSION_FILE)
+    raise RuntimeError("Cannot find version string in %s" % VERSION_FILE)
 
 version = load_version()
 
