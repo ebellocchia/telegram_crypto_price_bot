@@ -22,7 +22,7 @@
 # Imports
 #
 import os
-from xml.etree import ElementTree
+from defusedxml import ElementTree
 from typing import Any, Dict, Optional
 from telegram_crypto_price_bot.logger import Logger
 
