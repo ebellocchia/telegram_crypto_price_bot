@@ -31,7 +31,7 @@ setuptools.setup(
     url="https://github.com/ebellocchia/telegram_crypto_price_bot",
     download_url="https://github.com/ebellocchia/telegram_crypto_price_bot/archive/v%s.tar.gz" % version,
     license="MIT",
-    install_requires = ["pycoingecko", "matplotlib", "pyrogram", "tgcrypto", "apscheduler"],
+    install_requires = ["pycoingecko", "matplotlib", "pyrogram", "tgcrypto", "apscheduler", "defusedxml"],
     packages=setuptools.find_packages(exclude=[]),
     package_data={"telegram_crypto_price_bot": ["lang/lang_en.xml"]},
     keywords="telegram, bot, telegram bot, crypto, crypto prices, cryptocurrency, cryptocurrency prices",
