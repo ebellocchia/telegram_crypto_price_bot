@@ -1,19 +1,33 @@
+# Byte-compiled
 *~
 *.pyc
 *.pyo
-__pycache__
-.idea
-.vs
-.coverage
+__pycache__/
+
+# Distribution
+build/
+dist/
+eggs/
+.eggs/
+sdist/
+*.egg-info/
+*.egg
+telegram_crypto_price_bot-*/
+
+# Unit test / Coverage reports
 htmlcov
-*.egg-info
-build
-dist
-venv
-*.xls
-*.xlsx
-*.log
-*.json
-*.pickle
-*.session
-*.session-journal
+.coverage
+.coverage.*
+.pytest_cache/
+.tox/
+
+# Environments
+.idea
+.env
+.venv
+env/
+venv/
+
+# mypy
+.mypy_cache/
+
