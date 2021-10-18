@@ -30,3 +30,8 @@ venv/
 
 # mypy
 .mypy_cache/
+
+# Additional
+*.log
+*.session
+*.session-journal
