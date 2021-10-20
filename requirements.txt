@@ -1,0 +1,6 @@
+pycoingecko
+matplotlib
+pyrogram
+tgcrypto
+apscheduler
+defusedxml
