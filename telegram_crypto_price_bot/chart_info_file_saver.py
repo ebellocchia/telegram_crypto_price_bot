@@ -234,4 +234,4 @@ class ChartInfoTmpFileSaver:
     # Get new temporary file name
     @staticmethod
     def __NewTmpFileName() -> str:
-        return f"{next(tempfile._get_candidate_names())}{ChartInfoFileSaverConst.CHART_IMG_EXT}"    # noqa
+        return f"{next(tempfile._get_candidate_names())}{ChartInfoFileSaverConst.CHART_IMG_EXT}"    # type: ignore # noqa
