@@ -34,22 +34,22 @@ from telegram_crypto_price_bot.wrapped_list import WrappedList
 
 # Chat members list class
 class ChatMembersList(WrappedList):
-    # Get by ID
-    def GetById(self,
-                user_id: int) -> Optional[pyrogram.types.ChatMember]:
-        res = [member for member in self.list_elements if user_id == member.user.id]
-        return res[0] if len(res) > 0 else None
+    # Get by user ID
+    def GetByUserId(self,
+                    user_id: int) -> Optional[pyrogram.types.ChatMember]:
+        res = list(filter(lambda member: user_id == member.user.id, self.list_elements))
+        return None if len(res) == 0 else res[0]
 
     # Get by username
     def GetByUsername(self,
                       username: str) -> Optional[pyrogram.types.ChatMember]:
-        res = [member for member in self.list_elements if username == member.user.username]
-        return res[0] if len(res) > 0 else None
+        res = list(filter(lambda member: username == member.user.username, self.list_elements))
+        return None if len(res) == 0 else res[0]
 
     # Get if ID is present
-    def IsUsernameId(self,
-                     user_id: int) -> bool:
-        return self.GetById(user_id) is not None
+    def IsUserIdPresent(self,
+                        user_id: int) -> bool:
+        return self.GetByUserId(user_id) is not None
 
     # Get if username is present
     def IsUsernamePresent(self,
@@ -85,10 +85,11 @@ class ChatMembersGetter:
                       chat: pyrogram.types.Chat,
                       filter_fct: Callable[[pyrogram.types.ChatMember], bool]) -> ChatMembersList:
         # Filter members
-        filtered_members = [member for member in self.client.iter_chat_members(chat.id) if filter_fct(member)]
+        filtered_members = list(filter(filter_fct, self.client.iter_chat_members(chat.id)))
         # Order filtered members
         filtered_members.sort(
-            key=lambda member: member.user.username.lower() if member.user.username is not None else str(member.user.id))
+            key=lambda member: member.user.username.lower() if member.user.username is not None else str(member.user.id)
+        )
 
         # Build chat members
         chat_members = ChatMembersList()
