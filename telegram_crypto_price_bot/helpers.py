@@ -21,7 +21,6 @@
 #
 # Imports
 #
-from typing import Optional
 import pyrogram
 
 
@@ -61,7 +60,7 @@ class UserHelper:
 
     # Get user name
     @staticmethod
-    def GetName(user: pyrogram.types.User) -> Optional[str]:
+    def GetName(user: pyrogram.types.User) -> str:
         if user.first_name is not None:
             return f"{user.first_name} {user.last_name}" if user.last_name is not None else f"{user.first_name}"
 
