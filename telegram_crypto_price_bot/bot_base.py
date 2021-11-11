@@ -24,11 +24,11 @@
 from typing import Any, Dict, List
 import pyrogram
 from pyrogram import Client
-from telegram_crypto_price_bot.command_dispatcher import CommandDispatcher, CommandTypes
+from telegram_crypto_price_bot.command_dispatcher import CommandTypes, CommandDispatcher
 from telegram_crypto_price_bot.config import ConfigTypes, Config
 from telegram_crypto_price_bot.config_loader import ConfigCfgType, ConfigLoader
 from telegram_crypto_price_bot.logger import Logger
-from telegram_crypto_price_bot.message_dispatcher import MessageDispatcher
+from telegram_crypto_price_bot.message_dispatcher import MessageTypes, MessageDispatcher
 from telegram_crypto_price_bot.translation_loader import TranslationLoader
 
 
@@ -116,5 +116,6 @@ class BotBase:
     def HandleMessage(self,
                       client: pyrogram.Client,
                       message: pyrogram.types.Message,
+                      msg_type: MessageTypes,
                       **kwargs: Any) -> None:
-        self.msg_dispatcher.Dispatch(client, message, **kwargs)
+        self.msg_dispatcher.Dispatch(client, message, msg_type, **kwargs)

@@ -109,6 +109,9 @@ class CommandDispatcher:
         if not isinstance(cmd_type, CommandTypes):
             raise TypeError("Command type is not an enumerative of CommandTypes")
 
+        # Log
+        self.logger.GetLogger().info(f"Dispatching command type: {cmd_type}")
+
         # Create and execute command if existent
         if cmd_type in CommandDispatcherConst.CMD_TYPE_TO_CLASS:
             cmd_class = CommandDispatcherConst.CMD_TYPE_TO_CLASS[cmd_type](client,

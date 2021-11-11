@@ -25,6 +25,7 @@ from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 from telegram_crypto_price_bot.bot_base import HandlersCfgType
 from telegram_crypto_price_bot.command_dispatcher import CommandTypes
+from telegram_crypto_price_bot.message_dispatcher import MessageTypes
 
 
 #
@@ -144,14 +145,27 @@ PriceBotHandlersCfg: HandlersCfgType = {
         },
 
         #
-        # Generic messages
+        # Update status messages
         #
 
         {
             "callback": (lambda self, client, message: self.HandleMessage(client,
                                                                           message,
+                                                                          MessageTypes.GROUP_CHAT_CREATED)),
+            "filters": filters.group_chat_created,
+        },
+        {
+            "callback": (lambda self, client, message: self.HandleMessage(client,
+                                                                          message,
+                                                                          MessageTypes.NEW_CHAT_MEMBERS)),
+            "filters": filters.new_chat_members,
+        },
+        {
+            "callback": (lambda self, client, message: self.HandleMessage(client,
+                                                                          message,
+                                                                          MessageTypes.LEFT_CHAT_MEMBER,
                                                                           coin_info_scheduler=self.coin_info_scheduler)),
-            "filters": ~filters.private,
+            "filters": filters.left_chat_member,
         },
     ],
 }

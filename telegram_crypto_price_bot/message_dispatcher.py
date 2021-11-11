@@ -21,12 +21,25 @@
 #
 # Imports
 #
+from enum import Enum, auto, unique
 from typing import Any
 import pyrogram
 from telegram_crypto_price_bot.config import Config
 from telegram_crypto_price_bot.logger import Logger
 from telegram_crypto_price_bot.message_sender import MessageSender
 from telegram_crypto_price_bot.translation_loader import TranslationLoader
+
+
+#
+# Enumerations
+#
+
+# Message types
+@unique
+class MessageTypes(Enum):
+    GROUP_CHAT_CREATED = auto()
+    LEFT_CHAT_MEMBER = auto()
+    NEW_CHAT_MEMBERS = auto()
 
 
 #
@@ -53,15 +66,22 @@ class MessageDispatcher:
     def Dispatch(self,
                  client: pyrogram.Client,
                  message: pyrogram.types.Message,
+                 msg_type: MessageTypes,
                  **kwargs: Any) -> None:
+        if not isinstance(msg_type, MessageTypes):
+            raise TypeError("Message type is not an enumerative of MessageTypes")
+
+        # Log
+        self.logger.GetLogger().info(f"Dispatching message type: {msg_type}")
+
         # New chat created
-        if message.group_chat_created is not None:
+        if msg_type == MessageTypes.GROUP_CHAT_CREATED:
             self.__OnCreatedChat(client, message, **kwargs)
         # A member left the chat
-        if message.left_chat_member is not None:
+        elif msg_type == MessageTypes.LEFT_CHAT_MEMBER:
             self.__OnLeftMember(client, message, **kwargs)
         # A member joined the chat
-        if message.new_chat_members is not None:
+        elif msg_type == MessageTypes.NEW_CHAT_MEMBERS:
             self.__OnJoinedMember(client, message, **kwargs)
 
     # Function called when a new chat is created
