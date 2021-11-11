@@ -23,7 +23,6 @@
 #
 from typing import Callable, Optional
 import pyrogram
-from telegram_crypto_price_bot.config import Config
 from telegram_crypto_price_bot.helpers import UserHelper
 from telegram_crypto_price_bot.wrapped_list import WrappedList
 
@@ -71,14 +70,11 @@ class ChatMembersList(WrappedList):
 class ChatMembersGetter:
 
     client: pyrogram.Client
-    config: Config
 
     # Constructor
     def __init__(self,
-                 client: pyrogram.Client,
-                 config: Config) -> None:
+                 client: pyrogram.Client) -> None:
         self.client = client
-        self.config = config
 
     # Get the list of chat members by applying the specified filter
     def FilterMembers(self,

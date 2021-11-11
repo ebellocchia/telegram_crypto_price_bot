@@ -102,7 +102,7 @@ class CommandBase(ABC):
         if ChatHelper.IsPrivateChat(self.cmd_data.Chat(), self.cmd_data.User()):
             return True
 
-        admin_members = ChatMembersGetter(self.client, self.config).GetAdmins(self.cmd_data.Chat())
+        admin_members = ChatMembersGetter(self.client).GetAdmins(self.cmd_data.Chat())
         return any((self.cmd_data.User().id == member.user.id for member in admin_members))
 
     # Get if chat is private
