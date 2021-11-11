@@ -63,7 +63,7 @@ class CoinInfoMessageSender:
         self.chart_price_info_msg_sender = ChartPriceInfoMessageSender(client, config, logger, translator)
         self.chart_info_msg_sender = ChartInfoMessageSender(client, config, logger, translator)
         self.price_info_msg_sender = PriceInfoMessageSender(client, config, logger, translator)
-        self.msg_sender = MessageSender(client, config, logger)
+        self.msg_sender = MessageSender(client, logger)
 
     # Set delete last sent message
     def DeleteLastSentMessage(self,

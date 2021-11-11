@@ -24,7 +24,6 @@
 import time
 from typing import List, Union
 import pyrogram
-from telegram_crypto_price_bot.config import Config
 from telegram_crypto_price_bot.logger import Logger
 
 
@@ -44,16 +43,13 @@ class MessageSenderConst:
 class MessageSender:
 
     client: pyrogram.Client
-    config: Config
     logger: Logger
 
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
-                 config: Config,
                  logger: Logger) -> None:
         self.client = client
-        self.config = config
         self.logger = logger
 
     # Send message

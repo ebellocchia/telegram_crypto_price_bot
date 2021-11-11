@@ -62,7 +62,7 @@ class CommandBase(ABC):
         self.logger = logger
         self.translator = translator
         # Helper classes
-        self.message_sender = MessageSender(client, config, logger)
+        self.message_sender = MessageSender(client, logger)
 
     # Execute command
     def Execute(self,

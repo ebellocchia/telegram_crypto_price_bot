@@ -51,7 +51,7 @@ class InfoMessageSenderBase(ABC):
         self.last_sent_msg = None
         self.coingecko_api = CoinGeckoPriceApi()
         self.message_deleter = MessageDeleter(client, logger)
-        self.message_sender = MessageSender(client, config, logger)
+        self.message_sender = MessageSender(client, logger)
 
     # Send message
     def SendMessage(self,
