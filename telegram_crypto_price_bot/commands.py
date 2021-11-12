@@ -25,7 +25,8 @@ from typing import Any, Callable
 from telegram_crypto_price_bot.coin_info_message_sender import CoinInfoMessageSender
 from telegram_crypto_price_bot.coin_info_scheduler import (
     CoinInfoJobAlreadyExistentError, CoinInfoJobNotExistentError,
-    CoinInfoJobInvalidPeriodError, CoinInfoJobMaxNumError
+    CoinInfoJobInvalidPeriodError, CoinInfoJobInvalidStartError,
+    CoinInfoJobMaxNumError
 )
 from telegram_crypto_price_bot.command_base import CommandBase
 from telegram_crypto_price_bot.command_data import CommandParameterError
@@ -146,23 +147,27 @@ class PriceTaskStartCmd(CommandBase):
         # Get parameters
         try:
             period_hours = self.cmd_data.Params().GetAsInt(0)
-            coin_id = self.cmd_data.Params().GetAsString(1)
-            coin_vs = self.cmd_data.Params().GetAsString(2)
-            last_days = self.cmd_data.Params().GetAsInt(3)
+            start_hour = self.cmd_data.Params().GetAsInt(1)
+            coin_id = self.cmd_data.Params().GetAsString(2)
+            coin_vs = self.cmd_data.Params().GetAsString(3)
+            last_days = self.cmd_data.Params().GetAsInt(4)
         except CommandParameterError:
             self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
-                kwargs["coin_info_scheduler"].Start(self.cmd_data.Chat(), period_hours, coin_id, coin_vs, last_days)
+                kwargs["coin_info_scheduler"].Start(self.cmd_data.Chat(), period_hours, start_hour, coin_id, coin_vs, last_days)
                 self._SendMessage(
                     self.translator.GetSentence("PRICE_TASK_START_OK_CMD",
                                                 period=period_hours,
+                                                start=start_hour,
                                                 coin_id=coin_id,
                                                 coin_vs=coin_vs,
                                                 last_days=last_days)
                 )
             except CoinInfoJobInvalidPeriodError:
                 self._SendMessage(self.translator.GetSentence("TASK_PERIOD_ERR_MSG"))
+            except CoinInfoJobInvalidStartError:
+                self._SendMessage(self.translator.GetSentence("TASK_START_ERR_MSG"))
             except CoinInfoJobMaxNumError:
                 self._SendMessage(self.translator.GetSentence("MAX_TASK_ERR_MSG"))
             except CoinInfoJobAlreadyExistentError:

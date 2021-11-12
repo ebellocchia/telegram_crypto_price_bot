@@ -51,6 +51,10 @@ class CoinInfoJobInvalidPeriodError(Exception):
     pass
 
 
+# Job invalid start error
+class CoinInfoJobInvalidStartError(Exception):
+    pass
+
 # Job maximum number error
 class CoinInfoJobMaxNumError(Exception):
     pass
@@ -58,6 +62,9 @@ class CoinInfoJobMaxNumError(Exception):
 
 # Constants for coin info scheduler
 class CoinInfoSchedulerConst:
+    # Minimum/Maximum start hour
+    MIN_START_HOUR: int = 0
+    MAX_START_HOUR: int = 23
     # Minimum/Maximum periods
     MIN_PERIOD_HOURS: int = 1
     MAX_PERIOD_HOURS: int = 24
@@ -81,6 +88,7 @@ class CoinInfoJobsList(WrappedList):
                                          coin_id=job_data.CoinId(),
                                          coin_vs=job_data.CoinVs(),
                                          period=job_data.PeriodHours(),
+                                         start=job_data.StartHour(),
                                          last_days=job_data.LastDays(),
                                          state=(self.translator.GetSentence("TASK_RUNNING_MSG")
                                                 if job_data.IsRunning()
@@ -142,6 +150,7 @@ class CoinInfoScheduler:
     def Start(self,
               chat: pyrogram.types.Chat,
               period_hours: int,
+              start_hour: int,
               coin_id: str,
               coin_vs: str,
               last_days: int) -> None:
@@ -161,6 +170,13 @@ class CoinInfoScheduler:
             )
             raise CoinInfoJobInvalidPeriodError()
 
+        # Check start
+        if start_hour < CoinInfoSchedulerConst.MIN_START_HOUR or start_hour > CoinInfoSchedulerConst.MAX_START_HOUR:
+            self.logger.GetLogger().error(
+                f"Invalid start hour {start_hour} for job \"{job_id}\", cannot start it"
+            )
+            raise CoinInfoJobInvalidStartError()
+
         # Check total jobs number
         tot_job_cnt = self.__GetTotalJobCount()
         if tot_job_cnt >= self.config.GetValue(ConfigTypes.TASKS_MAX_NUM):
@@ -168,9 +184,9 @@ class CoinInfoScheduler:
             raise CoinInfoJobMaxNumError()
 
         # Create job
-        self.__CreateJob(job_id, chat, period_hours, coin_id, coin_vs, last_days)
+        self.__CreateJob(job_id, chat, period_hours, start_hour, coin_id, coin_vs, last_days)
         # Add job
-        self.__AddJob(job_id, chat, period_hours, coin_id, coin_vs, last_days)
+        self.__AddJob(job_id, chat, period_hours, start_hour, coin_id, coin_vs, last_days)
 
     # Stop job
     def Stop(self,
@@ -303,6 +319,7 @@ class CoinInfoScheduler:
                     job_id: str,
                     chat: pyrogram.types.Chat,
                     period: int,
+                    start: int,
                     coin_id: str,
                     coin_vs: str,
                     last_days: int) -> None:
@@ -313,18 +330,19 @@ class CoinInfoScheduler:
                                                  self.config,
                                                  self.logger,
                                                  self.translator,
-                                                 CoinInfoJobData(chat, period, coin_id, coin_vs, last_days))
+                                                 CoinInfoJobData(chat, period, start, coin_id, coin_vs, last_days))
 
     # Add job
     def __AddJob(self,
                  job_id: str,
                  chat: pyrogram.types.Chat,
                  period: int,
+                 start: int,
                  coin_id: str,
                  coin_vs: str,
                  last_days: int) -> None:
         is_test_mode = self.config.GetValue(ConfigTypes.APP_TEST_MODE)
-        cron_str = self.__BuildCronString(period, is_test_mode)
+        cron_str = self.__BuildCronString(period, start, is_test_mode)
         if is_test_mode:
             self.scheduler.add_job(self.jobs[chat.id][job_id].DoJob,
                                    "cron",
@@ -358,11 +376,19 @@ class CoinInfoScheduler:
     # Build cron string
     @staticmethod
     def __BuildCronString(period: int,
+                          start_val: int,
                           is_test_mode: bool) -> str:
         max_val = 24 if not is_test_mode else 60
 
         cron_str = ""
-        for i in range(0, max_val, period):
-            cron_str += f"{i},"
+
+        loop_cnt = max_val // period
+        if max_val % period != 0:
+            loop_cnt += 1
+
+        t = start_val
+        for _ in range(loop_cnt):
+            cron_str += f"{t},"
+            t = (t + period) % max_val
 
         return cron_str[:-1]

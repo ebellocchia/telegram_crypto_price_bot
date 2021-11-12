@@ -12,7 +12,7 @@ Qui trovi la lista dei comandi supportati.
 /pricebot_set_test_mode __true/false__ : attiva/disattiva la modalità di test
 /pricebot_is_test_mode : mostra se la modalità di test è attiva
 /pricebot_get_single __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : mostra i dati e grafico del prezzo (chiamata singola)
-/pricebot_task_start __PERIOD_HOURS COIN_ID COIN_VS LAST_DAYS__ : avvia un task di avviso prezzo nella chat corrente
+/pricebot_task_start __PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS__ : avvia un task di avviso prezzo nella chat corrente
 /pricebot_task_stop __COIN_ID COIN_VS__ : ferma il task specificato nella chat corrente
 /pricebot_task_stop_all : ferma tutti i task nella chat corrente
 /pricebot_task_pause __COIN_ID COIN_VS__ : mette in pausa il task specificato nella chat corrente
@@ -46,6 +46,7 @@ La modalità di test è attualmente disattivata.</sentence>
 
 Parametri:
 - Periodo: __{period}h__
+- Inizio: __{start:02d}:00__
 - Coin ID: __{coin_id}__
 - Coin VS: __{coin_vs}__
 - Ultimi giorni: __{last_days}__</sentence>
@@ -113,11 +114,13 @@ Non dimenticarti di **farmi amministratore del gruppo** o non potrò funzionare 
     <!-- Task period error message -->
     <sentence id="TASK_PERIOD_ERR_MSG">**ERRORE**
 ❌ Il periodo deve essere compreso tra 1 e 24.</sentence>
+    <sentence id="TASK_START_ERR_MSG">**ERRORE**
+❌ L'ora di inizio deve essere compresa tra 0 e 23.</sentence>
     <!-- Maximum tasks error message -->
     <sentence id="MAX_TASK_ERR_MSG">**ERRORE**
 ❌ Massimo numero di task raggiunto. Ferma qualche task per avviarne dei nuovi.</sentence>
     <!-- Single task information message -->
-    <sentence id="SINGLE_TASK_INFO_MSG">- Coin: __{coin_id}/{coin_vs}__, periodo: __{period}h__, ultimi giorni: __{last_days}__, stato: __{state}__</sentence>
+    <sentence id="SINGLE_TASK_INFO_MSG">- Coin: __{coin_id}/{coin_vs}__, periodo: __{period}h__, inizio: __{start:02d}:00__, ultimi giorni: __{last_days}__, stato: __{state}__</sentence>
     <!-- Task running message -->
     <sentence id="TASK_RUNNING_MSG">attivo</sentence>
     <!-- Task paused message -->

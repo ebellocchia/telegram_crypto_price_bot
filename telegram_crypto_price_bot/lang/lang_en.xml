@@ -11,7 +11,7 @@ Here is the list of supported commands.
 /pricebot_set_test_mode __true/false__ : enable/disable test mode
 /pricebot_is_test_mode : show if test mode is enabled
 /pricebot_get_single __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : show chart and price information of the specified pair (single call)
-/pricebot_task_start __PERIOD_HOURS COIN_ID COIN_VS LAST_DAYS__ : start a price task in the current chat
+/pricebot_task_start __PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS__ : start a price task in the current chat
 /pricebot_task_stop __COIN_ID COIN_VS__ : stop the specified price task in the current chat
 /pricebot_task_stop_all : stop all price tasks in the current chat
 /pricebot_task_pause __COIN_ID COIN_VS__ : pause the specified price task in the current chat
@@ -45,6 +45,7 @@ Test mode is currently disabled.</sentence>
 
 Parameters:
 - Period: __{period}h__
+- Start: __{start:02d}:00__
 - Coin ID: __{coin_id}__
 - Coin VS: __{coin_vs}__
 - Last days: __{last_days}__</sentence>
@@ -112,11 +113,13 @@ Do not forget to **make me administrator of the group** or I won't work properly
     <!-- Task period error message -->
     <sentence id="TASK_PERIOD_ERR_MSG">**ERROR**
 ❌ Period shall be between 1 and 24.</sentence>
+    <sentence id="TASK_START_ERR_MSG">**ERROR**
+❌ Start hour shall be between 0 and 23.</sentence>
     <!-- Maximum tasks error message -->
     <sentence id="MAX_TASK_ERR_MSG">**ERROR**
 ❌ Maximum number of tasks reached. Stop some tasks to start new ones.</sentence>
     <!-- Single task information message -->
-    <sentence id="SINGLE_TASK_INFO_MSG">- Coin: __{coin_id}/{coin_vs}__, period: __{period}h__, last days: __{last_days}__, state: __{state}__</sentence>
+    <sentence id="SINGLE_TASK_INFO_MSG">- Coin: __{coin_id}/{coin_vs}__, period: __{period}h__, start: __{start:02d}:00__, last days: __{last_days}__, state: __{state}__</sentence>
     <!-- Task running message -->
     <sentence id="TASK_RUNNING_MSG">runnnig</sentence>
     <!-- Task paused message -->

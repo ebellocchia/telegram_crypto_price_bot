@@ -38,6 +38,7 @@ class CoinInfoJobData:
 
     chat: pyrogram.types.Chat
     period_hours: int
+    start_hour: int
     coin_id: str
     coin_vs: str
     last_days: int
@@ -47,11 +48,13 @@ class CoinInfoJobData:
     def __init__(self,
                  chat: pyrogram.types.Chat,
                  period_hours: int,
+                 start_hour: int,
                  coin_id: str,
                  coin_vs: str,
                  last_days: int) -> None:
         self.chat = chat
         self.period_hours = period_hours
+        self.start_hour = start_hour
         self.coin_id = coin_id
         self.coin_vs = coin_vs
         self.last_days = last_days
@@ -64,6 +67,10 @@ class CoinInfoJobData:
     # Get period hours
     def PeriodHours(self) -> int:
         return self.period_hours
+
+    # Get start hour
+    def StartHour(self) -> int:
+        return self.start_hour
 
     # Get coin ID
     def CoinId(self) -> str:
