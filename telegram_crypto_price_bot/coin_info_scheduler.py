@@ -150,14 +150,14 @@ class CoinInfoScheduler:
         # Check if existent
         if self.IsActiveInChat(chat, coin_id, coin_vs):
             self.logger.GetLogger().error(
-                f"Job {job_id} already active in chat {ChatHelper.GetTitleOrId(chat)}, cannot start it"
+                f"Job \"{job_id}\" already active in chat {ChatHelper.GetTitleOrId(chat)}, cannot start it"
             )
             raise CoinInfoJobAlreadyExistentError()
 
         # Check period
         if period_hours < CoinInfoSchedulerConst.MIN_PERIOD_HOURS or period_hours > CoinInfoSchedulerConst.MAX_PERIOD_HOURS:
             self.logger.GetLogger().error(
-                f"Invalid period {period_hours} for job {job_id}, cannot start it"
+                f"Invalid period {period_hours} for job \"{job_id}\", cannot start it"
             )
             raise CoinInfoJobInvalidPeriodError()
 
@@ -181,14 +181,14 @@ class CoinInfoScheduler:
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
             self.logger.GetLogger().error(
-                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot stop it"
+                f"Job \"{job_id}\" not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot stop it"
             )
             raise CoinInfoJobNotExistentError()
 
         del self.jobs[chat.id][job_id]
         self.scheduler.remove_job(job_id)
         self.logger.GetLogger().info(
-            f"Stopped job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}"
+            f"Stopped job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}"
         )
 
     # Stop all jobs
@@ -205,7 +205,7 @@ class CoinInfoScheduler:
         for job_id in self.jobs[chat.id].keys():
             self.scheduler.remove_job(job_id)
             self.logger.GetLogger().info(
-                f"Stopped job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+                f"Stopped job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)}"
             )
         # Delete entry
         del self.jobs[chat.id]
@@ -231,14 +231,14 @@ class CoinInfoScheduler:
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
             self.logger.GetLogger().error(
-                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot pause it"
+                f"Job \"{job_id}\" not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot pause it"
             )
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].SetRunning(False)
         self.scheduler.pause_job(job_id)
         self.logger.GetLogger().info(
-            f"Paused job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+            f"Paused job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)}"
         )
 
     # Resume job
@@ -250,14 +250,14 @@ class CoinInfoScheduler:
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
             self.logger.GetLogger().error(
-                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot resume it"
+                f"Job \"{job_id}\" not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot resume it"
             )
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].SetRunning(True)
         self.scheduler.resume_job(job_id)
         self.logger.GetLogger().info(
-            f"Resumed job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+            f"Resumed job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)}"
         )
 
     # Set send in same message flag
@@ -270,13 +270,13 @@ class CoinInfoScheduler:
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
             self.logger.GetLogger().error(
-                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}"
+                f"Job \"{job_id}\" not active in chat {ChatHelper.GetTitleOrId(chat)}"
             )
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].SendInSameMessage(flag)
         self.logger.GetLogger().info(
-            f"Set send in same message to {flag} for job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+            f"Set send in same message to {flag} for job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)}"
         )
 
     # Set delete last sent message flag
@@ -289,13 +289,13 @@ class CoinInfoScheduler:
 
         if not self.IsActiveInChat(chat, coin_id, coin_vs):
             self.logger.GetLogger().error(
-                f"Job {job_id} not active in chat {ChatHelper.GetTitleOrId(chat)}"
+                f"Job \"{job_id}\" not active in chat {ChatHelper.GetTitleOrId(chat)}"
             )
             raise CoinInfoJobNotExistentError()
 
         self.jobs[chat.id][job_id].DeleteLastSentMessage(flag)
         self.logger.GetLogger().info(
-            f"Set delete last message to {flag} for job {job_id} in chat {ChatHelper.GetTitleOrId(chat)}"
+            f"Set delete last message to {flag} for job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)}"
         )
 
     # Create tak
@@ -324,23 +324,24 @@ class CoinInfoScheduler:
                  coin_vs: str,
                  last_days: int) -> None:
         is_test_mode = self.config.GetValue(ConfigTypes.APP_TEST_MODE)
+        cron_str = self.__BuildCronString(period, is_test_mode)
         if is_test_mode:
             self.scheduler.add_job(self.jobs[chat.id][job_id].DoJob,
                                    "cron",
                                    args=(chat, coin_id, coin_vs, last_days),
-                                   minute=self.__BuildCronString(period, is_test_mode),
+                                   minute=cron_str,
                                    id=job_id)
         else:
             self.scheduler.add_job(self.jobs[chat.id][job_id].DoJob,
                                    "cron",
                                    args=(chat, coin_id, coin_vs, last_days),
-                                   hour=self.__BuildCronString(period, is_test_mode),
+                                   hour=cron_str,
                                    id=job_id)
         # Log
         per_sym = "minute(s)" if is_test_mode else "hour(s)"
         self.logger.GetLogger().info(
-            f"Started job {job_id} in chat {ChatHelper.GetTitleOrId(chat)} [parameters: {period} {per_sym}, "
-            f"{coin_id}, {coin_vs}, {last_days}], number of active jobs: {self.__GetTotalJobCount()}"
+            f"Started job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)} [parameters: {period} {per_sym}, "
+            f"{coin_id}, {coin_vs}, {last_days}], number of active jobs: {self.__GetTotalJobCount()}, cron: {cron_str}"
         )
 
     # Get job ID
