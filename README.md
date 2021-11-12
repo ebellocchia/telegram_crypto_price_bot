@@ -103,8 +103,9 @@ List of supported commands:
     - *COIN_VS*: CoinGecko *vs_currency*
     - *LAST_DAYS*: Last number of days to show price chart
     - *SAME_MSG* (optional): true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages. Default value: true.
-- **/pricebot_task_start *PERIOD_HOURS COIN_ID COIN_VS LAST_DAYS***: start a price task in the current chat. If the task COIN_ID/COIN_VS already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the *pricebot_task_stop* command.
+- **/pricebot_task_start *PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS***: start a price task in the current chat. If the task COIN_ID/COIN_VS already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the *pricebot_task_stop* command.
     - *PERIOD_HOURS*: Task period in hours, it shall be between 1 and 24
+    - *START_HOUR*: Task start hour, it shall be between 0 and 23
     - *COIN_ID*: CoinGecko *ID*
     - *COIN_VS*: CoinGecko *vs_currency*
     - *LAST_DAYS*: Last number of days to show price chart
@@ -132,9 +133,9 @@ By default:
 - a price task will send chart and price information in the same message. This can be enabled/disabled with the *pricebot_task_send_in_same_msg* command.
 - a price task will delete the last sent message when sending a new one. This can be enabled/disabled with the *pricebot_task_delete_last_msg* command.
 
-The task period always starts from midnight (if you use a VPS, be sure to set the correct time), for example:
-- A task period of 8 hours will display chart/price information at 00:00, 08:00 and 16:00
-- A task period of 6 hours will display chart/price information at 00:00, 06:00, 12:00 and 18:00
+The task period starts from the specified starting hour (be sure to set the correct time on the VPS), for example:
+- A task period of 8 hours starting from 00:00 will send the message at: 00:00, 08:00 and 16:00
+- A task period of 6 hours starting from 08:00 will send the message at: 08:00, 14:00, 20:00 and 02:00
 
 In case of API errors (e.g. network issues or invalid coin ID) an error message will be shown.
 
@@ -144,9 +145,9 @@ Show the price of BTC/USD of the last 14 days in the current chat (single call):
 
     /pricebot_get_single bitcoin usd 14
 
-Show the price of ETH/BTC of the last 30 days periodically every 8 hours in the current chat:
+Show the price of ETH/BTC of the last 30 days periodically every 8 hours starting from 10:00 in the current chat:
 
-    /pricebot_task_start 8 ethereum btc 30
+    /pricebot_task_start 8 10 ethereum btc 30
 
 Pause/Resume/Stop the previous task:
 
