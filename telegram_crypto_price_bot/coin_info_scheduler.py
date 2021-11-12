@@ -55,6 +55,7 @@ class CoinInfoJobInvalidPeriodError(Exception):
 class CoinInfoJobInvalidStartError(Exception):
     pass
 
+
 # Job maximum number error
 class CoinInfoJobMaxNumError(Exception):
     pass
