@@ -21,29 +21,41 @@
 #
 # Imports
 #
-from telegram_crypto_price_bot.bot.bot_base import BotBase
-from telegram_crypto_price_bot.bot.bot_config_cfg import BotConfigCfg
-from telegram_crypto_price_bot.bot.bot_handlers_cfg import BotHandlersCfg
-from telegram_crypto_price_bot.coin_info.coin_info_scheduler import CoinInfoScheduler
+from typing import List
+import pyrogram
+import pyrogram.errors.exceptions as pyrogram_ex
+from telegram_crypto_price_bot.logger.logger import Logger
 
 
 #
 # Classes
 #
 
-# Price bot class
-class PriceBot(BotBase):
+# Message deleter class
+class MessageDeleter:
 
-    coin_info_scheduler: CoinInfoScheduler
+    client: pyrogram.Client
+    logger: Logger
 
     # Constructor
     def __init__(self,
-                 config_file: str) -> None:
-        super().__init__(config_file,
-                         BotConfigCfg,
-                         BotHandlersCfg)
-        # Initialize coin info scheduler
-        self.coin_info_scheduler = CoinInfoScheduler(self.client,
-                                                     self.config,
-                                                     self.logger,
-                                                     self.translator)
+                 client: pyrogram.Client,
+                 logger: Logger) -> None:
+        self.client = client
+        self.logger = logger
+
+    # Delete message
+    def DeleteMessage(self,
+                      message: pyrogram.types.Message) -> bool:
+        try:
+            self.client.delete_messages(message.chat.id, message.message_id)
+            return True
+        except pyrogram_ex.forbidden_403.MessageDeleteForbidden:
+            self.logger.GetLogger().exception(f"Unable to delete message {message.message_id}")
+            return False
+
+    # Delete messages
+    def DeleteMessages(self,
+                       messages: List[pyrogram.types.Message]) -> None:
+        for message in messages:
+            self.DeleteMessage(message)
