@@ -98,6 +98,7 @@ List of supported commands:
 - **/alive**: show if bot is active
 - **/pricebot_set_test_mode true/false**: enable/disable test mode
 - **/pricebot_is_test_mode**: show if test mode is enabled
+- **/pricebot_version**: show bot version
 - **/pricebot_get_single *COIN_ID COIN_VS LAST_DAYS [SAME_MSG]***: show chart and price information of the specified pair (single call)
     - *COIN_ID*: CoinGecko *ID*
     - *COIN_VS*: CoinGecko *vs_currency*
