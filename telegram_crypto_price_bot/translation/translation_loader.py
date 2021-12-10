@@ -34,7 +34,7 @@ from telegram_crypto_price_bot.logger.logger import Logger
 # Constants for translation loader class
 class TranslationLoaderConst:
     # Default language folder
-    DEF_LANG_FOLDER: str = "lang"
+    DEF_LANG_FOLDER: str = "../lang"
     # Default file name
     DEF_FILE_NAME: str = "lang_en.xml"
     # XML tag for sentences
