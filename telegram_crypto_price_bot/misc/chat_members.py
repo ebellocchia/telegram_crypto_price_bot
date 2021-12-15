@@ -79,9 +79,13 @@ class ChatMembersGetter:
     # Get the list of chat members by applying the specified filter
     def FilterMembers(self,
                       chat: pyrogram.types.Chat,
-                      filter_fct: Callable[[pyrogram.types.ChatMember], bool]) -> ChatMembersList:
-        # Filter members
-        filtered_members = list(filter(filter_fct, self.client.iter_chat_members(chat.id)))
+                      filter_fct: Optional[Callable[[pyrogram.types.ChatMember], bool]] = None,
+                      filter_str: str = "all") -> ChatMembersList:
+        # Get members
+        filtered_members = self.client.iter_chat_members(chat.id, filter=filter_str)
+        # Filter them if necessary
+        if filter_fct is not None:
+            filtered_members = list(filter(filter_fct, filtered_members))
         # Order filtered members
         filtered_members.sort(
             key=lambda member: member.user.username.lower() if member.user.username is not None else str(member.user.id)
@@ -96,10 +100,11 @@ class ChatMembersGetter:
     # Get all
     def GetAll(self,
                chat: pyrogram.types.Chat) -> ChatMembersList:
-        return self.FilterMembers(chat, lambda member: True)
+        return self.FilterMembers(chat)
 
     # Get admins
     def GetAdmins(self,
                   chat: pyrogram.types.Chat) -> ChatMembersList:
         return self.FilterMembers(chat,
-                                  lambda member: member.status in ["administrator", "creator"])
+                                  lambda member: True,
+                                  "administrators")
