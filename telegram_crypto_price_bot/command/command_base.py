@@ -74,28 +74,38 @@ class CommandBase(ABC):
         # Log command
         self.__LogCommand()
 
+        # Check if user is anonymous
+        if self._IsUserAnonymous():
+            self.logger.GetLogger().warning("An anonymous user tried to execute the command, exiting")
+            return
+
         # Check if user is authorized
-        if self._IsUserAuthorized():
-            # Try to execute command
-            try:
-                self._ExecuteCommand(**kwargs)
-            except RPCError:
-                self._SendMessage(self.translator.GetSentence("GENERIC_ERR_MSG"))
-                self.logger.GetLogger().exception(
-                    f"An error occurred while executing command {self.cmd_data.Name()}"
-                )
-        else:
+        if not self._IsUserAuthorized():
             if self._IsPrivateChat():
                 self._SendMessage(self.translator.GetSentence("AUTH_ONLY_ERR_MSG"))
 
             self.logger.GetLogger().warning(
                 f"User {UserHelper.GetNameOrId(self.cmd_data.User())} tried to execute the command but it's not authorized"
             )
+            return
+
+        # Try to execute command
+        try:
+            self._ExecuteCommand(**kwargs)
+        except RPCError:
+            self._SendMessage(self.translator.GetSentence("GENERIC_ERR_MSG"))
+            self.logger.GetLogger().exception(
+                f"An error occurred while executing command {self.cmd_data.Name()}"
+            )
 
     # Send message
     def _SendMessage(self,
                      msg: str) -> None:
         self.message_sender.SendMessage(self.cmd_data.Chat(), msg)
+
+    # Get if user is anonymous
+    def _IsUserAnonymous(self) -> bool:
+        return self.cmd_data.User() is None
 
     # Get if user is authorized
     def _IsUserAuthorized(self) -> bool:
