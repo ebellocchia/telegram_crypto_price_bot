@@ -31,6 +31,11 @@ import pyrogram
 
 # Chat helper class
 class ChatHelper:
+    # Get if channel
+    @staticmethod
+    def IsChannel(chat: pyrogram.types.Chat) -> bool:
+        return chat["type"] == "channel"
+
     # Get title
     @staticmethod
     def GetTitle(chat: pyrogram.types.Chat) -> str:
