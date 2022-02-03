@@ -89,6 +89,9 @@ class MessageDispatcher:
                         client,
                         message: pyrogram.types.Message,
                         **kwargs: Any) -> None:
+        if message.chat is None:
+            return
+
         # Send the welcome message
         MessageSender(client, self.logger).SendMessage(
             message.chat,
@@ -109,6 +112,9 @@ class MessageDispatcher:
                          client,
                          message: pyrogram.types.Message,
                          **kwargs: Any) -> None:
+        if message.new_chat_members is None or message.chat is None:
+            return
+
         # If the member is the bot itself, send the welcome message
         for member in message.new_chat_members:
             if member.is_self:
