@@ -88,7 +88,7 @@ class CommandData:
     cmd_name: str
     cmd_params: CommandParametersList
     cmd_chat: pyrogram.types.Chat
-    cmd_user: pyrogram.types.User
+    cmd_user: Optional[pyrogram.types.User]
 
     # Constructor
     def __init__(self,
@@ -108,7 +108,7 @@ class CommandData:
         return self.cmd_chat
 
     # Get user
-    def User(self) -> pyrogram.types.User:
+    def User(self) -> Optional[pyrogram.types.User]:
         return self.cmd_user
 
     # Get parameters
