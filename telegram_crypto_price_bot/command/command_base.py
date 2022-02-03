@@ -113,6 +113,8 @@ class CommandBase(ABC):
 
     # Get if user is authorized
     def _IsUserAuthorized(self) -> bool:
+        # In channels only admins can write, so we consider the user authorized since there is no way to know the specific user
+        # This is a limitation for channels only
         if self._IsChannel() or ChatHelper.IsPrivateChat(self.cmd_data.Chat(), self.cmd_data.User()):
             return True
 
