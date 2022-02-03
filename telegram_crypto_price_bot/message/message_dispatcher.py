@@ -104,7 +104,7 @@ class MessageDispatcher:
                        message: pyrogram.types.Message,
                        **kwargs: Any) -> None:
         # If the member is the bot itself, remove the chat from the scheduler
-        if message.left_chat_member.is_self:
+        if message.left_chat_member is not None and message.left_chat_member.is_self:
             kwargs["coin_info_scheduler"].ChatLeft(message.chat)
 
     # Function called when a member joined the chat
