@@ -206,7 +206,8 @@ class CoinInfoScheduler:
         del self.jobs[chat.id][job_id]
         self.scheduler.remove_job(job_id)
         self.logger.GetLogger().info(
-            f"Stopped job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}"
+            f"Stopped job \"{job_id}\" in chat {ChatHelper.GetTitleOrId(chat)}, "
+            f"number of active jobs: {self.__GetTotalJobCount()}"
         )
 
     # Stop all jobs

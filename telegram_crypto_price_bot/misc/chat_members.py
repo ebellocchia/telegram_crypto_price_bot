@@ -24,8 +24,8 @@
 from typing import Callable, Optional
 import pyrogram
 from telegram_crypto_price_bot.misc.helpers import UserHelper
-from telegram_crypto_price_bot.utils.wrapped_list import WrappedList
 from telegram_crypto_price_bot.utils.pyrogram_wrapper import PyrogramWrapper
+from telegram_crypto_price_bot.utils.wrapped_list import WrappedList
 
 
 #
