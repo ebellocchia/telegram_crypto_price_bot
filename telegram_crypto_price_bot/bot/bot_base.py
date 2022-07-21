@@ -71,8 +71,12 @@ class BotBase:
         self.translator = TranslationLoader(self.logger)
         self.translator.Load(self.config.GetValue(BotConfigTypes.APP_LANG_FILE))
         # Initialize client
-        self.client = Client(self.config.GetValue(BotConfigTypes.SESSION_NAME),
-                             config_file=config_file)
+        self.client = Client(
+            self.config.GetValue(BotConfigTypes.SESSION_NAME),
+            api_id=self.config.GetValue(BotConfigTypes.API_ID),
+            api_hash=self.config.GetValue(BotConfigTypes.API_HASH),
+            bot_token=self.config.GetValue(BotConfigTypes.BOT_TOKEN)
+        )
         # Initialize helper classes
         self.cmd_dispatcher = CommandDispatcher(self.config, self.logger, self.translator)
         self.msg_dispatcher = MessageDispatcher(self.config, self.logger, self.translator)

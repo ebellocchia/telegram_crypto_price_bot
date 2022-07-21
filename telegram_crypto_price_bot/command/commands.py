@@ -169,7 +169,12 @@ class PriceTaskStartCmd(CommandBase):
             self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
-                kwargs["coin_info_scheduler"].Start(self.cmd_data.Chat(), period_hours, start_hour, coin_id, coin_vs, last_days)
+                kwargs["coin_info_scheduler"].Start(self.cmd_data.Chat(),
+                                                    period_hours,
+                                                    start_hour,
+                                                    coin_id,
+                                                    coin_vs,
+                                                    last_days)
                 self._SendMessage(
                     self.translator.GetSentence("PRICE_TASK_START_OK_CMD",
                                                 period=period_hours,

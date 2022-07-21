@@ -71,6 +71,18 @@ BotConfigCfg: ConfigCfgType = {
     # Pyrogram
     "pyrogram": [
         {
+            "type": BotConfigTypes.API_ID,
+            "name": "api_id",
+        },
+        {
+            "type": BotConfigTypes.API_HASH,
+            "name": "api_hash",
+        },
+        {
+            "type": BotConfigTypes.BOT_TOKEN,
+            "name": "bot_token",
+        },
+        {
             "type": BotConfigTypes.SESSION_NAME,
             "name": "session_name",
         },

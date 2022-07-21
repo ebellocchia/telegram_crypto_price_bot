@@ -23,6 +23,7 @@
 #
 from typing import Optional
 import pyrogram
+from telegram_crypto_price_bot.utils.pyrogram_wrapper import PyrogramWrapper
 
 
 #
@@ -34,7 +35,7 @@ class ChatHelper:
     # Get if channel
     @staticmethod
     def IsChannel(chat: pyrogram.types.Chat) -> bool:
-        return chat["type"] == "channel"
+        return PyrogramWrapper.IsChannel(chat)
 
     # Get title
     @staticmethod
