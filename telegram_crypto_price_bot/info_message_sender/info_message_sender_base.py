@@ -23,7 +23,9 @@
 #
 from abc import ABC, abstractmethod
 from typing import Any, Optional
+
 import pyrogram
+
 from telegram_crypto_price_bot.coingecko.coingecko_price_api import CoinGeckoPriceApi
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.message.message_deleter import MessageDeleter

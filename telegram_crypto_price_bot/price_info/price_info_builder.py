@@ -24,9 +24,9 @@
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
 from telegram_crypto_price_bot.misc.formatters import (
-    CoinPairFormatter, MarketCapFormatter, PriceFormatter, PriceChangePercFormatter, VolumeFormatter
+    CoinPairFormatter, MarketCapFormatter, PriceChangePercFormatter, PriceFormatter, VolumeFormatter
 )
-from telegram_crypto_price_bot.price_info.price_info import PriceInfoTypes, PriceInfo
+from telegram_crypto_price_bot.price_info.price_info import PriceInfo, PriceInfoTypes
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
 
 

@@ -22,7 +22,9 @@
 # Imports
 #
 from typing import Any, Callable, Optional, Union
+
 import pyrogram
+
 from telegram_crypto_price_bot.utils.utils import Utils
 from telegram_crypto_price_bot.utils.wrapped_list import WrappedList
 
@@ -93,6 +95,9 @@ class CommandData:
     # Constructor
     def __init__(self,
                  message: pyrogram.types.Message) -> None:
+        assert message.command is not None
+        assert message.chat is not None
+
         self.cmd_name = message.command[0]
         self.cmd_params = CommandParametersList()
         self.cmd_params.AddMultiple(message.command[1:])

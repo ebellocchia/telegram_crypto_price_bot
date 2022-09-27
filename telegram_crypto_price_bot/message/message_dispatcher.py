@@ -23,7 +23,9 @@
 #
 from enum import Enum, auto, unique
 from typing import Any
+
 import pyrogram
+
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.message.message_sender import MessageSender

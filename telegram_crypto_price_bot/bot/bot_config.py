@@ -22,7 +22,8 @@
 # Imports
 #
 from enum import auto, unique
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableTypes, ConfigurableObject
+
+from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject, ConfigurableTypes
 
 
 #

@@ -22,6 +22,7 @@
 # Imports
 #
 from pycoingecko import CoinGeckoAPI
+
 from telegram_crypto_price_bot.chart_info.chart_info import ChartInfo
 from telegram_crypto_price_bot.price_info.price_info import PriceInfo
 

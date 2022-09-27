@@ -23,13 +23,14 @@
 #
 from enum import Enum, auto, unique
 from typing import Any, Dict, Type
+
 import pyrogram
+
 from telegram_crypto_price_bot.command.command_base import CommandBase
 from telegram_crypto_price_bot.command.commands import (
-    HelpCmd, AliveCmd, SetTestModeCmd, IsTestModeCmd, VersionCmd,
-    PriceGetSingleCmd,
-    PriceTaskStartCmd, PriceTaskStopCmd, PriceTaskStopAllCmd, PriceTaskPauseCmd, PriceTaskResumeCmd,
-    PriceTaskSendInSameMsgCmd, PriceTaskDeleteLastMsgCmd, PriceTaskInfoCmd
+    AliveCmd, HelpCmd, IsTestModeCmd, PriceGetSingleCmd, PriceTaskDeleteLastMsgCmd, PriceTaskInfoCmd, PriceTaskPauseCmd,
+    PriceTaskResumeCmd, PriceTaskSendInSameMsgCmd, PriceTaskStartCmd, PriceTaskStopAllCmd, PriceTaskStopCmd,
+    SetTestModeCmd, VersionCmd
 )
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
 from telegram_crypto_price_bot.logger.logger import Logger

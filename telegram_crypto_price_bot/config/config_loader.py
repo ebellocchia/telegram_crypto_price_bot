@@ -23,6 +23,7 @@
 #
 import configparser
 from typing import Any, Dict, List
+
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
 
 

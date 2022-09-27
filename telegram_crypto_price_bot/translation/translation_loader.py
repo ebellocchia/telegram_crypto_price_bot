@@ -23,7 +23,9 @@
 #
 import os
 from typing import Any, Dict, Optional
+
 from defusedxml import ElementTree
+
 from telegram_crypto_price_bot.logger.logger import Logger
 
 

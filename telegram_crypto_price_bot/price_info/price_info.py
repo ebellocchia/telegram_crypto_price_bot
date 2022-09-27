@@ -23,6 +23,7 @@
 #
 from enum import Enum, auto, unique
 from typing import Any, Dict
+
 from telegram_crypto_price_bot.utils.utils import Utils
 
 

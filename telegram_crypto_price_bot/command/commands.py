@@ -22,17 +22,17 @@
 # Imports
 #
 from typing import Any, Callable
+
+from telegram_crypto_price_bot._version import __version__
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
 from telegram_crypto_price_bot.coin_info.coin_info_scheduler import (
-    CoinInfoJobAlreadyExistentError, CoinInfoJobNotExistentError,
-    CoinInfoJobInvalidPeriodError, CoinInfoJobInvalidStartError,
-    CoinInfoJobMaxNumError
+    CoinInfoJobAlreadyExistentError, CoinInfoJobInvalidPeriodError, CoinInfoJobInvalidStartError,
+    CoinInfoJobMaxNumError, CoinInfoJobNotExistentError
 )
-from telegram_crypto_price_bot.info_message_sender.coin_info_message_sender import CoinInfoMessageSender
 from telegram_crypto_price_bot.command.command_base import CommandBase
 from telegram_crypto_price_bot.command.command_data import CommandParameterError
+from telegram_crypto_price_bot.info_message_sender.coin_info_message_sender import CoinInfoMessageSender
 from telegram_crypto_price_bot.misc.helpers import UserHelper
-from telegram_crypto_price_bot._version import __version__
 
 
 #

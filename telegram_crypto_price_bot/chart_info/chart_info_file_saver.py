@@ -26,13 +26,15 @@ import tempfile
 from datetime import datetime
 from threading import Lock
 from typing import Optional
+
 import matplotlib
 from matplotlib import pyplot as plt
+
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
 from telegram_crypto_price_bot.chart_info.chart_info import ChartInfo
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
-from telegram_crypto_price_bot.misc.formatters import CoinIdFormatter, PriceFormatter
 from telegram_crypto_price_bot.logger.logger import Logger
+from telegram_crypto_price_bot.misc.formatters import CoinIdFormatter, PriceFormatter
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
 from telegram_crypto_price_bot.utils.utils import Synchronized
 

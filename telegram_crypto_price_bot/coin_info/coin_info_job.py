@@ -22,6 +22,7 @@
 # Imports
 #
 import pyrogram
+
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
 from telegram_crypto_price_bot.info_message_sender.coin_info_message_sender import CoinInfoMessageSender
 from telegram_crypto_price_bot.logger.logger import Logger

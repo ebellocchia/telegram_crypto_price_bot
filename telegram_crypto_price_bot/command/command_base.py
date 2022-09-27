@@ -23,8 +23,10 @@
 #
 from abc import ABC, abstractmethod
 from typing import Any
+
 import pyrogram
 from pyrogram.errors import RPCError
+
 from telegram_crypto_price_bot.command.command_data import CommandData
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
 from telegram_crypto_price_bot.logger.logger import Logger
@@ -115,11 +117,15 @@ class CommandBase(ABC):
     def _IsUserAuthorized(self) -> bool:
         # In channels only admins can write, so we consider the user authorized since there is no way to know the specific user
         # This is a limitation for channels only
-        if self._IsChannel() or ChatHelper.IsPrivateChat(self.cmd_data.Chat(), self.cmd_data.User()):
+        if ChatHelper.IsPrivateChat(self.cmd_data.Chat(), self.cmd_data.User()):
             return True
 
+        cmd_user = self.cmd_data.User()
+        if cmd_user is None:
+            return False
+
         admin_members = ChatMembersGetter(self.client).GetAdmins(self.cmd_data.Chat())
-        return any((self.cmd_data.User().id == member.user.id for member in admin_members))
+        return any((cmd_user.id == member.user.id for member in admin_members if member.user is not None))
 
     # Get if chat is private
     def _IsPrivateChat(self) -> bool:

@@ -22,11 +22,15 @@
 # Imports
 #
 from typing import Iterator
+
 import pyrogram
+
+
 if int(pyrogram.__version__[0]) == 2:
     from pyrogram.enums import ChatMembersFilter, ChatType
 else:
     from enum import Enum
+
     # Fake enum
     class ChatMembersFilter(Enum):
         pass
@@ -44,7 +48,7 @@ class PyrogramWrapper:
     def MessageId(message: pyrogram.types.Message) -> int:
         if PyrogramWrapper.__Version() == 2:
             return message.id
-        elif PyrogramWrapper.__Version() == 1:
+        if PyrogramWrapper.__Version() == 1:
             return message.message_id
         raise RuntimeError("Unsupported pyrogram version")
 
@@ -53,7 +57,7 @@ class PyrogramWrapper:
     def IsChannel(chat: pyrogram.types.Chat) -> bool:
         if PyrogramWrapper.__Version() == 2:
             return chat.type == ChatType.CHANNEL
-        elif PyrogramWrapper.__Version() == 1:
+        if PyrogramWrapper.__Version() == 1:
             return chat["type"] == "channel"
         raise RuntimeError("Unsupported pyrogram version")
 
@@ -64,7 +68,7 @@ class PyrogramWrapper:
                        filter_str: str) -> Iterator[pyrogram.types.ChatMember]:
         if PyrogramWrapper.__Version() == 2:
             return client.get_chat_members(chat.id, filter=PyrogramWrapper.__StrToChatMembersFilter(filter_str))
-        elif PyrogramWrapper.__Version() == 1:
+        if PyrogramWrapper.__Version() == 1:
             return client.iter_chat_members(chat.id, filter=filter_str)
         raise RuntimeError("Unsupported pyrogram version")
 

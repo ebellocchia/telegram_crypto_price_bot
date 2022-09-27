@@ -22,7 +22,9 @@
 # Imports
 #
 from typing import Any
+
 import pyrogram
+
 from telegram_crypto_price_bot.chart_info.chart_info_file_saver import ChartInfoTmpFileSaver
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
 from telegram_crypto_price_bot.info_message_sender.info_message_sender_base import InfoMessageSenderBase

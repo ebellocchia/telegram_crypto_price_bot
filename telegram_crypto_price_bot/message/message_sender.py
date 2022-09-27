@@ -23,7 +23,9 @@
 #
 import time
 from typing import Any, List, Union
+
 import pyrogram
+
 from telegram_crypto_price_bot.logger.logger import Logger
 
 
@@ -67,7 +69,7 @@ class MessageSender:
                   receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
                   photo: str,
                   **kwargs: Any) -> pyrogram.types.Message:
-        return self.client.send_photo(receiver.id, photo, **kwargs)
+        return self.client.send_photo(receiver.id, photo, **kwargs)     # type: ignore
 
     # Send split message
     def __SendSplitMessage(self,
@@ -81,7 +83,7 @@ class MessageSender:
             sent_msgs.append(self.client.send_message(receiver.id, msg_part, **kwargs))
             time.sleep(MessageSenderConst.SEND_MSG_SLEEP_TIME_SEC)
 
-        return sent_msgs
+        return sent_msgs    # type: ignore
 
     # Split message
     def __SplitMessage(self,

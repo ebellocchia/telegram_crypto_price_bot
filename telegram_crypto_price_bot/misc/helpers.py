@@ -22,7 +22,9 @@
 # Imports
 #
 from typing import Optional
+
 import pyrogram
+
 from telegram_crypto_price_bot.utils.pyrogram_wrapper import PyrogramWrapper
 
 
@@ -50,7 +52,9 @@ class ChatHelper:
     # Get if private chat
     @staticmethod
     def IsPrivateChat(chat: pyrogram.types.Chat,
-                      user: pyrogram.types.User):
+                      user: Optional[pyrogram.types.User]):
+        if ChatHelper.IsChannel(chat) or user is None:
+            return False
         return chat.id == user.id
 
 
@@ -76,4 +80,4 @@ class UserHelper:
 
         if user.first_name is not None:
             return f"{user.first_name} {user.last_name}" if user.last_name is not None else f"{user.first_name}"
-        return user.last_name
+        return user.last_name if user.last_name is not None else ""

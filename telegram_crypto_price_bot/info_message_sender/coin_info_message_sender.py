@@ -22,6 +22,7 @@
 # Imports
 #
 import pyrogram
+
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
 from telegram_crypto_price_bot.coingecko.coingecko_price_api import CoinGeckoPriceApiError
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject

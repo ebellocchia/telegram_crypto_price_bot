@@ -25,6 +25,7 @@ import logging
 import logging.handlers
 import os
 from typing import Union
+
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
 from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
 

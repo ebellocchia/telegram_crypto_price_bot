@@ -23,6 +23,7 @@
 #
 import logging
 from typing import Dict, Tuple
+
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
 from telegram_crypto_price_bot.config.config_loader import ConfigCfgType
 from telegram_crypto_price_bot.utils.utils import Utils
