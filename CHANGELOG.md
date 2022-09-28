@@ -1,6 +1,6 @@
 # 0.3.0
 
-- Add support for pyrogram version 2
+- Add support for _pyrogram_ version 2 (version 1 still supported)
 
 # 0.2.3
 
@@ -29,15 +29,15 @@
 
 # 0.1.3
 
-- Add configuration files for flake8 and prospector
-- Fix all flake8 warnings
-- Fix the vast majority of prospector warnings
+- Add configuration files for _flake8_ and prospector
+- Fix all _flake8_ warnings
+- Fix the vast majority of _prospector_ warnings
 - Remove all star imports (`import *`)
 
 # 0.1.2
 
 - Add typing to class members
-- Fix mypy errors
+- Fix _mypy_ errors
 
 # 0.1.1
 
