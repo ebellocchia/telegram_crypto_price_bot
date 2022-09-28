@@ -22,7 +22,7 @@
 
 # 0.2.0
 
-- Add possibility to specify a starting hour for message tasks
+- Add possibility to specify a starting hour for price tasks
 
 # 0.1.5
 
