@@ -14,7 +14,7 @@
 # 0.2.2
 
 - Handle anonymous user case when executing a command
-- 
+
 # 0.2.1
 
 - Project re-organized into folders
