@@ -27,7 +27,7 @@ import os
 from typing import Union
 
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 
 
 #
@@ -46,12 +46,12 @@ class LoggerConst:
 # Logger class
 class Logger:
 
-    config: ConfigurableObject
+    config: ConfigObject
     logger: logging.Logger
 
     # Constructor
     def __init__(self,
-                 config: ConfigurableObject) -> None:
+                 config: ConfigObject) -> None:
         self.config = config
         self.logger = logging.getLogger(LoggerConst.LOGGER_NAME)
         self.__Init()

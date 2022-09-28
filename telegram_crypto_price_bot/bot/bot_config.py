@@ -23,7 +23,7 @@
 #
 from enum import auto, unique
 
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject, ConfigurableTypes
+from telegram_crypto_price_bot.config.config_object import ConfigObject, ConfigTypes
 
 
 #
@@ -32,7 +32,7 @@ from telegram_crypto_price_bot.config.configurable_object import ConfigurableObj
 
 # Bot configuration types
 @unique
-class BotConfigTypes(ConfigurableTypes):
+class BotConfigTypes(ConfigTypes):
     API_ID = auto()
     API_HASH = auto()
     BOT_TOKEN = auto()
@@ -76,5 +76,5 @@ class BotConfigTypes(ConfigurableTypes):
 #
 
 # Bot configuration class
-class BotConfig(ConfigurableObject):
+class BotConfig(ConfigObject):
     pass

@@ -26,7 +26,7 @@ from typing import Any
 
 import pyrogram
 
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.message.message_sender import MessageSender
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
@@ -51,13 +51,13 @@ class MessageTypes(Enum):
 # Message dispatcher class
 class MessageDispatcher:
 
-    config: ConfigurableObject
+    config: ConfigObject
     logger: Logger
     translator: TranslationLoader
 
     # Constructor
     def __init__(self,
-                 config: ConfigurableObject,
+                 config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
         self.config = config

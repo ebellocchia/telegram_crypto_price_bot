@@ -23,7 +23,7 @@
 #
 import pyrogram
 
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.info_message_sender.coin_info_message_sender import CoinInfoMessageSender
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.misc.helpers import ChatHelper
@@ -105,7 +105,7 @@ class CoinInfoJob:
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
-                 config: ConfigurableObject,
+                 config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader,
                  data: CoinInfoJobData) -> None:

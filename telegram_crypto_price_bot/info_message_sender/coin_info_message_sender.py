@@ -25,7 +25,7 @@ import pyrogram
 
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
 from telegram_crypto_price_bot.coingecko.coingecko_price_api import CoinGeckoPriceApiError
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.info_message_sender.chart_info_message_sender import ChartInfoMessageSender
 from telegram_crypto_price_bot.info_message_sender.chart_price_info_message_sender import ChartPriceInfoMessageSender
 from telegram_crypto_price_bot.info_message_sender.price_info_message_sender import PriceInfoMessageSender
@@ -41,7 +41,7 @@ from telegram_crypto_price_bot.translation.translation_loader import Translation
 # Coin info message sender class
 class CoinInfoMessageSender:
 
-    config: ConfigurableObject
+    config: ConfigObject
     logger: Logger
     translator: TranslationLoader
     delete_last_sent_msg: bool
@@ -54,7 +54,7 @@ class CoinInfoMessageSender:
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
-                 config: ConfigurableObject,
+                 config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
         self.config = config

@@ -25,7 +25,7 @@ from typing import Any
 
 import pyrogram
 
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.info_message_sender.info_message_sender_base import InfoMessageSenderBase
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.price_info.price_info_builder import PriceInfoBuilder
@@ -44,7 +44,7 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
-                 config: ConfigurableObject,
+                 config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
         super().__init__(client, logger)

@@ -26,7 +26,7 @@ from typing import Any
 import pyrogram
 
 from telegram_crypto_price_bot.chart_info.chart_info_file_saver import ChartInfoTmpFileSaver
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.info_message_sender.info_message_sender_base import InfoMessageSenderBase
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
@@ -39,14 +39,14 @@ from telegram_crypto_price_bot.translation.translation_loader import Translation
 # Chart info message sender class
 class ChartInfoMessageSender(InfoMessageSenderBase):
 
-    config: ConfigurableObject
+    config: ConfigObject
     logger: Logger
     translator: TranslationLoader
 
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
-                 config: ConfigurableObject,
+                 config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
         super().__init__(client, logger)

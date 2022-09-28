@@ -32,7 +32,7 @@ from telegram_crypto_price_bot.command.commands import (
     PriceTaskResumeCmd, PriceTaskSendInSameMsgCmd, PriceTaskStartCmd, PriceTaskStopAllCmd, PriceTaskStopCmd,
     SetTestModeCmd, VersionCmd
 )
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
 
@@ -90,13 +90,13 @@ class CommandDispatcherConst:
 # Command dispatcher class
 class CommandDispatcher:
 
-    config: ConfigurableObject
+    config: ConfigObject
     logger: Logger
     translator: TranslationLoader
 
     # Constructor
     def __init__(self,
-                 config: ConfigurableObject,
+                 config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
         self.config = config

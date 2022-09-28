@@ -29,8 +29,8 @@ from typing import Any, Dict
 # Enumerations
 #
 
-# Configurable types
-class ConfigurableTypes(Enum):
+# Configuration types
+class ConfigTypes(Enum):
     pass
 
 
@@ -38,10 +38,10 @@ class ConfigurableTypes(Enum):
 # Classes
 #
 
-# Configurable object class
-class ConfigurableObject:
+# Configuration object class
+class ConfigObject:
 
-    config: Dict[ConfigurableTypes, Any]
+    config: Dict[ConfigTypes, Any]
 
     # Constructor
     def __init__(self) -> None:
@@ -49,24 +49,24 @@ class ConfigurableObject:
 
     # Get value
     def GetValue(self,
-                 config_type: ConfigurableTypes) -> Any:
-        if not isinstance(config_type, ConfigurableTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigurableTypes")
+                 config_type: ConfigTypes) -> Any:
+        if not isinstance(config_type, ConfigTypes):
+            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
 
         return self.config[config_type]
 
     # Set value
     def SetValue(self,
-                 config_type: ConfigurableTypes,
+                 config_type: ConfigTypes,
                  value: Any) -> None:
-        if not isinstance(config_type, ConfigurableTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigurableTypes")
+        if not isinstance(config_type, ConfigTypes):
+            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
 
         self.config[config_type] = value
 
     # Get if value is set
     def IsValueSet(self,
-                   config_type: ConfigurableTypes) -> bool:
+                   config_type: ConfigTypes) -> bool:
         return config_type in self.config
 
     # Convert to string

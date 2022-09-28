@@ -29,7 +29,7 @@ from pyrogram import Client
 from telegram_crypto_price_bot.bot.bot_config import BotConfig, BotConfigTypes
 from telegram_crypto_price_bot.command.command_dispatcher import CommandDispatcher, CommandTypes
 from telegram_crypto_price_bot.config.config_loader import ConfigCfgType, ConfigLoader
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.message.message_dispatcher import MessageDispatcher, MessageTypes
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
@@ -51,7 +51,7 @@ HandlersCfgType = Dict[Any, List[Dict[str, Any]]]
 # Bot base class
 class BotBase:
 
-    config: ConfigurableObject
+    config: ConfigObject
     logger: Logger
     translator: TranslationLoader
     client: pyrogram.Client

@@ -22,7 +22,7 @@
 # Imports
 #
 from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.misc.formatters import (
     CoinPairFormatter, MarketCapFormatter, PriceChangePercFormatter, PriceFormatter, VolumeFormatter
 )
@@ -45,12 +45,12 @@ class PriceInfoBuilderConst:
 # Price info builder class
 class PriceInfoBuilder:
 
-    config: ConfigurableObject
+    config: ConfigObject
     translator: TranslationLoader
 
     # Constructor
     def __init__(self,
-                 config: ConfigurableObject,
+                 config: ConfigObject,
                  translator: TranslationLoader) -> None:
         self.config = config
         self.translator = translator

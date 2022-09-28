@@ -24,7 +24,7 @@
 import configparser
 from typing import Any, Dict, List
 
-from telegram_crypto_price_bot.config.configurable_object import ConfigurableObject
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 
 
 #
@@ -53,11 +53,11 @@ class ConfigLoadValueError(Exception):
 class ConfigLoader:
 
     config_cfg: ConfigCfgType
-    config_obj: ConfigurableObject
+    config_obj: ConfigObject
 
     # Constructor
     def __init__(self,
-                 config_obj: ConfigurableObject,
+                 config_obj: ConfigObject,
                  config_cfg: ConfigCfgType) -> None:
         self.config_cfg = config_cfg
         self.config_obj = config_obj
@@ -75,7 +75,7 @@ class ConfigLoader:
         # New line
 
     # Get object
-    def GetLoadedObject(self) -> ConfigurableObject:
+    def GetLoadedObject(self) -> ConfigObject:
         return self.config_obj
 
     # Load sections
