@@ -52,7 +52,7 @@ class ChatHelper:
     # Get if private chat
     @staticmethod
     def IsPrivateChat(chat: pyrogram.types.Chat,
-                      user: Optional[pyrogram.types.User]):
+                      user: pyrogram.types.User):
         if ChatHelper.IsChannel(chat) or user is None:
             return False
         return chat.id == user.id
