@@ -1,3 +1,8 @@
+# 0.3.1
+
+- Fix some _mypy_ and _prospector_ warnings
+- Add configuration for _isort_ and run it on project
+
 # 0.3.0
 
 - Add support for _pyrogram_ version 2 (version 1 still supported)
