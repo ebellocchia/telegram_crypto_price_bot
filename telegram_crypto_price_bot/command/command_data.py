@@ -95,8 +95,8 @@ class CommandData:
     # Constructor
     def __init__(self,
                  message: pyrogram.types.Message) -> None:
-        assert message.command is not None
-        assert message.chat is not None
+        if message.command is None or message.chat is None:
+            raise ValueError("Invalid command")
 
         self.cmd_name = message.command[0]
         self.cmd_params = CommandParametersList()

@@ -25,6 +25,8 @@ from typing import Iterator
 
 import pyrogram
 
+from telegram_crypto_price_bot.utils.utils import Utils
+
 
 if int(pyrogram.__version__[0]) == 2:
     from pyrogram.enums import ChatMembersFilter, ChatType
@@ -34,7 +36,6 @@ else:
     # Fake enum
     class ChatMembersFilter(Enum):
         pass
-from telegram_crypto_price_bot.utils.utils import Utils
 
 
 #
