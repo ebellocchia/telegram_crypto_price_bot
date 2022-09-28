@@ -130,7 +130,7 @@ class CommandBase(ABC):
     # Get if chat is private
     def _IsPrivateChat(self) -> bool:
         cmd_user = self.cmd_data.User()
-        if self._IsChannel() or cmd_user is None:
+        if cmd_user is None:
             return False
         return ChatHelper.IsPrivateChat(self.cmd_data.Chat(), cmd_user)
 
