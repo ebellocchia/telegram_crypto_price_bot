@@ -51,88 +51,95 @@ The list of all possible fields that can be set is shown below.
 |Name|Description|
 |---|---|
 |**[pyrogram]**|Configuration for pyrogram|
-|session_name|Session name of your choice|
-|api_id|API ID from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
-|api_hash|API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
-|bot_token|Bot token from BotFather|
+|`session_name`|Session name of your choice|
+|`api_id`|API ID from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
+|`api_hash`|API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
+|`bot_token`|Bot token from BotFather|
 |**[app]**|Configuration for app|
-|app_is_test_mode|True to activate test mode false otherwise|
-|app_lang_file|Language file in XML format (default: English)|
+|`app_is_test_mode`|True to activate test mode false otherwise|
+|`app_lang_file`|Language file in XML format (default: English)|
 |**[task]**|Configuration for tasks|
-|tasks_max_num|Maximum number of running tasks (totally, in all groups). Default: 20.|
+|`tasks_max_num`|Maximum number of running tasks (totally, in all groups). Default: `20`.|
 |**[chart]**|Configuration for price chart|
-|chart_display|True to display price chart, false otherwise (default: true). If false, all the next fields will be skipped.|
-|chart_date_format|Date format for price chart (default: %%d/%%m/%%Y %%H:00)|
-|chart_background_color|Background color for price chart (default: white)|
-|chart_title_color|Title color for price chart (default: black)|
-|chart_frame_color|Frame color for price chart (default: black)|
-|chart_axes_color|Axes color for price chart (default: black)|
-|chart_line_color|Line color for price chart (default: #3475AB)|
-|chart_line_style|Line style for price chart (default: -). Same as matplotlib line styles: - -- -. :|
-|chart_line_width|Line width for price chart (default: 1)|
-|chart_display_grid|True to display price chart grid, false otherwise (default: true). If false, all the next fields will be skipped.|
-|chart_grid_max_size|Maximum size for price chart grid (default: 4)|
-|chart_grid_color|Line color for price chart grid (default: #DFDFDF)|
-|chart_grid_line_style|Line style for price chart grid (default: --). Same as matplotlib line styles: - -- -. :|
-|chart_grid_line_width|Line width for price chart grid (default: 1)|
+|`chart_display`|True to display price chart, false otherwise (default: true). If false, all the next fields will be skipped.|
+|`chart_date_format`|Date format for price chart (default: `%%d/%%m/%%Y %%H:00`)|
+|`chart_background_color`|Background color for price chart (default: `white`)|
+|`chart_title_color`|Title color for price chart (default: `black`)|
+|`chart_frame_color`|Frame color for price chart (default: `black`)|
+|`chart_axes_color`|Axes color for price chart (default: `black`)|
+|`chart_line_color`|Line color for price chart (default: `#3475AB`)|
+|`chart_line_style`|Line style for price chart (default: `-`). Same as matplotlib line styles: `-` `--` `-.` `:`|
+|`chart_line_width`|Line width for price chart (default: `1`)|
+|`chart_display_grid`|True to display price chart grid, false otherwise (default: `true`). If false, all the next fields will be skipped.|
+|`chart_grid_max_size`|Maximum size for price chart grid (default: `4`)|
+|`chart_grid_color`|Line color for price chart grid (default: `#DFDFDF`)|
+|`chart_grid_line_style`|Line style for price chart grid (default: `--`). Same as matplotlib line styles: `-` `--` `-.` `:`|
+|`chart_grid_line_width`|Line width for price chart grid (default: `1`)|
 |**[price]**|Configuration for price info|
-|price_display_market_cap|True to display market cap, false otherwise (default: true)|
-|price_display_market_cap_rank|True to display market cap rank, false otherwise (default: false)|
+|`price_display_market_cap`|True to display market cap, false otherwise (default: `true`)|
+|`price_display_market_cap_rank`|True to display market cap rank, false otherwise (default: `false`)|
 |**[logging]**|Configuration for logging|
-|log_level|Log level, same of python logging (*DEBUG*, *INFO*, *WARNING*, *ERROR*, *CRITICAL*). Default: *INFO*.|
-|log_console_enabled|True to enable logging to console, false otherwise (default: true)|
-|log_file_enabled|True to enable logging to file, false otherwise (default: false). If false, all the next fields will be skipped.|
-|log_file_name|Log file name|
-|log_file_use_rotating|True for using a rotating log file, false otherwise|
-|log_file_max_bytes|Maximum size in bytes for a log file. When reached, a new log file is created up to *log_file_backup_cnt*.. Valid only if log_file_use_rotating is true.|
-|log_file_backup_cnt|Maximum number of log files. Valid only if log_file_use_rotating is true.|
-|log_file_append|True to append to log file, false to start from a new file each time. Valid only if log_file_use_rotating is false.|
+|`log_level`|Log level, same of python logging (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`). Default: `INFO`.|
+|`log_console_enabled`|True to enable logging to console, false otherwise (default: `true`)|
+|`log_file_enabled`|True to enable logging to file, false otherwise (default: `false`). If false, all the next fields will be skipped.|
+|`log_file_name`|Log file name|
+|`log_file_use_rotating`|True for using a rotating log file, false otherwise|
+|`log_file_max_bytes`|Maximum size in bytes for a log file. When reached, a new log file is created up to `log_file_backup_cnt`. Valid only if `log_file_use_rotating` is true.|
+|`log_file_backup_cnt`|Maximum number of log files. Valid only if `log_file_use_rotating` is true.|
+|`log_file_append`|True to append to log file, false to start from a new file each time. Valid only if `log_file_use_rotating` is false.|
 
-All the colors can be either a name or a RGB color in format *#RRGGBB* (same as matplotlib colors).\
+All the colors can be either a name or a RGB color in format `#RRGGBB` (same as matplotlib colors).\
 Chart and price configurations will be applied to all coin information in all groups. It's not possible to configure a single coin.
 
 ## Supported Commands
 
 List of supported commands:
-- **/help**: show this message
-- **/alive**: show if bot is active
-- **/pricebot_set_test_mode true/false**: enable/disable test mode
-- **/pricebot_is_test_mode**: show if test mode is enabled
-- **/pricebot_version**: show bot version
-- **/pricebot_get_single *COIN_ID COIN_VS LAST_DAYS [SAME_MSG]***: show chart and price information of the specified pair (single call)
-    - *COIN_ID*: CoinGecko *ID*
-    - *COIN_VS*: CoinGecko *vs_currency*
-    - *LAST_DAYS*: Last number of days to show price chart
-    - *SAME_MSG* (optional): true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages. Default value: true.
-- **/pricebot_task_start *PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS***: start a price task in the current chat. If the task COIN_ID/COIN_VS already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the *pricebot_task_stop* command.
-    - *PERIOD_HOURS*: Task period in hours, it shall be between 1 and 24
-    - *START_HOUR*: Task start hour, it shall be between 0 and 23
-    - *COIN_ID*: CoinGecko *ID*
-    - *COIN_VS*: CoinGecko *vs_currency*
-    - *LAST_DAYS*: Last number of days to show price chart
-- **/pricebot_task_stop *COIN_ID COIN_VS***: stop the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.
-    - *COIN_ID*: CoinGecko *ID*
-    - *COIN_VS*: CoinGecko *vs_currency*
-- **/pricebot_task_stop_all**: stop all price tasks in the current chat
-- **/pricebot_task_pause *COIN_ID COIN_VS***: pause the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.
-    - *COIN_ID*: CoinGecko *ID*
-    - *COIN_VS*: CoinGecko *vs_currency*
-- **/pricebot_task_resume *COIN_ID COIN_VS***: resume the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.
-    - *COIN_ID*: CoinGecko *ID*
-    - *COIN_VS*: CoinGecko *vs_currency*
-- **/pricebot_task_send_in_same_msg *COIN_ID COIN_VS true/false***: enable/disable the sending of chart and price information in the same message. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.
-    - *COIN_ID*: CoinGecko *ID*
-    - *COIN_VS*: CoinGecko *vs_currency*
-    - *flag*: true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages
-- **/pricebot_task_delete_last_msg *COIN_ID COIN_VS true/false***: enable/disable the deletion of last messages for the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.
-    - *COIN_ID*: CoinGecko *ID*
-    - *COIN_VS*: CoinGecko *vs_currency*
-    - *flag*: true or false
-- **/pricebot_task_info**: show the list of active price tasks in the current chat
+- `/help`: show this message
+- `/alive`: show if bot is active
+- `/pricebot_set_test_mode true/false`: enable/disable test mode
+- `/pricebot_is_test_mode`: show if test mode is enabled
+- `/pricebot_version`: show bot version
+- `/pricebot_get_single COIN_ID COIN_VS LAST_DAYS [SAME_MSG]`: show chart and price information of the specified pair (single call).\
+Parameters:
+    - `COIN_ID`: CoinGecko *ID*
+    - `COIN_VS`: CoinGecko *vs_currency*
+    - `LAST_DAYS`: Last number of days to show price chart
+    - `SAME_MSG` (optional): true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages. Default value: true.
+- `/pricebot_task_start PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS`: start a price task in the current chat. If the task COIN_ID/COIN_VS already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the `pricebot_task_stop` command.\
+Parameters:
+    - `PERIOD_HOURS`: Task period in hours, it shall be between 1 and 24
+    - `START_HOUR`: Task start hour, it shall be between 0 and 23
+    - `COIN_ID`: CoinGecko *ID*
+    - `COIN_VS`: CoinGecko *vs_currency*
+    - `LAST_DAYS`: Last number of days to show price chart
+- `/pricebot_task_stop COIN_ID COIN_VS`: stop the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+Parameters:
+    - `COIN_ID`: CoinGecko *ID*
+    - `COIN_VS`: CoinGecko *vs_currency*
+- `/pricebot_task_stop_all`: stop all price tasks in the current chat
+- `/pricebot_task_pause COIN_ID COIN_VS`: pause the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+Parameters:
+    - `COIN_ID`: CoinGecko *ID*
+    - `COIN_VS`: CoinGecko *vs_currency*
+- `/pricebot_task_resume COIN_ID COIN_VS`: resume the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+Parameters:
+    - `COIN_ID`: CoinGecko *ID*
+    - `COIN_VS`: CoinGecko *vs_currency*
+- `/pricebot_task_send_in_same_msg COIN_ID COIN_VS true/false`: enable/disable the sending of chart and price information in the same message. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+Parameters:
+    - `COIN_ID`: CoinGecko *ID*
+    - `COIN_VS`: CoinGecko *vs_currency*
+    - `flag`: true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages
+- `/pricebot_task_delete_last_msg COIN_ID COIN_VS true/false`: enable/disable the deletion of last messages for the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+Parameters:
+    - `COIN_ID`: CoinGecko *ID*
+    - `COIN_VS`: CoinGecko *vs_currency*
+    - `flag`: true or false
+- `/pricebot_task_info`: show the list of active price tasks in the current chat
 
 By default:
-- a price task will send chart and price information in the same message. This can be enabled/disabled with the *pricebot_task_send_in_same_msg* command.
-- a price task will delete the last sent message when sending a new one. This can be enabled/disabled with the *pricebot_task_delete_last_msg* command.
+- a price task will send chart and price information in the same message. This can be enabled/disabled with the `pricebot_task_send_in_same_msg` command.
+- a price task will delete the last sent message when sending a new one. This can be enabled/disabled with the `pricebot_task_delete_last_msg` command.
 
 The task period starts from the specified starting hour (be sure to set the correct time on the VPS), for example:
 - A task period of 8 hours starting from 00:00 will send the message at: 00:00, 08:00 and 16:00
@@ -176,7 +183,7 @@ During test mode, the bot will work as usual but the task period will be applied
 ## Translation
 
 The messages sent by the bot on Telegram can be translated into different languages (the default language is English) by providing a custom XML file.\
-The XML file path is specified in the configuration file (*app_lang_file* field).\
+The XML file path is specified in the configuration file (`app_lang_file` field).\
 An example XML file in italian is provided in the folder *app/lang*.
 
 ## Image Examples
