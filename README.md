@@ -105,32 +105,32 @@ Parameters:
     - `COIN_VS`: CoinGecko *vs_currency*
     - `LAST_DAYS`: Last number of days to show price chart
     - `SAME_MSG` (optional): true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages. Default value: true.
-- `/pricebot_task_start PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS`: start a price task in the current chat. If the task COIN_ID/COIN_VS already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the `pricebot_task_stop` command.\
+- `/pricebot_task_start PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS`: start a price task in the current chat. If the task `COIN_ID/COIN_VS` already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the `pricebot_task_stop` command.\
 Parameters:
     - `PERIOD_HOURS`: Task period in hours, it shall be between 1 and 24
     - `START_HOUR`: Task start hour, it shall be between 0 and 23
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
     - `LAST_DAYS`: Last number of days to show price chart
-- `/pricebot_task_stop COIN_ID COIN_VS`: stop the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+- `/pricebot_task_stop COIN_ID COIN_VS`: stop the specified price task in the current chat. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
 Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
 - `/pricebot_task_stop_all`: stop all price tasks in the current chat
-- `/pricebot_task_pause COIN_ID COIN_VS`: pause the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+- `/pricebot_task_pause COIN_ID COIN_VS`: pause the specified price task in the current chat. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
 Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-- `/pricebot_task_resume COIN_ID COIN_VS`: resume the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+- `/pricebot_task_resume COIN_ID COIN_VS`: resume the specified price task in the current chat. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
 Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-- `/pricebot_task_send_in_same_msg COIN_ID COIN_VS true/false`: enable/disable the sending of chart and price information in the same message. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+- `/pricebot_task_send_in_same_msg COIN_ID COIN_VS true/false`: enable/disable the sending of chart and price information in the same message. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
 Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
     - `flag`: true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages
-- `/pricebot_task_delete_last_msg COIN_ID COIN_VS true/false`: enable/disable the deletion of last messages for the specified price task in the current chat. If the task COIN_ID/COIN_VS does not exist in the current chat, an error message will be shown.\
+- `/pricebot_task_delete_last_msg COIN_ID COIN_VS true/false`: enable/disable the deletion of last messages for the specified price task in the current chat. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
 Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
