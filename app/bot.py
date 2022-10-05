@@ -21,9 +21,7 @@
 #
 # Imports
 #
-import getopt
-import sys
-from typing import List
+import argparse
 from telegram_crypto_price_bot import PriceBot, __version__
 
 #
@@ -38,48 +36,24 @@ DEF_CONFIG_FILE = "conf/config.ini"
 # Classes
 #
 
-#
-# Arguments
-#
-class Arguments:
-    # Constructor
-    def __init__(self) -> None:
-        self.config_file = DEF_CONFIG_FILE
-
-    # Get configuration file
-    def GetConfigFile(self) -> str:
-        return self.config_file
-
-    # Set configuration file
-    def SetConfigFile(self, config_file: str) -> None:
-        self.config_file = config_file
-
-
-#
 # Argument parser
-#
 class ArgumentsParser:
+
+    parser: argparse.ArgumentParser
+
     # Constructor
     def __init__(self) -> None:
-        self.args = Arguments()
+        self.parser = argparse.ArgumentParser()
+        self.parser.add_argument(
+            "-c", "--config",
+            type=str,
+            default=DEF_CONFIG_FILE,
+            help="configuration file"
+        )
 
     # Parse arguments
-    def Parse(self, argv: List[str]) -> None:
-        # Parse arguments
-        try:
-            opts, _ = getopt.getopt(argv[1:], "c:", ["config="])
-        # Handle error
-        except getopt.GetoptError:
-            return
-
-        # Get arguments
-        for opt, arg in opts:
-            if opt in ("-c", "--config"):
-                self.args.SetConfigFile(arg)
-
-    # Get arguments
-    def GetArgs(self) -> Arguments:
-        return self.args
+    def Parse(self) -> argparse.Namespace:
+        return self.parser.parse_args()
 
 
 #
@@ -112,8 +86,8 @@ if __name__ == "__main__":
 
     # Get arguments
     args_parser = ArgumentsParser()
-    args_parser.Parse(sys.argv)
+    args = args_parser.Parse()
 
     # Create and run bot
-    price_bot = PriceBot(args_parser.GetArgs().GetConfigFile())
+    price_bot = PriceBot(args.config)
     price_bot.Run()
