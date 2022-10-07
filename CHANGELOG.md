@@ -1,3 +1,7 @@
+# 0.3.2
+
+- Prevent crash if cannot connect to an X display (MacOS/Linux)
+
 # 0.3.1
 
 - Fix some _mypy_ and _prospector_ warnings
