@@ -39,6 +39,10 @@ from telegram_crypto_price_bot.translation.translation_loader import Translation
 from telegram_crypto_price_bot.utils.utils import Synchronized
 
 
+# Prevent crash if it cannot connect to an X display
+matplotlib.use("Agg")
+
+
 #
 # Variables
 #
