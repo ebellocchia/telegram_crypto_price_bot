@@ -134,7 +134,6 @@ class CommandBase(ABC):
             return False
         return ChatHelper.IsPrivateChat(self.cmd_data.Chat(), cmd_user)
 
-
     # Log command
     def __LogCommand(self) -> None:
         self.logger.GetLogger().info(f"Command: {self.cmd_data.Name()}")
