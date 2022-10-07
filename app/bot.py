@@ -22,7 +22,9 @@
 # Imports
 #
 import argparse
+
 from telegram_crypto_price_bot import PriceBot, __version__
+
 
 #
 # Variables
