@@ -21,48 +21,28 @@
 #
 # Imports
 #
-from enum import Enum
-from typing import Any, Dict
+import configparser
 
-
-#
-# Enumerations
-#
-
-# Configuration types
-class ConfigTypes(Enum):
-    pass
+from telegram_crypto_price_bot.config.config_object import ConfigObject
+from telegram_crypto_price_bot.config.config_sections_loader import ConfigSectionsLoader
+from telegram_crypto_price_bot.config.config_typing import ConfigSectionsType
 
 
 #
 # Classes
 #
 
-# Configuration object class
-class ConfigObject:
+# Configuration file sections loader class
+class ConfigFileSectionsLoader:
+    # Load
+    @staticmethod
+    def Load(file_name: str,
+             sections: ConfigSectionsType) -> ConfigObject:
+        print(f"\nLoading configuration file {file_name}...\n")
 
-    config: Dict[ConfigTypes, Any]
+        # Read file
+        config_parser = configparser.ConfigParser()
+        config_parser.read(file_name, encoding="utf-8")
 
-    # Constructor
-    def __init__(self) -> None:
-        self.config = {}
-
-    # Get value
-    def GetValue(self,
-                 config_type: ConfigTypes) -> Any:
-        if not isinstance(config_type, ConfigTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
-        return self.config[config_type]
-
-    # Set value
-    def SetValue(self,
-                 config_type: ConfigTypes,
-                 value: Any) -> None:
-        if not isinstance(config_type, ConfigTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
-        self.config[config_type] = value
-
-    # Get if value is set
-    def IsValueSet(self,
-                   config_type: ConfigTypes) -> bool:
-        return config_type in self.config
+        # Load sections
+        return ConfigSectionsLoader(config_parser).LoadSections(sections)

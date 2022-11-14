@@ -26,7 +26,7 @@ from typing import Dict
 import pyrogram
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
+from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.coin_info.coin_info_job import CoinInfoJob, CoinInfoJobData
 from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.logger.logger import Logger

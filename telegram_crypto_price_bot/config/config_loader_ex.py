@@ -19,50 +19,14 @@
 # THE SOFTWARE.
 
 #
-# Imports
-#
-from enum import Enum
-from typing import Any, Dict
-
-
-#
-# Enumerations
-#
-
-# Configuration types
-class ConfigTypes(Enum):
-    pass
-
-
-#
 # Classes
 #
 
-# Configuration object class
-class ConfigObject:
+# Configuration field not existent error class
+class ConfigFieldNotExistentError(Exception):
+    pass
 
-    config: Dict[ConfigTypes, Any]
 
-    # Constructor
-    def __init__(self) -> None:
-        self.config = {}
-
-    # Get value
-    def GetValue(self,
-                 config_type: ConfigTypes) -> Any:
-        if not isinstance(config_type, ConfigTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
-        return self.config[config_type]
-
-    # Set value
-    def SetValue(self,
-                 config_type: ConfigTypes,
-                 value: Any) -> None:
-        if not isinstance(config_type, ConfigTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
-        self.config[config_type] = value
-
-    # Get if value is set
-    def IsValueSet(self,
-                   config_type: ConfigTypes) -> bool:
-        return config_type in self.config
+# Configuration field value error class
+class ConfigFieldValueError(Exception):
+    pass

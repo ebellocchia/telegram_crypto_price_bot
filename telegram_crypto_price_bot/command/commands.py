@@ -24,7 +24,7 @@
 from typing import Any, Callable
 
 from telegram_crypto_price_bot._version import __version__
-from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
+from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.coin_info.coin_info_scheduler import (
     CoinInfoJobAlreadyExistentError, CoinInfoJobInvalidPeriodError, CoinInfoJobInvalidStartError,
     CoinInfoJobMaxNumError, CoinInfoJobNotExistentError

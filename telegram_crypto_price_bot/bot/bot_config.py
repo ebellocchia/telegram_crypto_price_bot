@@ -21,60 +21,263 @@
 #
 # Imports
 #
-from enum import auto, unique
+import logging
+from typing import Dict, Tuple
 
-from telegram_crypto_price_bot.config.config_object import ConfigObject, ConfigTypes
-
-
-#
-# Enumerations
-#
-
-# Bot configuration types
-@unique
-class BotConfigTypes(ConfigTypes):
-    API_ID = auto()
-    API_HASH = auto()
-    BOT_TOKEN = auto()
-    SESSION_NAME = auto()
-    # App
-    APP_TEST_MODE = auto()
-    APP_LANG_FILE = auto()
-    # Task
-    TASKS_MAX_NUM = auto()
-    # Chart
-    CHART_DISPLAY = auto()
-    CHART_DATE_FORMAT = auto()
-    CHART_BACKGROUND_COLOR = auto()
-    CHART_TITLE_COLOR = auto()
-    CHART_FRAME_COLOR = auto()
-    CHART_AXES_COLOR = auto()
-    CHART_LINE_COLOR = auto()
-    CHART_LINE_STYLE = auto()
-    CHART_LINE_WIDTH = auto()
-    CHART_DISPLAY_GRID = auto()
-    CHART_GRID_MAX_SIZE = auto()
-    CHART_GRID_COLOR = auto()
-    CHART_GRID_LINE_STYLE = auto()
-    CHART_GRID_LINE_WIDTH = auto()
-    # Price
-    PRICE_DISPLAY_MARKET_CAP = auto()
-    PRICE_DISPLAY_MARKET_CAP_RANK = auto()
-    # Logging
-    LOG_LEVEL = auto()
-    LOG_CONSOLE_ENABLED = auto()
-    LOG_FILE_ENABLED = auto()
-    LOG_FILE_NAME = auto()
-    LOG_FILE_USE_ROTATING = auto()
-    LOG_FILE_APPEND = auto()
-    LOG_FILE_MAX_BYTES = auto()
-    LOG_FILE_BACKUP_CNT = auto()
+from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
+from telegram_crypto_price_bot.config.config_typing import ConfigSectionsType
+from telegram_crypto_price_bot.utils.utils import Utils
 
 
 #
 # Classes
 #
 
-# Bot configuration class
-class BotConfig(ConfigObject):
-    pass
+# Configuration type converter class
+class _ConfigTypeConverter:
+    # String to log level
+    STR_TO_LOG_LEVEL: Dict[str, int] = {
+        "DEBUG": logging.DEBUG,
+        "INFO": logging.INFO,
+        "WARNING": logging.WARNING,
+        "ERROR": logging.ERROR,
+        "CRITICAL": logging.CRITICAL,
+    }
+
+    # Convert string to log level
+    @staticmethod
+    def StrToLogLevel(log_level: str) -> int:
+        return (_ConfigTypeConverter.STR_TO_LOG_LEVEL[log_level]
+                if log_level in _ConfigTypeConverter.STR_TO_LOG_LEVEL
+                else logging.INFO)
+
+    # Convert log level to string
+    @staticmethod
+    def LogLevelToStr(log_level: int) -> str:
+        idx = list(_ConfigTypeConverter.STR_TO_LOG_LEVEL.values()).index(log_level)
+        return list(_ConfigTypeConverter.STR_TO_LOG_LEVEL.keys())[idx]
+
+
+# Constants for price bot configuration
+class PriceBotConfigConst:
+    LINE_STYLES: Tuple[str, ...] = ("-", "--", "-.", ":", " ", "")
+
+
+#
+# Variables
+#
+
+# Bot configuration
+BotConfig: ConfigSectionsType = {
+    # Pyrogram
+    "pyrogram": [
+        {
+            "type": BotConfigTypes.API_ID,
+            "name": "api_id",
+        },
+        {
+            "type": BotConfigTypes.API_HASH,
+            "name": "api_hash",
+        },
+        {
+            "type": BotConfigTypes.BOT_TOKEN,
+            "name": "bot_token",
+        },
+        {
+            "type": BotConfigTypes.SESSION_NAME,
+            "name": "session_name",
+        },
+    ],
+    # App
+    "app": [
+        {
+            "type": BotConfigTypes.APP_TEST_MODE,
+            "name": "app_test_mode",
+            "conv_fct": Utils.StrToBool,
+        },
+        {
+            "type": BotConfigTypes.APP_LANG_FILE,
+            "name": "app_lang_file",
+            "def_val": None,
+        },
+    ],
+    # Task
+    "task": [
+        {
+            "type": BotConfigTypes.TASKS_MAX_NUM,
+            "name": "tasks_max_num",
+            "conv_fct": Utils.StrToInt,
+            "def_val": 20,
+            "valid_if": lambda cfg, val: val > 0,
+        },
+    ],
+    # Chart
+    "chart": [
+        {
+            "type": BotConfigTypes.CHART_DISPLAY,
+            "name": "chart_display",
+            "conv_fct": Utils.StrToBool,
+            "def_val": True,
+        },
+        {
+            "type": BotConfigTypes.CHART_DATE_FORMAT,
+            "name": "chart_date_format",
+            "def_val": "%d/%m/%Y %H:00",
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+        },
+        {
+            "type": BotConfigTypes.CHART_BACKGROUND_COLOR,
+            "name": "chart_background_color",
+            "def_val": "white",
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+        },
+        {
+            "type": BotConfigTypes.CHART_TITLE_COLOR,
+            "name": "chart_title_color",
+            "def_val": "black",
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+        },
+        {
+            "type": BotConfigTypes.CHART_FRAME_COLOR,
+            "name": "chart_frame_color",
+            "def_val": "black",
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+        },
+        {
+            "type": BotConfigTypes.CHART_AXES_COLOR,
+            "name": "chart_axes_color",
+            "def_val": "black",
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+        },
+        {
+            "type": BotConfigTypes.CHART_LINE_COLOR,
+            "name": "chart_line_color",
+            "def_val": "#3475AB",
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+        },
+        {
+            "type": BotConfigTypes.CHART_LINE_STYLE,
+            "name": "chart_line_style",
+            "def_val": "-",
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+            "valid_if": lambda cfg, val: val in PriceBotConfigConst.LINE_STYLES,
+        },
+        {
+            "type": BotConfigTypes.CHART_LINE_WIDTH,
+            "name": "chart_line_width",
+            "conv_fct": Utils.StrToInt,
+            "def_val": 1,
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+            "valid_if": lambda cfg, val: val > 0,
+        },
+        {
+            "type": BotConfigTypes.CHART_DISPLAY_GRID,
+            "name": "chart_display_grid",
+            "conv_fct": Utils.StrToBool,
+            "def_val": True,
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.CHART_DISPLAY),
+        },
+        {
+            "type": BotConfigTypes.CHART_GRID_MAX_SIZE,
+            "name": "chart_grid_max_size",
+            "conv_fct": Utils.StrToInt,
+            "def_val": 4,
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and
+                                    cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
+            "valid_if": lambda cfg, val: val > 0,
+        },
+        {
+            "type": BotConfigTypes.CHART_GRID_COLOR,
+            "name": "chart_grid_color",
+            "def_val": "#DFDFDF",
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and
+                                    cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
+        },
+        {
+            "type": BotConfigTypes.CHART_GRID_LINE_STYLE,
+            "name": "chart_grid_line_style",
+            "def_val": "--",
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and
+                                    cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
+            "valid_if": lambda cfg, val: val in PriceBotConfigConst.LINE_STYLES,
+        },
+        {
+            "type": BotConfigTypes.CHART_GRID_LINE_WIDTH,
+            "name": "chart_grid_line_width",
+            "conv_fct": Utils.StrToInt,
+            "def_val": 1,
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and
+                                    cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
+            "valid_if": lambda cfg, val: val > 0,
+        },
+    ],
+    # Price
+    "price": [
+        {
+            "type": BotConfigTypes.PRICE_DISPLAY_MARKET_CAP,
+            "name": "price_display_market_cap",
+            "conv_fct": Utils.StrToBool,
+            "def_val": True,
+        },
+        {
+            "type": BotConfigTypes.PRICE_DISPLAY_MARKET_CAP_RANK,
+            "name": "price_display_market_cap_rank",
+            "conv_fct": Utils.StrToBool,
+            "def_val": False,
+        },
+    ],
+    # Logging
+    "logging": [
+        {
+            "type": BotConfigTypes.LOG_LEVEL,
+            "name": "log_level",
+            "conv_fct": _ConfigTypeConverter.StrToLogLevel,
+            "print_fct": _ConfigTypeConverter.LogLevelToStr,
+            "def_val": logging.INFO,
+        },
+        {
+            "type": BotConfigTypes.LOG_CONSOLE_ENABLED,
+            "name": "log_console_enabled",
+            "conv_fct": Utils.StrToBool,
+            "def_val": True,
+        },
+        {
+            "type": BotConfigTypes.LOG_FILE_ENABLED,
+            "name": "log_file_enabled",
+            "conv_fct": Utils.StrToBool,
+            "def_val": False,
+        },
+        {
+            "type": BotConfigTypes.LOG_FILE_NAME,
+            "name": "log_file_name",
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED),
+        },
+        {
+            "type": BotConfigTypes.LOG_FILE_USE_ROTATING,
+            "name": "log_file_use_rotating",
+            "conv_fct": Utils.StrToBool,
+            "load_if": lambda cfg: cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED),
+        },
+        {
+            "type": BotConfigTypes.LOG_FILE_APPEND,
+            "name": "log_file_append",
+            "conv_fct": Utils.StrToBool,
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and
+                                    not cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)),
+        },
+        {
+            "type": BotConfigTypes.LOG_FILE_MAX_BYTES,
+            "name": "log_file_max_bytes",
+            "conv_fct": Utils.StrToInt,
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and
+                                    cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)),
+        },
+        {
+            "type": BotConfigTypes.LOG_FILE_BACKUP_CNT,
+            "name": "log_file_backup_cnt",
+            "conv_fct": Utils.StrToInt,
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and
+                                    cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)),
+        },
+    ],
+}

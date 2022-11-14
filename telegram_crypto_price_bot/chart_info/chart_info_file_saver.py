@@ -30,7 +30,7 @@ from typing import Optional
 import matplotlib
 from matplotlib import pyplot as plt
 
-from telegram_crypto_price_bot.bot.bot_config import BotConfigTypes
+from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.chart_info.chart_info import ChartInfo
 from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.logger.logger import Logger

@@ -21,48 +21,12 @@
 #
 # Imports
 #
-from enum import Enum
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 
 #
-# Enumerations
+# Types
 #
-
-# Configuration types
-class ConfigTypes(Enum):
-    pass
-
-
-#
-# Classes
-#
-
-# Configuration object class
-class ConfigObject:
-
-    config: Dict[ConfigTypes, Any]
-
-    # Constructor
-    def __init__(self) -> None:
-        self.config = {}
-
-    # Get value
-    def GetValue(self,
-                 config_type: ConfigTypes) -> Any:
-        if not isinstance(config_type, ConfigTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
-        return self.config[config_type]
-
-    # Set value
-    def SetValue(self,
-                 config_type: ConfigTypes,
-                 value: Any) -> None:
-        if not isinstance(config_type, ConfigTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
-        self.config[config_type] = value
-
-    # Get if value is set
-    def IsValueSet(self,
-                   config_type: ConfigTypes) -> bool:
-        return config_type in self.config
+ConfigFieldType = Dict[str, Any]
+ConfigSectionType = List[ConfigFieldType]
+ConfigSectionsType = Dict[str, ConfigSectionType]

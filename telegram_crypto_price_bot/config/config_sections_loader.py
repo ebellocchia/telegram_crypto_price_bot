@@ -21,48 +21,37 @@
 #
 # Imports
 #
-from enum import Enum
-from typing import Any, Dict
+import configparser
 
-
-#
-# Enumerations
-#
-
-# Configuration types
-class ConfigTypes(Enum):
-    pass
+from telegram_crypto_price_bot.config.config_object import ConfigObject
+from telegram_crypto_price_bot.config.config_section_loader import ConfigSectionLoader
+from telegram_crypto_price_bot.config.config_typing import ConfigSectionsType
 
 
 #
 # Classes
 #
 
-# Configuration object class
-class ConfigObject:
+# Configuration sections loader class
+class ConfigSectionsLoader:
 
-    config: Dict[ConfigTypes, Any]
+    config_section_loader: ConfigSectionLoader
 
     # Constructor
-    def __init__(self) -> None:
-        self.config = {}
+    def __init__(self,
+                 config_parser: configparser.ConfigParser) -> None:
+        self.config_section_loader = ConfigSectionLoader(config_parser)
 
-    # Get value
-    def GetValue(self,
-                 config_type: ConfigTypes) -> Any:
-        if not isinstance(config_type, ConfigTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
-        return self.config[config_type]
+    # Load sections
+    def LoadSections(self,
+                     sections: ConfigSectionsType) -> ConfigObject:
+        config_obj = ConfigObject()
 
-    # Set value
-    def SetValue(self,
-                 config_type: ConfigTypes,
-                 value: Any) -> None:
-        if not isinstance(config_type, ConfigTypes):
-            raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
-        self.config[config_type] = value
+        # For each section
+        for section_name, section in sections.items():
+            # Print section
+            print(f"Section [{section_name}]")
+            # Load fields
+            self.config_section_loader.LoadSection(config_obj, section_name, section)
 
-    # Get if value is set
-    def IsValueSet(self,
-                   config_type: ConfigTypes) -> bool:
-        return config_type in self.config
+        return config_obj

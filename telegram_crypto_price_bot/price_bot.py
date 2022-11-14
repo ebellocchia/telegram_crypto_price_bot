@@ -22,8 +22,8 @@
 # Imports
 #
 from telegram_crypto_price_bot.bot.bot_base import BotBase
-from telegram_crypto_price_bot.bot.bot_config_cfg import BotConfigCfg
-from telegram_crypto_price_bot.bot.bot_handlers_cfg import BotHandlersCfg
+from telegram_crypto_price_bot.bot.bot_config import BotConfig
+from telegram_crypto_price_bot.bot.bot_handlers_config import BotHandlersConfig
 from telegram_crypto_price_bot.coin_info.coin_info_scheduler import CoinInfoScheduler
 
 
@@ -39,11 +39,11 @@ class PriceBot(BotBase):
     # Constructor
     def __init__(self,
                  config_file: str) -> None:
-        super().__init__(config_file,
-                         BotConfigCfg,
-                         BotHandlersCfg)
+        super().__init__(config_file, BotConfig, BotHandlersConfig)
         # Initialize coin info scheduler
-        self.coin_info_scheduler = CoinInfoScheduler(self.client,
-                                                     self.config,
-                                                     self.logger,
-                                                     self.translator)
+        self.coin_info_scheduler = CoinInfoScheduler(
+            self.client,
+            self.config,
+            self.logger,
+            self.translator
+        )

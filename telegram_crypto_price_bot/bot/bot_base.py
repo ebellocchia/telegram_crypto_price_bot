@@ -21,26 +21,20 @@
 #
 # Imports
 #
-from typing import Any, Dict, List
+from typing import Any
 
 import pyrogram
 from pyrogram import Client
 
-from telegram_crypto_price_bot.bot.bot_config import BotConfig, BotConfigTypes
+from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
+from telegram_crypto_price_bot.bot.bot_handlers_config_typing import BotHandlersConfigType
 from telegram_crypto_price_bot.command.command_dispatcher import CommandDispatcher, CommandTypes
-from telegram_crypto_price_bot.config.config_loader import ConfigCfgType, ConfigLoader
+from telegram_crypto_price_bot.config.config_file_sections_loader import ConfigFileSectionsLoader
 from telegram_crypto_price_bot.config.config_object import ConfigObject
+from telegram_crypto_price_bot.config.config_typing import ConfigSectionsType
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.message.message_dispatcher import MessageDispatcher, MessageTypes
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
-
-
-#
-# Types
-#
-
-# Handlers configuration type
-HandlersCfgType = Dict[Any, List[Dict[str, Any]]]
 
 
 #
@@ -61,12 +55,10 @@ class BotBase:
     # Constructor
     def __init__(self,
                  config_file: str,
-                 config_cfg: ConfigCfgType,
-                 handlers_cfg: HandlersCfgType) -> None:
+                 config_sections: ConfigSectionsType,
+                 handlers_config: BotHandlersConfigType) -> None:
         # Load configuration
-        config_ldr = ConfigLoader(BotConfig(), config_cfg)
-        config_ldr.Load(config_file)
-        self.config = config_ldr.GetLoadedObject()
+        self.config = ConfigFileSectionsLoader.Load(config_file, config_sections)
         # Initialize logger
         self.logger = Logger(self.config)
         # Initialize translations
@@ -83,7 +75,7 @@ class BotBase:
         self.cmd_dispatcher = CommandDispatcher(self.config, self.logger, self.translator)
         self.msg_dispatcher = MessageDispatcher(self.config, self.logger, self.translator)
         # Setup handlers
-        self._SetupHandlers(handlers_cfg)
+        self._SetupHandlers(handlers_config)
         # Log
         self.logger.GetLogger().info("Bot initialization completed")
 
@@ -96,9 +88,9 @@ class BotBase:
 
     # Setup handlers
     def _SetupHandlers(self,
-                       handlers_cfg: HandlersCfgType) -> None:
+                       handlers_config: BotHandlersConfigType) -> None:
         # Add all configured handlers
-        for curr_hnd_type, curr_hnd_cfg in handlers_cfg.items():
+        for curr_hnd_type, curr_hnd_cfg in handlers_config.items():
             for handler_cfg in curr_hnd_cfg:
                 self.client.add_handler(
                     # Little "hack" to keep a local scope for current configuration
