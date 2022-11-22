@@ -85,7 +85,7 @@ class ChatMembersGetter:
                       filter_fct: Optional[Callable[[pyrogram.types.ChatMember], bool]] = None,
                       filter_str: str = "all") -> ChatMembersList:
         # Get members
-        filtered_members = PyrogramWrapper.GetChatMembers(self.client, chat, filter_str)
+        filtered_members = list(PyrogramWrapper.GetChatMembers(self.client, chat, filter_str))
         # Filter them if necessary
         if filter_fct is not None:
             filtered_members = list(filter(filter_fct, filtered_members))   # type: ignore
