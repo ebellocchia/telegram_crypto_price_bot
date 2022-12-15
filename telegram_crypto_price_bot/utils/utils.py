@@ -23,7 +23,7 @@
 #
 import functools
 from threading import Lock
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 
 #
@@ -62,10 +62,14 @@ class Utils:
 
     # Convert string to integer
     @staticmethod
-    def StrToInt(s: str) -> int:
+    def StrToInt(s: Optional[str]) -> int:
+        if s is None:
+            return 0
         return int(s)
 
     # Convert string to float
     @staticmethod
-    def StrToFloat(s: str) -> float:
+    def StrToFloat(s: Optional[str]) -> float:
+        if s is None:
+            return 0.0
         return float(s)
