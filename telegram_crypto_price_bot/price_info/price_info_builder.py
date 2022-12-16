@@ -86,6 +86,7 @@ class PriceInfoBuilder:
 
         # Begin code
         msg += PriceInfoBuilderConst.MARKDOWN_CODE_DELIM
+        msg += "\n"
 
         # Price info
         msg += self.__PrintAligned(f"💵 {coin_pair}", price)
@@ -108,6 +109,7 @@ class PriceInfoBuilder:
         msg += self.__PrintAligned("     30d", change_perc_30d, 1, False)
 
         # End code
+        msg += "\n"
         msg += PriceInfoBuilderConst.MARKDOWN_CODE_DELIM
 
         return msg

@@ -133,7 +133,7 @@ Non dimenticarti di **farmi amministratore del gruppo** o non potrò funzionare 
     <!-- Task paused message -->
     <sentence id="TASK_PAUSED_MSG">in pausa</sentence>
     <!-- Price info title message -->
-    <sentence id="PRICE_INFO_TITLE_MSG">**{coin_name} - Informazioni Prezzo**\n\n</sentence>
+    <sentence id="PRICE_INFO_TITLE_MSG">**{coin_name} - Informazioni Prezzo**\n</sentence>
     <!-- Chart info title message -->
     <sentence id="CHART_INFO_TITLE_MSG">{coin_id}/{coin_vs} - Prezzo degli ultimi {last_days} giorni</sentence>
 </translation>

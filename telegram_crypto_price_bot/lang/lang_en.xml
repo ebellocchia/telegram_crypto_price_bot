@@ -133,7 +133,7 @@ Do not forget to **make me administrator of the group** or I won't work properly
     <!-- Task paused message -->
     <sentence id="TASK_PAUSED_MSG">paused</sentence>
     <!-- Price info title message -->
-    <sentence id="PRICE_INFO_TITLE_MSG">**{coin_name} - Price Info**\n\n</sentence>
+    <sentence id="PRICE_INFO_TITLE_MSG">**{coin_name} - Price Info**\n</sentence>
     <!-- Chart info title message -->
     <sentence id="CHART_INFO_TITLE_MSG">{coin_id}/{coin_vs} - Price of last {last_days} day(s)</sentence>
 </translation>
