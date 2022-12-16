@@ -1,3 +1,8 @@
+# 0.3.3
+
+- Add new line for markdown delimiters
+- Prevent crash if some data is not available
+
 # 0.3.2
 
 - Prevent crash if cannot connect to an X display (MacOS/Linux)
