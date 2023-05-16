@@ -1,3 +1,7 @@
+# 0.3.4
+
+- Fix usage in channels
+
 # 0.3.3
 
 - Add new line for markdown delimiters
