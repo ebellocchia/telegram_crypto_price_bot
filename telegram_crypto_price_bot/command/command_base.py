@@ -26,6 +26,7 @@ from typing import Any
 
 import pyrogram
 from pyrogram.errors import RPCError
+from pyrogram.errors.exceptions.bad_request_400 import BadRequest
 
 from telegram_crypto_price_bot.command.command_data import CommandData
 from telegram_crypto_price_bot.config.config_object import ConfigObject
@@ -103,7 +104,15 @@ class CommandBase(ABC):
     # Send message
     def _SendMessage(self,
                      msg: str) -> None:
-        self.message_sender.SendMessage(self.cmd_data.Chat(), msg)
+        try:
+            self.message_sender.SendMessage(
+                self.cmd_data.Chat(),
+                msg,
+                reply_to_message_id=self.message.reply_to_message_id
+            )
+        # Send message privately if topic is closed
+        except BadRequest:
+            self.message_sender.SendMessage(self.cmd_data.User(), msg)
 
     # Get if channel
     def _IsChannel(self) -> bool:
