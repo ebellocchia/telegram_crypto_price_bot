@@ -3,7 +3,6 @@
 [![PyPI version](https://badge.fury.io/py/telegram-crypto-price-bot.svg)](https://badge.fury.io/py/telegram-crypto-price-bot)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e494ae8a0df847ca85dc72305bdb3ffa)](https://app.codacy.com/gh/ebellocchia/telegram_crypto_price_bot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/ebellocchia/telegram_crypto_price_bot/badge)](https://www.codefactor.io/repository/github/ebellocchia/telegram_crypto_price_bot)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/ebellocchia/bip_utils/master/LICENSE)
 
 Telegram bot for displaying cryptocurrencies prices and charts based on *pyrogram* and *matplotlib* libraries.\
 Data is retrieved using CoinGecko APIs.\
