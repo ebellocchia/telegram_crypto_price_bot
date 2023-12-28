@@ -1,3 +1,7 @@
+# 0.3.5
+
+- Fix replying to commands in topics
+
 # 0.3.4
 
 - Fix usage in channels
