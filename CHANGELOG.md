@@ -1,3 +1,7 @@
+# 0.4.0
+
+- Add possibility to specificy a Coingecko API key, in case paid APIs are used. If no API key is specified, free APIs will be used.
+
 # 0.3.5
 
 - Fix replying to commands in topics
