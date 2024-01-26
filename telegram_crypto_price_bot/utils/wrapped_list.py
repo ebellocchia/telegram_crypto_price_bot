@@ -22,7 +22,6 @@
 # Imports
 #
 import typing
-
 from abc import ABC
 from typing import Iterator, List
 
