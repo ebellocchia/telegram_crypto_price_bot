@@ -111,6 +111,14 @@ BotConfig: ConfigSectionsType = {
             "valid_if": lambda cfg, val: val > 0,
         },
     ],
+    # Coingecko
+    "coingecko": [
+        {
+            "type": BotConfigTypes.COINGECKO_API_KEY,
+            "name": "coingecko_api_key",
+            "def_val": "",
+        },
+    ],
     # Chart
     "chart": [
         {

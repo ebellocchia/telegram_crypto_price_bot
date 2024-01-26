@@ -27,6 +27,7 @@ from typing import Any, Optional
 import pyrogram
 
 from telegram_crypto_price_bot.coingecko.coingecko_price_api import CoinGeckoPriceApi
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.message.message_deleter import MessageDeleter
 from telegram_crypto_price_bot.message.message_sender import MessageSender
@@ -47,9 +48,10 @@ class InfoMessageSenderBase(ABC):
     # Constructor
     def __init__(self,
                  client: pyrogram.Client,
+                 config: ConfigObject,
                  logger: Logger) -> None:
         self.last_sent_msg = None
-        self.coingecko_api = CoinGeckoPriceApi()
+        self.coingecko_api = CoinGeckoPriceApi(config)
         self.message_deleter = MessageDeleter(client, logger)
         self.message_sender = MessageSender(client, logger)
 

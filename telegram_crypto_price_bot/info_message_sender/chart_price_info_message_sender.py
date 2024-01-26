@@ -51,7 +51,7 @@ class ChartPriceInfoMessageSender(InfoMessageSenderBase):
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        super().__init__(client, logger)
+        super().__init__(client, config, logger)
         self.config = config
         self.logger = logger
         self.translator = translator

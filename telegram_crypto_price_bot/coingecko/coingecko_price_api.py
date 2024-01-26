@@ -23,7 +23,9 @@
 #
 from pycoingecko import CoinGeckoAPI
 
+from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.chart_info.chart_info import ChartInfo
+from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.price_info.price_info import PriceInfo
 
 
@@ -42,8 +44,9 @@ class CoinGeckoPriceApi:
     api: CoinGeckoAPI
 
     # Constructor
-    def __init__(self) -> None:
-        self.api = CoinGeckoAPI()
+    def __init__(self,
+                 config: ConfigObject) -> None:
+        self.api = CoinGeckoAPI(api_key=config.GetValue(BotConfigTypes.COINGECKO_API_KEY))
 
     # Get price info
     def GetPriceInfo(self,

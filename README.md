@@ -59,6 +59,8 @@ The list of all possible fields that can be set is shown below.
 |`app_lang_file`|Language file in XML format (default: English)|
 |**[task]**|Configuration for tasks|
 |`tasks_max_num`|Maximum number of running tasks (totally, in all groups). Default: `20`.|
+|**[coingecko]**|Configuration for Coingecko|
+|`coingecko_api_key`|Key for using Coingecko APIs. If not specified, the free APIs will be used. Default: `empty string`.|
 |**[chart]**|Configuration for price chart|
 |`chart_display`|True to display price chart, false otherwise (default: true). If false, all the next fields will be skipped.|
 |`chart_date_format`|Date format for price chart (default: `%%d/%%m/%%Y %%H:00`)|

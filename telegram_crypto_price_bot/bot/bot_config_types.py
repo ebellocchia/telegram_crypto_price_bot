@@ -42,6 +42,8 @@ class BotConfigTypes(ConfigTypes):
     APP_LANG_FILE = auto()
     # Task
     TASKS_MAX_NUM = auto()
+    # Coingecko
+    COINGECKO_API_KEY = auto()
     # Chart
     CHART_DISPLAY = auto()
     CHART_DATE_FORMAT = auto()

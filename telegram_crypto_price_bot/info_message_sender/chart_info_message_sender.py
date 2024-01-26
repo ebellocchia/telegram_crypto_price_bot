@@ -36,7 +36,7 @@ from telegram_crypto_price_bot.translation.translation_loader import Translation
 # Classes
 #
 
-# Chart info message sender class
+# Chart info message sender class (chart in a single message)
 class ChartInfoMessageSender(InfoMessageSenderBase):
 
     config: ConfigObject
@@ -49,7 +49,7 @@ class ChartInfoMessageSender(InfoMessageSenderBase):
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        super().__init__(client, logger)
+        super().__init__(client, config, logger)
         self.config = config
         self.logger = logger
         self.translator = translator
