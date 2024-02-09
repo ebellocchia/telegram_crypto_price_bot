@@ -1,9 +1,13 @@
 # Telegram Crypto Price Bot
 
-[![PyPI version](https://badge.fury.io/py/telegram-crypto-price-bot.svg)](https://badge.fury.io/py/telegram-crypto-price-bot)
-[![Build](https://github.com/ebellocchia/telegram_crypto_price_bot/actions/workflows/build.yml/badge.svg)](https://github.com/ebellocchia/telegram_crypto_price_bot/actions/workflows/build.yml)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e494ae8a0df847ca85dc72305bdb3ffa)](https://app.codacy.com/gh/ebellocchia/telegram_crypto_price_bot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![CodeFactor](https://www.codefactor.io/repository/github/ebellocchia/telegram_crypto_price_bot/badge)](https://www.codefactor.io/repository/github/ebellocchia/telegram_crypto_price_bot)
+| |
+|---|
+| [![PyPI - Version](https://img.shields.io/pypi/v/telegram_crypto_price_bot.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/telegram_crypto_price_bot/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/telegram_crypto_price_bot.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/telegram_crypto_price_bot/) [![GitHub License](https://img.shields.io/github/license/ebellocchia/telegram_crypto_price_bot?label=License)](https://github.com/ebellocchia/telegram_crypto_price_bot?tab=MIT-1-ov-file) |
+| [![Build](https://github.com/ebellocchia/telegram_crypto_price_bot/actions/workflows/build.yml/badge.svg)](https://github.com/ebellocchia/telegram_crypto_price_bot/actions/workflows/build.yml) |
+| [![Codacy grade](https://img.shields.io/codacy/grade/e494ae8a0df847ca85dc72305bdb3ffa?label=Codacy%20Grade)](https://app.codacy.com/gh/ebellocchia/telegram_crypto_price_bot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/ebellocchia/telegram_crypto_price_bot?label=CodeFactor%20Grade)](https://www.codefactor.io/repository/github/ebellocchia/telegram_crypto_price_bot) |
+| |
+
+## Introduction
 
 Telegram bot for displaying cryptocurrencies prices and charts based on *pyrogram* and *matplotlib* libraries.\
 Data is retrieved using CoinGecko APIs.\
