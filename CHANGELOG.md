@@ -1,3 +1,7 @@
+# 0.4.1
+
+- Use `pyrotgfork`, since `pyrogram` was archived
+
 # 0.4.0
 
 - Add possibility to specificy a Coingecko API key, in case paid APIs are used. If no API key is specified, free APIs will be used.
