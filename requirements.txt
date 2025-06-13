@@ -1,6 +1,6 @@
 pycoingecko
 matplotlib
-pyrogram>=1.4.0
-tgcrypto
+pyrotgfork>=2.0.0
+pytgcrypto
 apscheduler
 defusedxml
