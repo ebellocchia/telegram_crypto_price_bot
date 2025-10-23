@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "telegram_crypto_price_bot"
+dynamic = ["version", "dependencies"]
+authors = [
+    {name = "Emanuele Bellocchia", email = "ebellocchia@gmail.com"}
+]
+maintainers = [
+    {name = "Emanuele Bellocchia", email = "ebellocchia@gmail.com"}
+]
+description = "Telegram bot for displaying cryptocurrencies price"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.7"
+keywords = [
+    "telegram",
+    "bot",
+    "telegram bot",
+    "crypto",
+    "crypto prices",
+    "cryptocurrency",
+    "cryptocurrency prices"
+]
+classifiers = [
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+]
+
+[project.urls]
+Homepage = "https://github.com/ebellocchia/telegram_crypto_price_bot"
+Download = "https://github.com/ebellocchia/telegram_crypto_price_bot/archive/v{version}.tar.gz"
+
+[tool.setuptools]
+packages = {find = {}}
+
+[tool.setuptools.package-data]
+telegram_crypto_price_bot = ["lang/lang_en.xml"]
+
+[tool.setuptools.dynamic]
+version = {attr = "telegram_crypto_price_bot._version.__version__"}
+dependencies = {file = ["requirements.txt"]}

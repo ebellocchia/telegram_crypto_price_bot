@@ -1,6 +1,6 @@
 pycoingecko
 matplotlib
 pyrotgfork
-pytgcrypto
+tgcrypto
 apscheduler
 defusedxml
