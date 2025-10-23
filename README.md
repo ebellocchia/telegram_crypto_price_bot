@@ -26,13 +26,7 @@ To get them, create an app using the following website: [https://my.telegram.org
 
 The package requires Python 3, it is not compatible with Python 2.\
 To install it:
-- Using *setuptools*:
-
-        python setup.py install
-
-- Using *pip*:
-
-        pip install telegram_crypto_price_bot
+    pip install telegram_crypto_price_bot
 
 To run the bot, edit the configuration file by specifying the API ID/hash and bot token. Then, move to the *app* folder and run the *bot.py* script:
 
