@@ -29,7 +29,8 @@ To install it:
 
     pip install telegram_crypto_price_bot
 
-**NOTE:** for Python 3.7 and 3.8, please use the `pyproject_legacy.toml` file. Just rename it to `pyproject.toml`, overwriting the existent one, and install with *pip* from the local folder:
+**NOTE:** for Python 3.7 and 3.8, please use the `pyproject_legacy.toml` file and install the package from the local folder.
+Just rename it to `pyproject.toml`, overwriting the existent one, and install the package with *pip* from the local folder:
 
     pip install .
 
