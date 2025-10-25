@@ -42,6 +42,8 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/ebellocchia/telegram_crypto_price_bot"
+Changelog = "https://github.com/ebellocchia/telegram_crypto_price_bot/blob/master/CHANGELOG.md"
+Repository = "https://github.com/ebellocchia/telegram_crypto_price_bot"
 Download = "https://github.com/ebellocchia/telegram_crypto_price_bot/archive/v{version}.tar.gz"
 
 [tool.setuptools]
