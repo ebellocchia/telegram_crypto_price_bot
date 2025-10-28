@@ -55,6 +55,7 @@ telegram_crypto_price_bot = ["lang/lang_en.xml"]
 [tool.setuptools.dynamic]
 version = {attr = "telegram_crypto_price_bot._version.__version__"}
 dependencies = {file = ["requirements.txt"]}
+optional-dependencies.develop = {file = ["requirements-dev.txt"]}
 
 [tool.mypy]
 ignore_missing_imports = true
