@@ -81,7 +81,6 @@ exclude = [
     ".tox",
     "build",
     "dist",
-    "tests",
     "venv",
 ]
 
@@ -159,20 +158,5 @@ exclude = [
     "\\.tox",
     "build",
     "dist",
-    "tests",
     "venv",
-]
-
-[tool.coverage.run]
-omit = [
-    ".tox/*",
-    "tests/*",
-    "venv/*",
-]
-
-[tool.coverage.report]
-exclude_lines = [
-    "pragma: no cover",
-    "@abstract",
-    "@overload",
 ]
