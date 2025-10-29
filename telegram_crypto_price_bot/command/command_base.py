@@ -138,7 +138,7 @@ class CommandBase(ABC):
             return True
         # Check if admin
         admin_members = ChatMembersGetter(self.client).GetAdmins(self.cmd_data.Chat())
-        return any((cmd_user.id == member.user.id for member in admin_members if member.user is not None))
+        return any(cmd_user.id == member.user.id for member in admin_members if member.user is not None)
 
     # Get if chat is private
     def _IsPrivateChat(self) -> bool:

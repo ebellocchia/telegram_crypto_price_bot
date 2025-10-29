@@ -28,9 +28,20 @@ import pyrogram
 
 from telegram_crypto_price_bot.command.command_base import CommandBase
 from telegram_crypto_price_bot.command.commands import (
-    AliveCmd, HelpCmd, IsTestModeCmd, PriceGetSingleCmd, PriceTaskDeleteLastMsgCmd, PriceTaskInfoCmd, PriceTaskPauseCmd,
-    PriceTaskResumeCmd, PriceTaskSendInSameMsgCmd, PriceTaskStartCmd, PriceTaskStopAllCmd, PriceTaskStopCmd,
-    SetTestModeCmd, VersionCmd
+    AliveCmd,
+    HelpCmd,
+    IsTestModeCmd,
+    PriceGetSingleCmd,
+    PriceTaskDeleteLastMsgCmd,
+    PriceTaskInfoCmd,
+    PriceTaskPauseCmd,
+    PriceTaskResumeCmd,
+    PriceTaskSendInSameMsgCmd,
+    PriceTaskStartCmd,
+    PriceTaskStopAllCmd,
+    PriceTaskStopCmd,
+    SetTestModeCmd,
+    VersionCmd,
 )
 from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.logger.logger import Logger

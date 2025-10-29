@@ -36,7 +36,7 @@ else:
     from enum import Enum
 
     # Fake enum
-    class ChatMembersFilter(Enum):
+    class ChatMembersFilter(Enum):  # type: ignore
         pass
 
 

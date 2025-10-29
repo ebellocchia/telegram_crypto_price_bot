@@ -89,16 +89,17 @@ class BotBase:
     # Setup handlers
     def _SetupHandlers(self,
                        handlers_config: BotHandlersConfigType) -> None:
+        def create_handler(handler_type, handler_cfg):
+            return handler_type(
+                lambda client, message: handler_cfg["callback"](self, client, message),
+                handler_cfg["filters"]
+            )
+
         # Add all configured handlers
         for curr_hnd_type, curr_hnd_cfg in handlers_config.items():
             for handler_cfg in curr_hnd_cfg:
                 self.client.add_handler(
-                    # Little "hack" to keep a local scope for current configuration
-                    (
-                        lambda curr_type=curr_hnd_type, curr_cfg=handler_cfg:
-                            curr_type(lambda client, message: curr_cfg["callback"](self, client, message),
-                                      curr_cfg["filters"])
-                    )()
+                    create_handler(curr_hnd_type, handler_cfg)
                 )
         # Log
         self.logger.GetLogger().info("Bot handlers set")

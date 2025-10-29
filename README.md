@@ -42,6 +42,11 @@ To specify a different configuration file:
 
 Of course, the *app* folder can be moved elsewhere if needed.
 
+To run code analysis:
+
+    mypy .
+    ruff check .
+
 ## Configuration
 
 An example of configuration file is provided in the *app/conf* folder.\

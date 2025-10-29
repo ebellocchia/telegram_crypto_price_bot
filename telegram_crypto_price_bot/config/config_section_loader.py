@@ -55,9 +55,8 @@ class ConfigSectionLoader:
                 self.__SetFieldValue(config_obj, section_name, field)
                 self.__PrintFieldValue(config_obj, field)
             # Otherwise set the default value
-            else:
-                if "def_val" in field:
-                    config_obj.SetValue(field["type"], field["def_val"])
+            elif "def_val" in field:
+                config_obj.SetValue(field["type"], field["def_val"])
 
     # Get if field shall be loaded
     @staticmethod
