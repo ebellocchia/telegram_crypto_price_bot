@@ -55,7 +55,7 @@ The list of all possible fields that can be set is shown below.
 |Name|Description|
 |---|---|
 |**[pyrogram]**|Configuration for pyrogram|
-|`session_name`|Session name of your choice|
+|`session_name`|Name of the file used to store the session|
 |`api_id`|API ID from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
 |`api_hash`|API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
 |`bot_token`|Bot token from BotFather|
