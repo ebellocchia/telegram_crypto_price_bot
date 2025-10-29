@@ -179,8 +179,9 @@ Set task so that it doesn't delete the last sent message:
 
 ## Run the Bot
 
-It'd be better if the bot is an administrator of the group. This is mandatory if it needs to delete the last sent messages.\
-In order to display prices periodically, the bot shall run 24h/24h so it's suggested to run it on a VPS (there is no performance requirements, so a cheap VPS will suffice).
+
+Since the bot deletes the last sent messages, it'd be better if it's an administrator of the group (otherwise the last messages cannot be deleted).\
+In order to display prices periodically, the bot shall run 24h/24h. So, it's suggested to run it on a VPS (there is no performance requirements, so a cheap VPS will suffice).
 
 ## Test Mode
 
