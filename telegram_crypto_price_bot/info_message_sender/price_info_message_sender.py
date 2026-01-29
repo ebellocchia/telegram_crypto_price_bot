@@ -66,7 +66,7 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
         Returns:
             Sent message object
         """
-        price_info = self._CoinGeckoPriceApi().GetPriceInfo(args[0], args[1])
+        price_info = await self._CoinGeckoPriceApi().GetPriceInfo(args[0], args[1])
         price_info_str = self.price_info_builder.Build(price_info)
 
         return (await self._MessageSender().SendMessage(chat, topic_id, price_info_str))[0]

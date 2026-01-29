@@ -76,8 +76,8 @@ class ChartPriceInfoMessageSender(InfoMessageSenderBase):
         Raises:
             RuntimeError: If unable to save chart to file
         """
-        chart_info = self._CoinGeckoPriceApi().GetChartInfo(args[0], args[1], args[2])
-        price_info = self._CoinGeckoPriceApi().GetPriceInfo(args[0], args[1])
+        chart_info = await self._CoinGeckoPriceApi().GetChartInfo(args[0], args[1], args[2])
+        price_info = await self._CoinGeckoPriceApi().GetPriceInfo(args[0], args[1])
 
         price_info_str = self.price_info_builder.Build(price_info)
         chart_info_saver = ChartInfoTmpFileSaver(self.config, self.logger, self.translator)

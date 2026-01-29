@@ -17,8 +17,14 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+import json
+import logging
+from typing import Any, Dict
 
-from pycoingecko import CoinGeckoAPI
+import httpx
+from httpx import AsyncClient
+from tenacity import AsyncRetrying, RetryError, before_sleep_log, retry_if_exception_type, stop_after_attempt, \
+    wait_exponential, retry_if_exception
 
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.chart_info.chart_info import ChartInfo
@@ -31,11 +37,24 @@ class CoinGeckoPriceApiError(Exception):
     """Exception raised when CoinGecko API operations fail."""
 
 
+class CoinGeckoPriceApiConst:
+    """Constants for CoinGecko price API class."""
+    API_URL_BASE: str = "https://api.coingecko.com/api/v3"
+    PRO_API_URL_BASE: str = "https://pro-api.coingecko.com/api/v3"
+
+    API_KEY_HEADER: str = "x-cg-pro-api-key"
+    RETRY_MAX_ATTEMPS: int = 7
+    RETRY_DELAY: int = 2
+    TIMEOUT: int = 10
+
+
 class CoinGeckoPriceApi:
     """API wrapper for retrieving cryptocurrency price and chart data from CoinGecko."""
 
-    api: CoinGeckoAPI
+    api_base_url: str
+    headers: Dict[str, str]
     logger: Logger
+    retry_strategy: AsyncRetrying
 
     def __init__(self,
                  config: ConfigObject,
@@ -47,11 +66,36 @@ class CoinGeckoPriceApi:
             logger: Logger instance
         """
         self.logger = logger
-        self.api_key = config.GetValue(BotConfigTypes.COINGECKO_API_KEY)
+        api_key = config.GetValue(BotConfigTypes.COINGECKO_API_KEY)
+        if api_key:
+            self.headers = {
+                CoinGeckoPriceApiConst.API_KEY_HEADER: api_key
+            }
+            self.api_base_url = CoinGeckoPriceApiConst.PRO_API_URL_BASE
+        else:
+            self.headers = {}
+            self.api_base_url = CoinGeckoPriceApiConst.API_URL_BASE
 
-    def GetPriceInfo(self,
-                     coin_id: str,
-                     coin_vs: str) -> PriceInfo:
+        self.retry_strategy = AsyncRetrying(
+            stop=stop_after_attempt(CoinGeckoPriceApiConst.RETRY_MAX_ATTEMPS),
+            wait=wait_exponential(multiplier=CoinGeckoPriceApiConst.RETRY_DELAY,
+                                  min=CoinGeckoPriceApiConst.RETRY_DELAY),
+            retry=(
+                retry_if_exception_type(
+                    (httpx.NetworkError, httpx.ProtocolError, httpx.TimeoutException)
+                ) |
+                retry_if_exception(
+                    # Too many requests
+                    lambda e: isinstance(e, httpx.HTTPStatusError) and e.response.status_code == 429
+                )
+            ),
+            before_sleep=before_sleep_log(logger.GetLogger(), logging.WARNING),
+            reraise=False
+        )
+
+    async def GetPriceInfo(self,
+                           coin_id: str,
+                           coin_vs: str) -> PriceInfo:
         """Get current price information for a cryptocurrency.
 
         Args:
@@ -64,17 +108,13 @@ class CoinGeckoPriceApi:
         Raises:
             CoinGeckoPriceApiError: If API request fails
         """
-        try:
-            coin_info = self.api.get_coin_by_id(id=coin_id)
-        except ValueError as ex:
-            raise CoinGeckoPriceApiError() from ex
-
+        coin_info = await self.__SendRequestWithRetry(f"coins/{coin_id}", {})
         return PriceInfo(coin_info, coin_vs)
 
-    def GetChartInfo(self,
-                     coin_id: str,
-                     coin_vs: str,
-                     last_days: int) -> ChartInfo:
+    async def GetChartInfo(self,
+                           coin_id: str,
+                           coin_vs: str,
+                           last_days: int) -> ChartInfo:
         """Get historical chart data for a cryptocurrency.
 
         Args:
@@ -88,9 +128,63 @@ class CoinGeckoPriceApi:
         Raises:
             CoinGeckoPriceApiError: If API request fails
         """
-        try:
-            chart_info = self.api.get_coin_market_chart_by_id(id=coin_id, vs_currency=coin_vs, days=last_days)
-        except ValueError as ex:
-            raise CoinGeckoPriceApiError() from ex
-
+        chart_info = await self.__SendRequestWithRetry(
+            f"coins/{coin_id}/market_chart",
+            {
+                "vs_currency": coin_vs,
+                "days": last_days,
+            }
+        )
         return ChartInfo(chart_info, coin_id, coin_vs, last_days)
+
+    async def __SendRequestWithRetry(
+        self,
+        url: str,
+        params: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Send HTTP request with retry logic.
+
+        Args:
+            url: API endpoint path
+            params: Query parameters for the request
+
+        Returns:
+            JSON response as dictionary
+
+        Raises:
+            CoinGeckoPriceApiError: If all retry attempts fail
+        """
+        try:
+            return await self.retry_strategy(self.__SendRequest, url, params)
+        except RetryError as e:
+            self.logger.GetLogger().error(f"All attempts failed for CoinGecko request for URL {url}")
+            raise CoinGeckoPriceApiError() from e
+
+    async def __SendRequest(
+        self,
+        url: str,
+        params: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Send HTTP request to CoinGecko API.
+
+        Args:
+            url: API endpoint path
+            params: Query parameters for the request
+
+        Returns:
+            JSON response as dictionary
+
+        Raises:
+            httpx.HTTPStatusError: If HTTP request fails
+            httpx.NetworkError: If network error occurs
+            httpx.ProtocolError: If protocol error occurs
+            httpx.TimeoutException: If request times out
+        """
+        async with AsyncClient(
+            base_url=self.api_base_url,
+            headers=self.headers,
+            timeout=CoinGeckoPriceApiConst.TIMEOUT
+        ) as client:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            return json.loads(response.content.decode("utf-8"))
