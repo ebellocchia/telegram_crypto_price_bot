@@ -18,10 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from abc import abstractmethod
 from typing import Any
 
 import pyrogram
-from pyrogram import Client
+from pyrogram import Client, idle
 
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.bot.bot_handlers_config_typing import BotHandlersConfigType
@@ -43,6 +44,7 @@ class BotBase:
     client: pyrogram.Client
     cmd_dispatcher: CommandDispatcher
     msg_dispatcher: MessageDispatcher
+    handlers_config: BotHandlersConfigType
 
     def __init__(self,
                  config_file: str,
@@ -59,24 +61,32 @@ class BotBase:
         self.logger = Logger(self.config)
         self.translator = TranslationLoader(self.logger)
         self.translator.Load(self.config.GetValue(BotConfigTypes.APP_LANG_FILE))
+        self.handlers_config = handlers_config
+        self.cmd_dispatcher = CommandDispatcher(self.config, self.logger, self.translator)
+        self.msg_dispatcher = MessageDispatcher(self.config, self.logger, self.translator)
+        self.logger.GetLogger().info("Bot initialization completed")
+
+    async def __InitializeAsync(self) -> None:
+        """Initialize async components (client, handlers). Must be called inside async context."""
         self.client = Client(
             self.config.GetValue(BotConfigTypes.SESSION_NAME),
             api_id=self.config.GetValue(BotConfigTypes.API_ID),
             api_hash=self.config.GetValue(BotConfigTypes.API_HASH),
             bot_token=self.config.GetValue(BotConfigTypes.BOT_TOKEN),
         )
-        self.cmd_dispatcher = CommandDispatcher(self.config, self.logger, self.translator)
-        self.msg_dispatcher = MessageDispatcher(self.config, self.logger, self.translator)
-        self._SetupHandlers(handlers_config)
-        self.logger.GetLogger().info("Bot initialization completed")
+        self.__SetupHandlers(self.handlers_config)
+        self.logger.GetLogger().info("Async initialization completed")
 
-    def Run(self) -> None:
+    async def Run(self) -> None:
         """Start the bot client."""
         self.logger.GetLogger().info("Bot started!\n")
-        self.client.run()
+        await self.__InitializeAsync()
+        await self._OnRun()
+        async with self.client:
+            await idle()
 
-    def _SetupHandlers(self,
-                       handlers_config: BotHandlersConfigType) -> None:
+    def __SetupHandlers(self,
+                        handlers_config: BotHandlersConfigType) -> None:
         """Setup message handlers for the bot.
 
         Args:
@@ -84,18 +94,20 @@ class BotBase:
         """
 
         def create_handler(handler_type, handler_cfg):
-            return handler_type(lambda client, message: handler_cfg["callback"](self, client, message), handler_cfg["filters"])
+            async def async_callback(client, message):
+                return await handler_cfg["callback"](self, client, message)
+            return handler_type(async_callback, handler_cfg["filters"])
 
         for curr_hnd_type, curr_hnd_cfg in handlers_config.items():
             for handler_cfg in curr_hnd_cfg:
                 self.client.add_handler(create_handler(curr_hnd_type, handler_cfg))
         self.logger.GetLogger().info("Bot handlers set")
 
-    def DispatchCommand(self,
-                        client: pyrogram.Client,
-                        message: pyrogram.types.Message,
-                        cmd_type: CommandTypes,
-                        **kwargs: Any) -> None:
+    async def DispatchCommand(self,
+                              client: pyrogram.Client,
+                              message: pyrogram.types.Message,
+                              cmd_type: CommandTypes,
+                              **kwargs: Any) -> None:
         """Dispatch a command to the command dispatcher.
 
         Args:
@@ -104,13 +116,13 @@ class BotBase:
             cmd_type: Type of command to dispatch
             **kwargs: Additional keyword arguments for the command
         """
-        self.cmd_dispatcher.Dispatch(client, message, cmd_type, **kwargs)
+        await self.cmd_dispatcher.Dispatch(client, message, cmd_type, **kwargs)
 
-    def HandleMessage(self,
-                      client: pyrogram.Client,
-                      message: pyrogram.types.Message,
-                      msg_type: MessageTypes,
-                      **kwargs: Any) -> None:
+    async def HandleMessage(self,
+                            client: pyrogram.Client,
+                            message: pyrogram.types.Message,
+                            msg_type: MessageTypes,
+                            **kwargs: Any) -> None:
         """Handle a message by dispatching it to the message dispatcher.
 
         Args:
@@ -119,4 +131,12 @@ class BotBase:
             msg_type: Type of message
             **kwargs: Additional keyword arguments for the message handler
         """
-        self.msg_dispatcher.Dispatch(client, message, msg_type, **kwargs)
+        await self.msg_dispatcher.Dispatch(client, message, msg_type, **kwargs)
+
+    @abstractmethod
+    async def _OnRun(self) -> None:
+        """Hook for subclasses to initialize their components after client is ready.
+
+        Called after the client is initialized but before it starts.
+        Subclasses should override this to set up their specific components.
+        """

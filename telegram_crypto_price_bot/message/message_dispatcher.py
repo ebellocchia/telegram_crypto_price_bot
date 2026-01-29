@@ -60,11 +60,11 @@ class MessageDispatcher:
         self.logger = logger
         self.translator = translator
 
-    def Dispatch(self,
-                 client: pyrogram.Client,
-                 message: pyrogram.types.Message,
-                 msg_type: MessageTypes,
-                 **kwargs: Any) -> None:
+    async def Dispatch(self,
+                       client: pyrogram.Client,
+                       message: pyrogram.types.Message,
+                       msg_type: MessageTypes,
+                       **kwargs: Any) -> None:
         """Dispatch a message to its corresponding handler.
 
         Args:
@@ -82,16 +82,16 @@ class MessageDispatcher:
         self.logger.GetLogger().info(f"Dispatching message type: {msg_type}")
 
         if msg_type == MessageTypes.GROUP_CHAT_CREATED:
-            self.__OnCreatedChat(client, message, **kwargs)
+            await self.__OnCreatedChat(client, message, **kwargs)
         elif msg_type == MessageTypes.LEFT_CHAT_MEMBER:
-            self.__OnLeftMember(client, message, **kwargs)
+            await self.__OnLeftMember(client, message, **kwargs)
         elif msg_type == MessageTypes.NEW_CHAT_MEMBERS:
-            self.__OnJoinedMember(client, message, **kwargs)
+            await self.__OnJoinedMember(client, message, **kwargs)
 
-    def __OnCreatedChat(self,
-                        client,
-                        message: pyrogram.types.Message,
-                        **kwargs: Any) -> None:
+    async def __OnCreatedChat(self,
+                              client,
+                              message: pyrogram.types.Message,
+                              **kwargs: Any) -> None:
         """Handle new chat creation event.
 
         Args:
@@ -102,16 +102,16 @@ class MessageDispatcher:
         if message.chat is None:
             return
 
-        MessageSender(client, self.logger).SendMessage(
+        await MessageSender(client, self.logger).SendMessage(
             message.chat,
             message.message_thread_id,
             self.translator.GetSentence("BOT_WELCOME_MSG")
         )
 
-    def __OnLeftMember(self,
-                       client,
-                       message: pyrogram.types.Message,
-                       **kwargs: Any) -> None:
+    async def __OnLeftMember(self,
+                             client,
+                             message: pyrogram.types.Message,
+                             **kwargs: Any) -> None:
         """Handle member leaving chat event.
 
         Args:
@@ -122,10 +122,10 @@ class MessageDispatcher:
         if message.left_chat_member is not None and message.left_chat_member.is_self:
             kwargs["coin_info_scheduler"].ChatLeft(message.chat)
 
-    def __OnJoinedMember(self,
-                         client,
-                         message: pyrogram.types.Message,
-                         **kwargs: Any) -> None:
+    async def __OnJoinedMember(self,
+                               client,
+                               message: pyrogram.types.Message,
+                               **kwargs: Any) -> None:
         """Handle member joining chat event.
 
         Args:
@@ -138,7 +138,7 @@ class MessageDispatcher:
 
         for member in message.new_chat_members:
             if member.is_self:
-                MessageSender(client, self.logger).SendMessage(
+                await MessageSender(client, self.logger).SendMessage(
                     message.chat,
                     message.message_thread_id,
                     self.translator.GetSentence("BOT_WELCOME_MSG")

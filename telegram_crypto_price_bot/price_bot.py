@@ -37,9 +37,13 @@ class PriceBot(BotBase):
             config_file: Path to configuration file
         """
         super().__init__(config_file, BotConfig, BotHandlersConfig)
+
+    async def _OnRun(self) -> None:
+        """Initialize scheduler after client is ready."""
         self.coin_info_scheduler = CoinInfoScheduler(
             self.client,
             self.config,
             self.logger,
             self.translator
         )
+        self.logger.GetLogger().info("PriceBot initialized")

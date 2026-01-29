@@ -63,9 +63,9 @@ class CommandBase(ABC):
         self.translator = translator
         self.message_sender = MessageSender(client, logger)
 
-    def Execute(self,
-                message: pyrogram.types.Message,
-                **kwargs: Any) -> None:
+    async def Execute(self,
+                      message: pyrogram.types.Message,
+                      **kwargs: Any) -> None:
         """Execute the command with authorization and error handling.
 
         Args:
@@ -81,9 +81,9 @@ class CommandBase(ABC):
             self.logger.GetLogger().warning("An anonymous user tried to execute the command, exiting")
             return
 
-        if not self._IsUserAuthorized():
+        if not await self._IsUserAuthorized():
             if self._IsPrivateChat():
-                self._SendMessage(self.translator.GetSentence("AUTH_ONLY_ERR_MSG"))
+                await self._SendMessage(self.translator.GetSentence("AUTH_ONLY_ERR_MSG"))
 
             self.logger.GetLogger().warning(
                 f"User {UserHelper.GetNameOrId(self.cmd_data.User())} tried to execute the command but it's not authorized"
@@ -91,19 +91,19 @@ class CommandBase(ABC):
             return
 
         try:
-            self._ExecuteCommand(**kwargs)
+            await self._ExecuteCommand(**kwargs)
         except RPCError:
-            self._SendMessage(self.translator.GetSentence("GENERIC_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("GENERIC_ERR_MSG"))
             self.logger.GetLogger().exception(f"An error occurred while executing command {self.cmd_data.Name()}")
 
-    def _SendMessage(self,
-                     msg: str) -> None:
+    async def _SendMessage(self,
+                           msg: str) -> None:
         """Send a message to the chat or user.
 
         Args:
             msg: Message text to send
         """
-        self.message_sender.SendMessage(self.cmd_data.Chat(), self.message.message_thread_id, msg)
+        await self.message_sender.SendMessage(self.cmd_data.Chat(), self.message.message_thread_id, msg)
 
     def _IsChannel(self) -> bool:
         """Check if the chat is a channel.
@@ -121,7 +121,7 @@ class CommandBase(ABC):
         """
         return self.cmd_data.User() is None
 
-    def _IsUserAuthorized(self) -> bool:
+    async def _IsUserAuthorized(self) -> bool:
         """Check if the user is authorized to execute the command.
 
         Returns:
@@ -135,7 +135,7 @@ class CommandBase(ABC):
             return False
         if ChatHelper.IsPrivateChat(self.cmd_data.Chat(), cmd_user):
             return True
-        admin_members = ChatMembersGetter(self.client).GetAdmins(self.cmd_data.Chat())
+        admin_members = await ChatMembersGetter(self.client).GetAdmins(self.cmd_data.Chat())
         return any(cmd_user.id == member.user.id for member in admin_members if member.user is not None)
 
     def _IsPrivateChat(self) -> bool:
@@ -156,8 +156,8 @@ class CommandBase(ABC):
         self.logger.GetLogger().debug(f"Received message: {self.message}")
 
     @abstractmethod
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the command implementation.
 
         Args:

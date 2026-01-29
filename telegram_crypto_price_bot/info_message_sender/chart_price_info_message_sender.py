@@ -57,11 +57,11 @@ class ChartPriceInfoMessageSender(InfoMessageSenderBase):
         self.translator = translator
         self.price_info_builder = PriceInfoBuilder(config, translator)
 
-    def _SendMessage(self,
-                     chat: pyrogram.types.Chat,
-                     topic_id: int,
-                     *args: Any,
-                     **kwargs: Any) -> pyrogram.types.Message:
+    async def _SendMessage(self,
+                           chat: pyrogram.types.Chat,
+                           topic_id: int,
+                           *args: Any,
+                           **kwargs: Any) -> pyrogram.types.Message:
         """Send chart image with price information as caption.
 
         Args:
@@ -86,8 +86,8 @@ class ChartPriceInfoMessageSender(InfoMessageSenderBase):
         if tmp_file_name is None:
             raise RuntimeError("Unable to save chart to file")
 
-        return self._MessageSender().SendPhoto(chat,
-                                               topic_id,
-                                               tmp_file_name,
-                                               caption=price_info_str,
-                                               **kwargs)
+        return await self._MessageSender().SendPhoto(chat,
+                                                     topic_id,
+                                                     tmp_file_name,
+                                                     caption=price_info_str,
+                                                     **kwargs)

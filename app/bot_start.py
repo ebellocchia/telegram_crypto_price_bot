@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 import argparse
+import asyncio
 
 from telegram_crypto_price_bot import PriceBot, __version__
 
@@ -74,4 +75,4 @@ if __name__ == "__main__":
     args = args_parser.Parse()
 
     bot = PriceBot(args.config)
-    bot.Run()
+    asyncio.run(bot.Run())

@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import time
+import asyncio
 from typing import Any, List, Union
 
 import pyrogram
@@ -51,11 +51,11 @@ class MessageSender:
         self.client = client
         self.logger = logger
 
-    def SendMessage(self,
-                    receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
-                    topic_id: int,
-                    msg: str,
-                    **kwargs: Any) -> List[pyrogram.types.Message]:
+    async def SendMessage(self,
+                          receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
+                          topic_id: int,
+                          msg: str,
+                          **kwargs: Any) -> List[pyrogram.types.Message]:
         """Send a message, automatically splitting if it exceeds maximum length.
 
         Args:
@@ -68,13 +68,13 @@ class MessageSender:
             List of sent message objects
         """
         self.logger.GetLogger().info(f"Sending message (length: {len(msg)}):\n{msg}")
-        return self.__SendSplitMessage(receiver, topic_id, self.__SplitMessage(msg), **kwargs)
+        return await self.__SendSplitMessage(receiver, topic_id, self.__SplitMessage(msg), **kwargs)
 
-    def SendPhoto(self,
-                  receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
-                  topic_id: int,
-                  photo: str,
-                  **kwargs: Any) -> pyrogram.types.Message:
+    async def SendPhoto(self,
+                        receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
+                        topic_id: int,
+                        photo: str,
+                        **kwargs: Any) -> pyrogram.types.Message:
         """Send a photo message.
 
         Args:
@@ -86,13 +86,13 @@ class MessageSender:
         Returns:
             Sent message object
         """
-        return self.client.send_photo(receiver.id, photo, message_thread_id=topic_id, **kwargs)     # type: ignore
+        return await self.client.send_photo(receiver.id, photo, message_thread_id=topic_id, **kwargs)     # type: ignore
 
-    def __SendSplitMessage(self,
-                           receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
-                           topic_id: int,
-                           split_msg: List[str],
-                           **kwargs) -> List[pyrogram.types.Message]:
+    async def __SendSplitMessage(self,
+                                 receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
+                                 topic_id: int,
+                                 split_msg: List[str],
+                                 **kwargs) -> List[pyrogram.types.Message]:
         """Send multiple message parts with delay between sends.
 
         Args:
@@ -108,9 +108,9 @@ class MessageSender:
 
         for msg_part in split_msg:
             sent_msgs.append(
-                self.client.send_message(receiver.id, msg_part, message_thread_id=topic_id, **kwargs)
+                await self.client.send_message(receiver.id, msg_part, message_thread_id=topic_id, **kwargs)
             )
-            time.sleep(MessageSenderConst.SEND_MSG_SLEEP_TIME_SEC)
+            await asyncio.sleep(MessageSenderConst.SEND_MSG_SLEEP_TIME_SEC)
 
         return sent_msgs    # type: ignore
 

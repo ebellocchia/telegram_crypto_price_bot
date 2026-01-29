@@ -85,12 +85,12 @@ class CoinInfoMessageSender:
         """
         self.send_in_same_msg = flag
 
-    def SendMessage(self,
-                    chat: pyrogram.types.Chat,
-                    topic_id: int,
-                    coin_id: str,
-                    coin_vs: str,
-                    last_days: int) -> None:
+    async def SendMessage(self,
+                          chat: pyrogram.types.Chat,
+                          topic_id: int,
+                          coin_id: str,
+                          coin_vs: str,
+                          last_days: int) -> None:
         """Send cryptocurrency information message to chat.
 
         Args:
@@ -101,9 +101,9 @@ class CoinInfoMessageSender:
             last_days: Number of days of historical data
         """
         if self.delete_last_sent_msg:
-            self.chart_info_msg_sender.DeleteLastSentMessage()
-            self.chart_price_info_msg_sender.DeleteLastSentMessage()
-            self.price_info_msg_sender.DeleteLastSentMessage()
+            await self.chart_info_msg_sender.DeleteLastSentMessage()
+            await self.chart_price_info_msg_sender.DeleteLastSentMessage()
+            await self.price_info_msg_sender.DeleteLastSentMessage()
 
         self.logger.GetLogger().info(
             f"Sending price info {coin_id}/{coin_vs} (last days: {last_days}) to {chat.id} ({topic_id})"
@@ -111,17 +111,17 @@ class CoinInfoMessageSender:
 
         try:
             if self.send_in_same_msg and self.config.GetValue(BotConfigTypes.CHART_DISPLAY):
-                self.chart_price_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
+                await self.chart_price_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
             else:
-                self.price_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs)
+                await self.price_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs)
 
                 if self.config.GetValue(BotConfigTypes.CHART_DISPLAY):
-                    self.chart_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
+                    await self.chart_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
         except CoinGeckoPriceApiError:
             self.logger.GetLogger().exception(
                 f"Coingecko API error when retrieving data for coin {coin_id}/{coin_vs}"
             )
-            self.msg_sender.SendMessage(
+            await self.msg_sender.SendMessage(
                 chat,
                 topic_id,
                 self.translator.GetSentence("API_ERR_MSG",

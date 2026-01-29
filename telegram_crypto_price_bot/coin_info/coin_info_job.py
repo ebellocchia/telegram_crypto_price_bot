@@ -201,12 +201,12 @@ class CoinInfoJob:
         """
         self.coin_info_msg_sender.SendInSameMessage(flag)
 
-    def DoJob(self,
-              chat: pyrogram.types.Chat,
-              topic_id: int,
-              coin_id: str,
-              coin_vs: str,
-              last_days: int) -> None:
+    async def DoJob(self,
+                    chat: pyrogram.types.Chat,
+                    topic_id: int,
+                    coin_id: str,
+                    coin_vs: str,
+                    last_days: int) -> None:
         """Execute the job by sending coin information to the chat.
 
         Args:
@@ -217,4 +217,4 @@ class CoinInfoJob:
             last_days: Number of days of historical data to display
         """
         self.logger.GetLogger().info(f"Coin job started in chat {ChatHelper.GetTitleOrId(chat)}")
-        self.coin_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
+        await self.coin_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)

@@ -44,8 +44,8 @@ class MessageDeleter:
         self.client = client
         self.logger = logger
 
-    def DeleteMessage(self,
-                      message: pyrogram.types.Message) -> bool:
+    async def DeleteMessage(self,
+                            message: pyrogram.types.Message) -> bool:
         """Delete a single message.
 
         Args:
@@ -56,18 +56,18 @@ class MessageDeleter:
         """
         try:
             if message.chat is not None:
-                self.client.delete_messages(message.chat.id, message.id)
+                await self.client.delete_messages(message.chat.id, message.id)
                 return True
         except pyrogram_ex.forbidden_403.MessageDeleteForbidden:
             self.logger.GetLogger().exception(f"Unable to delete message {message.id}")
         return False
 
-    def DeleteMessages(self,
-                       messages: List[pyrogram.types.Message]) -> None:
+    async def DeleteMessages(self,
+                             messages: List[pyrogram.types.Message]) -> None:
         """Delete multiple messages.
 
         Args:
             messages: List of messages to delete
         """
         for message in messages:
-            self.DeleteMessage(message)
+            await self.DeleteMessage(message)

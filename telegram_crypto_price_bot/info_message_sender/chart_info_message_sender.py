@@ -54,11 +54,11 @@ class ChartInfoMessageSender(InfoMessageSenderBase):
         self.logger = logger
         self.translator = translator
 
-    def _SendMessage(self,
-                     chat: pyrogram.types.Chat,
-                     topic_id: int,
-                     *args: Any,
-                     **kwargs: Any) -> pyrogram.types.Message:
+    async def _SendMessage(self,
+                           chat: pyrogram.types.Chat,
+                           topic_id: int,
+                           *args: Any,
+                           **kwargs: Any) -> pyrogram.types.Message:
         """Send chart image message.
 
         Args:
@@ -80,7 +80,7 @@ class ChartInfoMessageSender(InfoMessageSenderBase):
         if tmp_file_name is None:
             raise RuntimeError("Unable to save chart to file")
 
-        return self._MessageSender().SendPhoto(chat,
-                                               topic_id,
-                                               tmp_file_name,
-                                               **kwargs)
+        return await self._MessageSender().SendPhoto(chat,
+                                                     topic_id,
+                                                     tmp_file_name,
+                                                     **kwargs)

@@ -21,7 +21,7 @@
 from typing import Dict
 
 import pyrogram
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.coin_info.coin_info_job import CoinInfoJob, CoinInfoJobData
@@ -127,9 +127,9 @@ class CoinInfoScheduler:
     client: pyrogram.Client
     config: ConfigObject
     logger: Logger
-    translator: TranslationLoader
     jobs: Dict[str, CoinInfoJob]
-    scheduler: BackgroundScheduler
+    scheduler: AsyncIOScheduler
+    translator: TranslationLoader
 
     def __init__(self,
                  client: pyrogram.Client,
@@ -149,7 +149,7 @@ class CoinInfoScheduler:
         self.logger = logger
         self.translator = translator
         self.jobs = {}
-        self.scheduler = BackgroundScheduler()
+        self.scheduler = AsyncIOScheduler()
         self.scheduler.start()
 
     def GetJobsInChat(self,

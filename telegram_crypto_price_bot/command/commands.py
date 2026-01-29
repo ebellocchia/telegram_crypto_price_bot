@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from typing import Any, Callable
+from typing import Any, Callable, Coroutine
 
 from telegram_crypto_price_bot._version import __version__
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
@@ -35,7 +35,7 @@ from telegram_crypto_price_bot.info_message_sender.coin_info_message_sender impo
 from telegram_crypto_price_bot.misc.helpers import UserHelper
 
 
-def GroupChatOnly(exec_cmd_fct: Callable[..., None]) -> Callable[..., None]:
+def GroupChatOnly(exec_cmd_fct: Callable[..., Coroutine[Any, Any, None]]) -> Callable[..., Coroutine[Any, Any, None]]:
     """Decorator to restrict commands to group chats only.
 
     Args:
@@ -45,11 +45,11 @@ def GroupChatOnly(exec_cmd_fct: Callable[..., None]) -> Callable[..., None]:
         Decorated function that checks for group chat before execution
     """
 
-    def decorated(self, **kwargs: Any):
+    async def decorated(self: Any, **kwargs: Any) -> None:
         if self._IsPrivateChat():
-            self._SendMessage(self.translator.GetSentence("GROUP_ONLY_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("GROUP_ONLY_ERR_MSG"))
         else:
-            exec_cmd_fct(self, **kwargs)
+            await exec_cmd_fct(self, **kwargs)
 
     return decorated
 
@@ -57,67 +57,67 @@ def GroupChatOnly(exec_cmd_fct: Callable[..., None]) -> Callable[..., None]:
 class HelpCmd(CommandBase):
     """Command to display help information."""
 
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the help command."""
-        self._SendMessage(self.translator.GetSentence("HELP_CMD", name=UserHelper.GetName(self.cmd_data.User())))
+        await self._SendMessage(self.translator.GetSentence("HELP_CMD", name=UserHelper.GetName(self.cmd_data.User())))
 
 
 class AliveCmd(CommandBase):
     """Command to check if the bot is alive and responding."""
 
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the alive command."""
-        self._SendMessage(self.translator.GetSentence("ALIVE_CMD"))
+        await self._SendMessage(self.translator.GetSentence("ALIVE_CMD"))
 
 
 class SetTestModeCmd(CommandBase):
     """Command to enable or disable test mode."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the set test mode command."""
         try:
             flag = self.cmd_data.Params().GetAsBool(0)
         except CommandParameterError:
-            self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             self.config.SetValue(BotConfigTypes.APP_TEST_MODE, flag)
 
             if self.config.GetValue(BotConfigTypes.APP_TEST_MODE):
-                self._SendMessage(self.translator.GetSentence("SET_TEST_MODE_EN_CMD"))
+                await self._SendMessage(self.translator.GetSentence("SET_TEST_MODE_EN_CMD"))
             else:
-                self._SendMessage(self.translator.GetSentence("SET_TEST_MODE_DIS_CMD"))
+                await self._SendMessage(self.translator.GetSentence("SET_TEST_MODE_DIS_CMD"))
 
 
 class IsTestModeCmd(CommandBase):
     """Command to check if test mode is enabled."""
 
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the is test mode command."""
         if self.config.GetValue(BotConfigTypes.APP_TEST_MODE):
-            self._SendMessage(self.translator.GetSentence("IS_TEST_MODE_EN_CMD"))
+            await self._SendMessage(self.translator.GetSentence("IS_TEST_MODE_EN_CMD"))
         else:
-            self._SendMessage(self.translator.GetSentence("IS_TEST_MODE_DIS_CMD"))
+            await self._SendMessage(self.translator.GetSentence("IS_TEST_MODE_DIS_CMD"))
 
 
 class VersionCmd(CommandBase):
     """Command to display bot version."""
 
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the version command."""
-        self._SendMessage(self.translator.GetSentence("VERSION_CMD", version=__version__))
+        await self._SendMessage(self.translator.GetSentence("VERSION_CMD", version=__version__))
 
 
 class PriceGetSingleCmd(CommandBase):
     """Command to get cryptocurrency price information once."""
 
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the get single price command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
@@ -125,19 +125,19 @@ class PriceGetSingleCmd(CommandBase):
             last_days = self.cmd_data.Params().GetAsInt(2)
             same_msg = self.cmd_data.Params().GetAsBool(3, True)
         except CommandParameterError:
-            self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             coin_info_sender = CoinInfoMessageSender(self.client, self.config, self.logger, self.translator)
             coin_info_sender.SendInSameMessage(same_msg)
-            coin_info_sender.SendMessage(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs, last_days)
+            await coin_info_sender.SendMessage(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs, last_days)
 
 
 class PriceTaskStartCmd(CommandBase):
     """Command to start a scheduled cryptocurrency price task."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the price task start command."""
         try:
             period_hours = self.cmd_data.Params().GetAsInt(0)
@@ -146,7 +146,7 @@ class PriceTaskStartCmd(CommandBase):
             coin_vs = self.cmd_data.Params().GetAsString(3)
             last_days = self.cmd_data.Params().GetAsInt(4)
         except CommandParameterError:
-            self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
                 kwargs["coin_info_scheduler"].Start(self.cmd_data.Chat(),
@@ -156,7 +156,7 @@ class PriceTaskStartCmd(CommandBase):
                                                     coin_id,
                                                     coin_vs,
                                                     last_days)
-                self._SendMessage(
+                await self._SendMessage(
                     self.translator.GetSentence(
                         "PRICE_TASK_START_OK_CMD",
                         period=period_hours,
@@ -167,99 +167,99 @@ class PriceTaskStartCmd(CommandBase):
                     )
                 )
             except CoinInfoJobInvalidPeriodError:
-                self._SendMessage(self.translator.GetSentence("TASK_PERIOD_ERR_MSG"))
+                await self._SendMessage(self.translator.GetSentence("TASK_PERIOD_ERR_MSG"))
             except CoinInfoJobInvalidStartError:
-                self._SendMessage(self.translator.GetSentence("TASK_START_ERR_MSG"))
+                await self._SendMessage(self.translator.GetSentence("TASK_START_ERR_MSG"))
             except CoinInfoJobMaxNumError:
-                self._SendMessage(self.translator.GetSentence("MAX_TASK_ERR_MSG"))
+                await self._SendMessage(self.translator.GetSentence("MAX_TASK_ERR_MSG"))
             except CoinInfoJobAlreadyExistentError:
-                self._SendMessage(self.translator.GetSentence("TASK_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("TASK_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
 
 
 class PriceTaskStopCmd(CommandBase):
     """Command to stop a scheduled cryptocurrency price task."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the price task stop command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
             coin_vs = self.cmd_data.Params().GetAsString(1)
         except CommandParameterError:
-            self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
                 kwargs["coin_info_scheduler"].Stop(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs)
-                self._SendMessage(self.translator.GetSentence("PRICE_TASK_STOP_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("PRICE_TASK_STOP_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
             except CoinInfoJobNotExistentError:
-                self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
 
 
 class PriceTaskStopAllCmd(CommandBase):
     """Command to stop all scheduled cryptocurrency price tasks in a chat."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the price task stop all command."""
         kwargs["coin_info_scheduler"].StopAll(self.cmd_data.Chat())
-        self._SendMessage(self.translator.GetSentence("PRICE_TASK_STOP_ALL_CMD"))
+        await self._SendMessage(self.translator.GetSentence("PRICE_TASK_STOP_ALL_CMD"))
 
 
 class PriceTaskPauseCmd(CommandBase):
     """Command to pause a scheduled cryptocurrency price task."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the price task pause command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
             coin_vs = self.cmd_data.Params().GetAsString(1)
         except CommandParameterError:
-            self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
                 kwargs["coin_info_scheduler"].Pause(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs)
-                self._SendMessage(self.translator.GetSentence("PRICE_TASK_PAUSE_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("PRICE_TASK_PAUSE_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
             except CoinInfoJobNotExistentError:
-                self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
 
 
 class PriceTaskResumeCmd(CommandBase):
     """Command to resume a paused cryptocurrency price task."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the price task resume command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
             coin_vs = self.cmd_data.Params().GetAsString(1)
         except CommandParameterError:
-            self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
                 kwargs["coin_info_scheduler"].Resume(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs)
-                self._SendMessage(self.translator.GetSentence("PRICE_TASK_RESUME_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("PRICE_TASK_RESUME_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
             except CoinInfoJobNotExistentError:
-                self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
 
 
 class PriceTaskSendInSameMsgCmd(CommandBase):
     """Command to configure whether task updates are sent in the same message."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the price task send in same message command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
             coin_vs = self.cmd_data.Params().GetAsString(1)
             flag = self.cmd_data.Params().GetAsBool(2)
         except CommandParameterError:
-            self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
                 kwargs["coin_info_scheduler"].SendInSameMessage(self.cmd_data.Chat(),
@@ -267,26 +267,26 @@ class PriceTaskSendInSameMsgCmd(CommandBase):
                                                                 coin_id,
                                                                 coin_vs,
                                                                 flag)
-                self._SendMessage(
+                await self._SendMessage(
                     self.translator.GetSentence("PRICE_TASK_SEND_IN_SAME_MSG_OK_CMD", coin_id=coin_id, coin_vs=coin_vs, flag=flag)
                 )
             except CoinInfoJobNotExistentError:
-                self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
 
 
 class PriceTaskDeleteLastMsgCmd(CommandBase):
     """Command to configure whether the last sent message should be deleted."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the price task delete last message command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
             coin_vs = self.cmd_data.Params().GetAsString(1)
             flag = self.cmd_data.Params().GetAsBool(2)
         except CommandParameterError:
-            self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
+            await self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
                 kwargs["coin_info_scheduler"].DeleteLastSentMessage(self.cmd_data.Chat(),
@@ -294,23 +294,25 @@ class PriceTaskDeleteLastMsgCmd(CommandBase):
                                                                     coin_id,
                                                                     coin_vs,
                                                                     flag)
-                self._SendMessage(
+                await self._SendMessage(
                     self.translator.GetSentence("PRICE_TASK_DELETE_LAST_MSG_OK_CMD", coin_id=coin_id, coin_vs=coin_vs, flag=flag)
                 )
             except CoinInfoJobNotExistentError:
-                self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
+                await self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
 
 
 class PriceTaskInfoCmd(CommandBase):
     """Command to display information about active price tasks in a chat."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self,
-                        **kwargs: Any) -> None:
+    async def _ExecuteCommand(self,
+                              **kwargs: Any) -> None:
         """Execute the price task info command."""
         jobs_list = kwargs["coin_info_scheduler"].GetJobsInChat(self.cmd_data.Chat())
 
         if jobs_list.Any():
-            self._SendMessage(self.translator.GetSentence("PRICE_TASK_INFO_CMD", tasks_num=jobs_list.Count(), tasks_list=str(jobs_list)))
+            await self._SendMessage(
+                self.translator.GetSentence("PRICE_TASK_INFO_CMD", tasks_num=jobs_list.Count(), tasks_list=str(jobs_list))
+            )
         else:
-            self._SendMessage(self.translator.GetSentence("PRICE_TASK_INFO_NO_TASK_CMD"))
+            await self._SendMessage(self.translator.GetSentence("PRICE_TASK_INFO_NO_TASK_CMD"))

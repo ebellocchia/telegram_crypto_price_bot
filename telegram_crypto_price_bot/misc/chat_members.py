@@ -113,10 +113,10 @@ class ChatMembersGetter:
         """
         self.client = client
 
-    def FilterMembers(self,
-                      chat: pyrogram.types.Chat,
-                      filter_fct: Optional[Callable[[pyrogram.types.ChatMember], bool]] = None,
-                      filter_type: ChatMembersFilter = ChatMembersFilter.SEARCH) -> ChatMembersList:
+    async def FilterMembers(self,
+                            chat: pyrogram.types.Chat,
+                            filter_fct: Optional[Callable[[pyrogram.types.ChatMember], bool]] = None,
+                            filter_type: ChatMembersFilter = ChatMembersFilter.SEARCH) -> ChatMembersList:
         """Get filtered list of chat members.
 
         Args:
@@ -128,10 +128,10 @@ class ChatMembersGetter:
             Filtered and sorted list of chat members
         """
         # Get members
-        filtered_members = list(self.client.get_chat_members(chat.id, filter=filter_type))   # type: ignore
+        filtered_members = [member async for member in self.client.get_chat_members(chat.id, filter=filter_type)]
         # Filter them if necessary
         if filter_fct is not None:
-            filtered_members = list(filter(filter_fct, filtered_members))                    # type: ignore
+            filtered_members = list(filter(filter_fct, filtered_members))
         # Order filtered members
         filtered_members.sort(      # type: ignore
             key=lambda member: member.user.username.lower() if member.user.username is not None else str(member.user.id)
@@ -143,8 +143,8 @@ class ChatMembersGetter:
 
         return chat_members
 
-    def GetAll(self,
-               chat: pyrogram.types.Chat) -> ChatMembersList:
+    async def GetAll(self,
+                     chat: pyrogram.types.Chat) -> ChatMembersList:
         """Get all chat members.
 
         Args:
@@ -153,10 +153,10 @@ class ChatMembersGetter:
         Returns:
             List of all chat members
         """
-        return self.FilterMembers(chat)
+        return await self.FilterMembers(chat)
 
-    def GetAdmins(self,
-                  chat: pyrogram.types.Chat) -> ChatMembersList:
+    async def GetAdmins(self,
+                        chat: pyrogram.types.Chat) -> ChatMembersList:
         """Get chat administrators.
 
         Args:
@@ -165,6 +165,6 @@ class ChatMembersGetter:
         Returns:
             List of chat administrators
         """
-        return self.FilterMembers(chat,
-                                  lambda member: True,
-                                  ChatMembersFilter.ADMINISTRATORS)
+        return await self.FilterMembers(chat,
+                                        lambda member: True,
+                                        ChatMembersFilter.ADMINISTRATORS)

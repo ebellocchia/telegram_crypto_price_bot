@@ -50,11 +50,11 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
         super().__init__(client, config, logger)
         self.price_info_builder = PriceInfoBuilder(config, translator)
 
-    def _SendMessage(self,
-                     chat: pyrogram.types.Chat,
-                     topic_id: int,
-                     *args: Any,
-                     **kwargs: Any) -> pyrogram.types.Message:
+    async def _SendMessage(self,
+                           chat: pyrogram.types.Chat,
+                           topic_id: int,
+                           *args: Any,
+                           **kwargs: Any) -> pyrogram.types.Message:
         """Send price information message.
 
         Args:
@@ -69,4 +69,4 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
         price_info = self._CoinGeckoPriceApi().GetPriceInfo(args[0], args[1])
         price_info_str = self.price_info_builder.Build(price_info)
 
-        return self._MessageSender().SendMessage(chat, topic_id, price_info_str)[0]
+        return (await self._MessageSender().SendMessage(chat, topic_id, price_info_str))[0]

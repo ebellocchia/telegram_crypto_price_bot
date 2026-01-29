@@ -54,11 +54,11 @@ class InfoMessageSenderBase(ABC):
         self.message_deleter = MessageDeleter(client, logger)
         self.message_sender = MessageSender(client, logger)
 
-    def SendMessage(self,
-                    chat: pyrogram.types.Chat,
-                    topic_id: int,
-                    *args: Any,
-                    **kwargs: Any) -> None:
+    async def SendMessage(self,
+                          chat: pyrogram.types.Chat,
+                          topic_id: int,
+                          *args: Any,
+                          **kwargs: Any) -> None:
         """Send message and store the last sent message.
 
         Args:
@@ -67,12 +67,12 @@ class InfoMessageSenderBase(ABC):
             *args: Additional positional arguments
             **kwargs: Additional keyword arguments
         """
-        self.last_sent_msg = self._SendMessage(chat, topic_id, *args, **kwargs)
+        self.last_sent_msg = await self._SendMessage(chat, topic_id, *args, **kwargs)
 
-    def DeleteLastSentMessage(self) -> None:
+    async def DeleteLastSentMessage(self) -> None:
         """Delete the last sent message if it exists."""
         if self.last_sent_msg is not None:
-            self.message_deleter.DeleteMessage(self.last_sent_msg)
+            await self.message_deleter.DeleteMessage(self.last_sent_msg)
 
         self.last_sent_msg = None
 
@@ -93,11 +93,11 @@ class InfoMessageSenderBase(ABC):
         return self.message_sender
 
     @abstractmethod
-    def _SendMessage(self,
-                     chat: pyrogram.types.Chat,
-                     topic_id: int,
-                     *args: Any,
-                     **kwargs: Any) -> pyrogram.types.Message:
+    async def _SendMessage(self,
+                           chat: pyrogram.types.Chat,
+                           topic_id: int,
+                           *args: Any,
+                           **kwargs: Any) -> pyrogram.types.Message:
         """Send message implementation to be provided by subclasses.
 
         Args:
