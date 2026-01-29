@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 import os
 import tempfile
 from datetime import datetime
@@ -39,206 +36,232 @@ from telegram_crypto_price_bot.translation.translation_loader import Translation
 from telegram_crypto_price_bot.utils.utils import Synchronized
 
 
-# Prevent crash if it cannot connect to an X display
 matplotlib.use("Agg")
 
 
-#
-# Variables
-#
-
-# Lock for plotting charts, since matplotlib works only in single thread
 plot_lock: Lock = Lock()
 
 
-#
-# Classes
-#
-
-# Constants for chart info file saver class
 class ChartInfoFileSaverConst:
-    # Chart image extension
+    """Constants for chart info file saver class."""
+
     CHART_IMG_EXT: str = ".png"
 
 
-# Chart info file saver class
 class ChartInfoFileSaver:
+    """Class for saving chart information to files."""
 
     config: ConfigObject
     translator: TranslationLoader
 
-    # Constructor
     def __init__(self,
                  config: ConfigObject,
                  translator: TranslationLoader) -> None:
+        """Initialize the chart info file saver.
+
+        Args:
+            config: Configuration object containing chart settings
+            translator: Translation loader for internationalization
+        """
         self.config = config
         self.translator = translator
 
-    # Save chart to file
     @Synchronized(plot_lock)
     def SaveToFile(self,
                    chart_info: ChartInfo,
                    file_name: str) -> None:
-        # Create subplot
+        """Save chart to a file.
+
+        Args:
+            chart_info: Chart information to plot and save
+            file_name: Path to save the chart image
+        """
         fig, ax = plt.subplots()
 
-        # Configure plot
         self.__SetAxesFormatter(ax)
         self.__SetBackgroundColor(fig, ax)
         self.__SetAxesColor(ax)
         self.__SetFrameColor(ax)
         self.__SetGrid(ax)
         self.__SetTitle(chart_info)
-        # Plot
         self.__Plot(chart_info, fig, ax)
-        # Save to file and close figure
         self.__SaveAndClose(fig, file_name)
 
-    # Set axes formatter
-    def __SetAxesFormatter(self,
-                           ax: plt.axes) -> None:
+    def __SetAxesFormatter(self, ax: plt.axes) -> None:
+        """Set formatting for chart axes.
+
+        Args:
+            ax: Matplotlib axes object to configure
+        """
         date_format = self.config.GetValue(BotConfigTypes.CHART_DATE_FORMAT)
         grid_max_size = self.config.GetValue(BotConfigTypes.CHART_GRID_MAX_SIZE)
 
         ax.xaxis.set_major_locator(plt.MaxNLocator(grid_max_size))
-        ax.xaxis.set_major_formatter(
-            matplotlib.ticker.FuncFormatter(
-                lambda x, p: datetime.fromtimestamp(int(x)).strftime(date_format)
-            )
-        )
-        ax.yaxis.set_major_formatter(
-            matplotlib.ticker.FuncFormatter(lambda x, p: PriceFormatter.Format(x))
-        )
+        ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, p: datetime.fromtimestamp(int(x)).strftime(date_format)))
+        ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, p: PriceFormatter.Format(x)))
 
-    # Set background color
     def __SetBackgroundColor(self,
                              fig: plt.figure,
                              ax: plt.axes) -> None:
+        """Set background color for the chart.
+
+        Args:
+            fig: Matplotlib figure object
+            ax: Matplotlib axes object
+        """
         bckg_color = self.config.GetValue(BotConfigTypes.CHART_BACKGROUND_COLOR)
 
         fig.patch.set_facecolor(bckg_color)
         ax.set_facecolor(bckg_color)
 
-    # Set axes color
-    def __SetAxesColor(self,
-                       ax: plt.axes) -> None:
+    def __SetAxesColor(self, ax: plt.axes) -> None:
+        """Set color for chart axes.
+
+        Args:
+            ax: Matplotlib axes object to configure
+        """
         axes_color = self.config.GetValue(BotConfigTypes.CHART_AXES_COLOR)
 
-        ax.tick_params(color=axes_color,
-                       labelcolor=axes_color)
+        ax.tick_params(color=axes_color, labelcolor=axes_color)
 
-    # Set frame color
-    def __SetFrameColor(self,
-                        ax: plt.axes) -> None:
+    def __SetFrameColor(self, ax: plt.axes) -> None:
+        """Set color for chart frame.
+
+        Args:
+            ax: Matplotlib axes object to configure
+        """
         frame_color = self.config.GetValue(BotConfigTypes.CHART_FRAME_COLOR)
 
         for spine in ax.spines.values():
             spine.set_edgecolor(frame_color)
 
-    # Set grid
-    def __SetGrid(self,
-                  ax: plt.axes) -> None:
+    def __SetGrid(self, ax: plt.axes) -> None:
+        """Set grid configuration for the chart.
+
+        Args:
+            ax: Matplotlib axes object to configure
+        """
         display_grid = self.config.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)
         grid_color = self.config.GetValue(BotConfigTypes.CHART_GRID_COLOR)
         grid_line_style = self.config.GetValue(BotConfigTypes.CHART_GRID_LINE_STYLE)
         grid_line_width = self.config.GetValue(BotConfigTypes.CHART_GRID_LINE_WIDTH)
 
-        ax.grid(display_grid,
-                color=grid_color,
-                linestyle=grid_line_style,
-                linewidth=grid_line_width)
+        ax.grid(display_grid, color=grid_color, linestyle=grid_line_style, linewidth=grid_line_width)
 
-    # Set title
-    def __SetTitle(self,
-                   chart_info: ChartInfo) -> None:
+    def __SetTitle(self, chart_info: ChartInfo) -> None:
+        """Set title for the chart.
+
+        Args:
+            chart_info: Chart information containing coin details
+        """
         title_color = self.config.GetValue(BotConfigTypes.CHART_TITLE_COLOR)
 
         plt.title(
-            self.translator.GetSentence("CHART_INFO_TITLE_MSG",
-                                        coin_id=CoinIdFormatter.Format(chart_info.CoinId()),
-                                        coin_vs=chart_info.CoinVs().upper(),
-                                        last_days=chart_info.LastDays()),
-            color=title_color
+            self.translator.GetSentence(
+                "CHART_INFO_TITLE_MSG",
+                coin_id=CoinIdFormatter.Format(chart_info.CoinId()),
+                coin_vs=chart_info.CoinVs().upper(),
+                last_days=chart_info.LastDays(),
+            ),
+            color=title_color,
         )
 
-    # Plot
     def __Plot(self,
                chart_info: ChartInfo,
                fig: plt.figure,
                ax: plt.axes) -> None:
+        """Plot the chart data.
+
+        Args:
+            chart_info: Chart information to plot
+            fig: Matplotlib figure object
+            ax: Matplotlib axes object
+        """
         line_color = self.config.GetValue(BotConfigTypes.CHART_LINE_COLOR)
         line_style = self.config.GetValue(BotConfigTypes.CHART_LINE_STYLE)
         line_width = self.config.GetValue(BotConfigTypes.CHART_LINE_WIDTH)
 
-        # Plot
-        ax.plot(chart_info.X(),
-                chart_info.Y(),
-                color=line_color,
-                linestyle=line_style,
-                linewidth=line_width)
-        # Rotate and align dates
+        ax.plot(chart_info.X(), chart_info.Y(), color=line_color, linestyle=line_style, linewidth=line_width)
         fig.autofmt_xdate()
 
-    # Save to file and close
     @staticmethod
     def __SaveAndClose(fig: plt.figure,
                        file_name: str) -> None:
+        """Save figure to file and close it.
+
+        Args:
+            fig: Matplotlib figure object to save
+            file_name: Path to save the figure
+        """
         plt.savefig(file_name, bbox_inches="tight")
         plt.close(fig)
 
 
-# Chart info temporary file saver class
 class ChartInfoTmpFileSaver:
+    """Class for saving chart information to temporary files."""
 
     logger: Logger
     tmp_file_name: Optional[str]
     chart_info_file_saver: ChartInfoFileSaver
 
-    # Constructor
     def __init__(self,
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
+        """Initialize the temporary chart file saver.
+
+        Args:
+            config: Configuration object containing chart settings
+            logger: Logger instance for logging operations
+            translator: Translation loader for internationalization
+        """
         self.logger = logger
         self.tmp_file_name = None
         self.chart_info_file_saver = ChartInfoFileSaver(config, translator)
 
-    # Destructor
     def __del__(self):
+        """Clean up temporary files on object destruction."""
         self.DeleteTmpFile()
 
-    # Save chart to temporary file
-    def SaveToTmpFile(self,
-                      chart_info: ChartInfo) -> None:
-        # Delete old file
+    def SaveToTmpFile(self, chart_info: ChartInfo) -> None:
+        """Save chart to a temporary file.
+
+        Args:
+            chart_info: Chart information to save
+        """
         self.DeleteTmpFile()
-        # Save new file
         self.tmp_file_name = self.__NewTmpFileName()
-        self.chart_info_file_saver.SaveToFile(chart_info,
-                                              self.tmp_file_name)
-        # Log
+        self.chart_info_file_saver.SaveToFile(chart_info, self.tmp_file_name)
         self.logger.GetLogger().info(
             f"Saved chart information for coin {chart_info.CoinId()}/{chart_info.CoinVs()}, "
             f"last days {chart_info.LastDays()}, number of points ({len(chart_info.X())}, {len(chart_info.Y())}), "
-            f"file name: \"{self.tmp_file_name}\""
+            f'file name: "{self.tmp_file_name}"'
         )
 
-    # Get temporary file name
     def TmpFileName(self) -> Optional[str]:
+        """Get the temporary file name.
+
+        Returns:
+            The temporary file name or None if no file exists
+        """
         return self.tmp_file_name
 
-    # Delete temporary file
     def DeleteTmpFile(self) -> None:
+        """Delete the temporary chart file if it exists."""
         if self.tmp_file_name is not None:
             try:
                 os.remove(self.tmp_file_name)
-                self.logger.GetLogger().info(f"Deleted chart file \"{self.tmp_file_name}\"")
+                self.logger.GetLogger().info(f'Deleted chart file "{self.tmp_file_name}"')
             except FileNotFoundError:
                 pass
             finally:
                 self.tmp_file_name = None
 
-    # Get new temporary file name
     @staticmethod
     def __NewTmpFileName() -> str:
-        return f"{next(tempfile._get_candidate_names())}{ChartInfoFileSaverConst.CHART_IMG_EXT}"    # type: ignore # noqa
+        """Generate a new temporary file name.
+
+        Returns:
+            A new temporary file name with chart image extension
+        """
+        return f"{next(tempfile._get_candidate_names())}{ChartInfoFileSaverConst.CHART_IMG_EXT}"  # type: ignore # noqa

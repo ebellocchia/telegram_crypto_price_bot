@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,18 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from typing import Dict, List, Union
 
 
-#
-# Classes
-#
-
-# Chart info class
 class ChartInfo:
+    """Class for storing and accessing chart information for cryptocurrency prices."""
 
     coin_id: str
     coin_vs: str
@@ -37,12 +30,19 @@ class ChartInfo:
     x: List[int]
     y: List[float]
 
-    # Constructor
     def __init__(self,
                  chart_info: Dict[str, List[List[Union[int, float]]]],
                  coin_id: str,
                  coin_vs: str,
                  last_days: int) -> None:
+        """Initialize chart information from price data.
+
+        Args:
+            chart_info: Dictionary containing price data with timestamps
+            coin_id: Cryptocurrency coin identifier
+            coin_vs: Currency to compare against (e.g., 'usd')
+            last_days: Number of days of historical data
+        """
         self.coin_id = coin_id
         self.coin_vs = coin_vs
         self.last_days = last_days
@@ -50,25 +50,45 @@ class ChartInfo:
         self.y = []
 
         for price in chart_info["prices"]:
-            self.x.append(int(price[0] / 1000))     # Convert timestamp from milliseconds to seconds
+            self.x.append(int(price[0] / 1000))
             self.y.append(price[1])
 
-    # Get coin ID
     def CoinId(self) -> str:
+        """Get the cryptocurrency coin identifier.
+
+        Returns:
+            The coin identifier string
+        """
         return self.coin_id
 
-    # Get coin VS
     def CoinVs(self) -> str:
+        """Get the currency to compare against.
+
+        Returns:
+            The comparison currency string
+        """
         return self.coin_vs
 
-    # Get last days
     def LastDays(self) -> int:
+        """Get the number of days of historical data.
+
+        Returns:
+            Number of days
+        """
         return self.last_days
 
-    # Get x coordinates
     def X(self) -> List[int]:
+        """Get the x coordinates (timestamps) for the chart.
+
+        Returns:
+            List of timestamps in seconds
+        """
         return self.x
 
-    # Get y coordinates
     def Y(self) -> List[float]:
+        """Get the y coordinates (prices) for the chart.
+
+        Returns:
+            List of price values
+        """
         return self.y

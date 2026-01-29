@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 import configparser
 
 from telegram_crypto_price_bot.config.config_object import ConfigObject
@@ -28,21 +25,24 @@ from telegram_crypto_price_bot.config.config_sections_loader import ConfigSectio
 from telegram_crypto_price_bot.config.config_typing import ConfigSectionsType
 
 
-#
-# Classes
-#
-
-# Configuration file sections loader class
 class ConfigFileSectionsLoader:
-    # Load
+    """Loader for configuration file sections."""
+
     @staticmethod
     def Load(file_name: str,
              sections: ConfigSectionsType) -> ConfigObject:
+        """Load configuration from file and parse sections.
+
+        Args:
+            file_name: Path to the configuration file
+            sections: Configuration sections structure to load
+
+        Returns:
+            Configuration object with loaded values
+        """
         print(f"\nLoading configuration file {file_name}...\n")
 
-        # Read file
         config_parser = configparser.ConfigParser()
         config_parser.read(file_name, encoding="utf-8")
 
-        # Load sections
         return ConfigSectionsLoader(config_parser).LoadSections(sections)

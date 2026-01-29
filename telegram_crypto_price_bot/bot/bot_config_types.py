@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,21 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from enum import auto, unique
 
 from telegram_crypto_price_bot.config.config_object import ConfigTypes
 
 
-#
-# Enumerations
-#
-
-# Bot configuration types
 @unique
 class BotConfigTypes(ConfigTypes):
+    """Enumeration of bot configuration types."""
+
     API_ID = auto()
     API_HASH = auto()
     BOT_TOKEN = auto()

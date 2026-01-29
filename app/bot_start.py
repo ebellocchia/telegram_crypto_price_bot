@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,33 +18,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 import argparse
 
 from telegram_crypto_price_bot import PriceBot, __version__
 
 
-#
-# Variables
-#
-
-# Default configuration file
 DEF_CONFIG_FILE = "conf/config.ini"
 
 
-#
-# Classes
-#
-
-# Argument parser
 class ArgumentsParser:
+    """Command-line argument parser for bot configuration."""
 
     parser: argparse.ArgumentParser
 
-    # Constructor
     def __init__(self) -> None:
+        """Initialize the argument parser with configuration file option."""
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument(
             "-c", "--config",
@@ -53,17 +41,17 @@ class ArgumentsParser:
             help="configuration file"
         )
 
-    # Parse arguments
     def Parse(self) -> argparse.Namespace:
+        """Parse command-line arguments.
+
+        Returns:
+            Parsed arguments namespace
+        """
         return self.parser.parse_args()
 
 
-#
-# Functions
-#
-
-# Print header
 def print_header() -> None:
+    """Print the bot header with version information."""
     print("")
     print("***********************************")
     print("****                           ****")
@@ -79,17 +67,11 @@ def print_header() -> None:
     print("")
 
 
-#
-# Main
-#
 if __name__ == "__main__":
-    # Print header
     print_header()
 
-    # Get arguments
     args_parser = ArgumentsParser()
     args = args_parser.Parse()
 
-    # Create and run bot
     bot = PriceBot(args.config)
     bot.Run()

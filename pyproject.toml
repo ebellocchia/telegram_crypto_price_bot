@@ -97,13 +97,8 @@ ignore = [
     "UP037",    # Remove quotes from type annotation (Literal import for Python 3.7 compatibility)
     "UP045",    #  Use `X | None` for type annotations (Python <3.10 compatibility)
     # pydocstyle
-    "D100",     # Missing docstring
-    "D101",     # Missing docstring
-    "D102",     # Missing docstring
-    "D103",     # Missing docstring
-    "D104",     # Missing docstring
-    "D105",     # Missing docstring
-    "D107",     # Missing docstring
+    "D100",     # Missing docstring in public module
+    "D104",     # Missing docstring in public package
     "D202",     # No blank lines allowed after function docstring
     "D203",     # 1 blank line required before class docstring
     "D205",     # 1 blank line required between summary line and description

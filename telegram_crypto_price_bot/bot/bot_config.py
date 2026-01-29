@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 import logging
 from typing import Dict, Tuple
 
@@ -29,13 +26,9 @@ from telegram_crypto_price_bot.config.config_typing import ConfigSectionsType
 from telegram_crypto_price_bot.utils.utils import Utils
 
 
-#
-# Classes
-#
-
-# Configuration type converter class
 class _ConfigTypeConverter:
-    # String to log level
+    """Internal class for converting configuration types."""
+
     STR_TO_LOG_LEVEL: Dict[str, int] = {
         "DEBUG": logging.DEBUG,
         "INFO": logging.INFO,
@@ -44,30 +37,38 @@ class _ConfigTypeConverter:
         "CRITICAL": logging.CRITICAL,
     }
 
-    # Convert string to log level
     @staticmethod
     def StrToLogLevel(log_level: str) -> int:
-        return (_ConfigTypeConverter.STR_TO_LOG_LEVEL[log_level]
-                if log_level in _ConfigTypeConverter.STR_TO_LOG_LEVEL
-                else logging.INFO)
+        """Convert string representation to logging level.
 
-    # Convert log level to string
+        Args:
+            log_level: String representation of log level
+
+        Returns:
+            Logging level integer, defaults to INFO if not found
+        """
+        return _ConfigTypeConverter.STR_TO_LOG_LEVEL[log_level] if log_level in _ConfigTypeConverter.STR_TO_LOG_LEVEL else logging.INFO
+
     @staticmethod
     def LogLevelToStr(log_level: int) -> str:
+        """Convert logging level to string representation.
+
+        Args:
+            log_level: Logging level integer
+
+        Returns:
+            String representation of the log level
+        """
         idx = list(_ConfigTypeConverter.STR_TO_LOG_LEVEL.values()).index(log_level)
         return list(_ConfigTypeConverter.STR_TO_LOG_LEVEL.keys())[idx]
 
 
-# Constants for price bot configuration
 class PriceBotConfigConst:
+    """Constants for price bot configuration."""
+
     LINE_STYLES: Tuple[str, ...] = ("-", "--", "-.", ":", " ", "")
 
 
-#
-# Variables
-#
-
-# Bot configuration
 BotConfig: ConfigSectionsType = {
     # Pyrogram
     "pyrogram": [
@@ -190,23 +191,20 @@ BotConfig: ConfigSectionsType = {
             "name": "chart_grid_max_size",
             "conv_fct": Utils.StrToInt,
             "def_val": 4,
-            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and
-                                    cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
             "valid_if": lambda cfg, val: val > 0,
         },
         {
             "type": BotConfigTypes.CHART_GRID_COLOR,
             "name": "chart_grid_color",
             "def_val": "#DFDFDF",
-            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and
-                                    cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
         },
         {
             "type": BotConfigTypes.CHART_GRID_LINE_STYLE,
             "name": "chart_grid_line_style",
             "def_val": "--",
-            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and
-                                    cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
             "valid_if": lambda cfg, val: val in PriceBotConfigConst.LINE_STYLES,
         },
         {
@@ -214,8 +212,7 @@ BotConfig: ConfigSectionsType = {
             "name": "chart_grid_line_width",
             "conv_fct": Utils.StrToInt,
             "def_val": 1,
-            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and
-                                    cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.CHART_DISPLAY) and cfg.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)),
             "valid_if": lambda cfg, val: val > 0,
         },
     ],
@@ -270,22 +267,21 @@ BotConfig: ConfigSectionsType = {
             "type": BotConfigTypes.LOG_FILE_APPEND,
             "name": "log_file_append",
             "conv_fct": Utils.StrToBool,
-            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and
-                                    not cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)),
+            "load_if": lambda cfg: (
+                cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and not cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)
+            ),
         },
         {
             "type": BotConfigTypes.LOG_FILE_MAX_BYTES,
             "name": "log_file_max_bytes",
             "conv_fct": Utils.StrToInt,
-            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and
-                                    cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)),
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)),
         },
         {
             "type": BotConfigTypes.LOG_FILE_BACKUP_CNT,
             "name": "log_file_backup_cnt",
             "conv_fct": Utils.StrToInt,
-            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and
-                                    cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)),
+            "load_if": lambda cfg: (cfg.GetValue(BotConfigTypes.LOG_FILE_ENABLED) and cfg.GetValue(BotConfigTypes.LOG_FILE_USE_ROTATING)),
         },
     ],
 }

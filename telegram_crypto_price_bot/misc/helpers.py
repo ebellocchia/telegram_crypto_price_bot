@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from typing import Optional
 
 import pyrogram
@@ -28,41 +25,75 @@ import pyrogram
 from telegram_crypto_price_bot.utils.pyrogram_wrapper import PyrogramWrapper
 
 
-#
-# Classes
-#
-
-# Chat helper class
 class ChatHelper:
-    # Get if channel
+    """Helper class for Telegram chat operations."""
+
     @staticmethod
     def IsChannel(chat: pyrogram.types.Chat) -> bool:
+        """Check if the chat is a channel.
+
+        Args:
+            chat: Chat object to check
+
+        Returns:
+            True if chat is a channel, False otherwise
+        """
         return PyrogramWrapper.IsChannel(chat)
 
-    # Get title
     @staticmethod
     def GetTitle(chat: pyrogram.types.Chat) -> str:
+        """Get the chat title.
+
+        Args:
+            chat: Chat object to get title from
+
+        Returns:
+            Chat title or empty string if no title
+        """
         return chat.title if chat.title is not None else ""
 
-    # Get title or ID
     @staticmethod
     def GetTitleOrId(chat: pyrogram.types.Chat) -> str:
+        """Get the chat title with ID or just ID if no title.
+
+        Args:
+            chat: Chat object to get information from
+
+        Returns:
+            Chat title with ID or just ID
+        """
         return f"'{chat.title}' (ID: {chat.id})" if chat.title is not None else f"{chat.id}"
 
-    # Get if private chat
     @staticmethod
     def IsPrivateChat(chat: pyrogram.types.Chat,
                       user: pyrogram.types.User):
+        """Check if the chat is a private chat with the user.
+
+        Args:
+            chat: Chat object to check
+            user: User object to compare with
+
+        Returns:
+            True if chat is private with the user, False otherwise
+        """
         if ChatHelper.IsChannel(chat):
             return False
         return chat.id == user.id
 
 
-# User helper class
 class UserHelper:
-    # Get user name or ID
+    """Helper class for Telegram user operations."""
+
     @staticmethod
     def GetNameOrId(user: Optional[pyrogram.types.User]) -> str:
+        """Get user's name or ID with username if available.
+
+        Args:
+            user: User object to get information from, or None
+
+        Returns:
+            User information string with name, username, and ID
+        """
         if user is None:
             return "Anonymous user"
 
@@ -72,9 +103,16 @@ class UserHelper:
         name = UserHelper.GetName(user)
         return f"{name} (ID: {user.id})" if name is not None else f"ID: {user.id}"
 
-    # Get user name
     @staticmethod
     def GetName(user: Optional[pyrogram.types.User]) -> str:
+        """Get user's full name.
+
+        Args:
+            user: User object to get name from, or None
+
+        Returns:
+            User's full name or "Anonymous user" if None
+        """
         if user is None:
             return "Anonymous user"
 

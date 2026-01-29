@@ -32,7 +32,7 @@ To install it:
 To run the bot, edit the configuration file by specifying the API ID/hash and bot token. Then, move to the *app* folder and run the *bot.py* script:
 
     cd app
-    python bot.py
+    python bot_start.py
 
 When run with no parameter, *conf/config.ini* will be the default configuration file (in this way it can be used for different groups).\
 To specify a different configuration file:

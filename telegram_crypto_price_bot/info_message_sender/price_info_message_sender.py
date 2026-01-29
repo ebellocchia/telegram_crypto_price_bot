@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from typing import Any
 
 import pyrogram
@@ -32,32 +29,42 @@ from telegram_crypto_price_bot.price_info.price_info_builder import PriceInfoBui
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
 
 
-#
-# Classes
-#
-
-# Price info message sender class (price in a single message)
 class PriceInfoMessageSender(InfoMessageSenderBase):
+    """Message sender for price information in a single message."""
 
     price_info_builder: PriceInfoBuilder
 
-    # Constructor
     def __init__(self,
                  client: pyrogram.Client,
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
+        """Initialize the price info message sender.
+
+        Args:
+            client: Pyrogram client instance
+            config: Configuration object
+            logger: Logger instance
+            translator: Translation loader
+        """
         super().__init__(client, config, logger)
         self.price_info_builder = PriceInfoBuilder(config, translator)
 
-    # Send message
     def _SendMessage(self,
                      chat: pyrogram.types.Chat,
                      *args: Any,
                      **kwargs: Any) -> pyrogram.types.Message:
-        # Get price information
+        """Send price information message.
+
+        Args:
+            chat: Telegram chat to send message to
+            *args: Arguments containing coin_id, coin_vs
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Sent message object
+        """
         price_info = self._CoinGeckoPriceApi().GetPriceInfo(args[0], args[1])
-        # Build price information string
         price_info_str = self.price_info_builder.Build(price_info)
 
         return self._MessageSender().SendMessage(chat, price_info_str)[0]

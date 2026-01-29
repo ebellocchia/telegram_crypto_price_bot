@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,29 +18,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from telegram_crypto_price_bot.bot.bot_base import BotBase
 from telegram_crypto_price_bot.bot.bot_config import BotConfig
 from telegram_crypto_price_bot.bot.bot_handlers_config import BotHandlersConfig
 from telegram_crypto_price_bot.coin_info.coin_info_scheduler import CoinInfoScheduler
 
 
-#
-# Classes
-#
-
-# Price bot class
 class PriceBot(BotBase):
+    """Main cryptocurrency price bot implementation."""
 
     coin_info_scheduler: CoinInfoScheduler
 
-    # Constructor
     def __init__(self,
                  config_file: str) -> None:
+        """Initialize the price bot with configuration.
+
+        Args:
+            config_file: Path to configuration file
+        """
         super().__init__(config_file, BotConfig, BotHandlersConfig)
-        # Initialize coin info scheduler
         self.coin_info_scheduler = CoinInfoScheduler(
             self.client,
             self.config,

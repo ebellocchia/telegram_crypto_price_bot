@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,15 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Classes
-#
-
-# Configuration field not existent error class
 class ConfigFieldNotExistentError(Exception):
+    """Exception raised when a required configuration field is not found."""
+
     pass
 
 
-# Configuration field value error class
 class ConfigFieldValueError(Exception):
+    """Exception raised when a configuration field value is invalid."""
+
     pass

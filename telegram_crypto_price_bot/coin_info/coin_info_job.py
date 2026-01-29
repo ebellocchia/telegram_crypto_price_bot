@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 import pyrogram
 
 from telegram_crypto_price_bot.config.config_object import ConfigObject
@@ -30,12 +27,8 @@ from telegram_crypto_price_bot.misc.helpers import ChatHelper
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
 
 
-#
-# Classes
-#
-
-# Coin info job class
 class CoinInfoJobData:
+    """Data class for storing coin information job parameters."""
 
     chat: pyrogram.types.Chat
     period_hours: int
@@ -45,7 +38,6 @@ class CoinInfoJobData:
     last_days: int
     running: bool
 
-    # Constructor
     def __init__(self,
                  chat: pyrogram.types.Chat,
                  period_hours: int,
@@ -53,6 +45,16 @@ class CoinInfoJobData:
                  coin_id: str,
                  coin_vs: str,
                  last_days: int) -> None:
+        """Initialize coin info job data.
+
+        Args:
+            chat: Telegram chat where the job will run
+            period_hours: Period in hours between job executions
+            start_hour: Starting hour for the job
+            coin_id: Cryptocurrency coin identifier
+            coin_vs: Currency to compare against
+            last_days: Number of days of historical data to display
+        """
         self.chat = chat
         self.period_hours = period_hours
         self.start_hour = start_hour
@@ -61,82 +63,141 @@ class CoinInfoJobData:
         self.last_days = last_days
         self.running = True
 
-    # Get chat
     def Chat(self) -> pyrogram.types.Chat:
+        """Get the chat associated with this job.
+
+        Returns:
+            The Telegram chat object
+        """
         return self.chat
 
-    # Get period hours
     def PeriodHours(self) -> int:
+        """Get the period in hours between job executions.
+
+        Returns:
+            Period in hours
+        """
         return self.period_hours
 
-    # Get start hour
     def StartHour(self) -> int:
+        """Get the starting hour for the job.
+
+        Returns:
+            Starting hour
+        """
         return self.start_hour
 
-    # Get coin ID
     def CoinId(self) -> str:
+        """Get the cryptocurrency coin identifier.
+
+        Returns:
+            Coin identifier
+        """
         return self.coin_id
 
-    # Get coin VS
     def CoinVs(self) -> str:
+        """Get the currency to compare against.
+
+        Returns:
+            Comparison currency
+        """
         return self.coin_vs
 
-    # Get last days
     def LastDays(self) -> int:
+        """Get the number of days of historical data.
+
+        Returns:
+            Number of days
+        """
         return self.last_days
 
-    # Set if running
-    def SetRunning(self,
-                   flag: bool) -> None:
+    def SetRunning(self, flag: bool) -> None:
+        """Set the running status of the job.
+
+        Args:
+            flag: True if job is running, False otherwise
+        """
         self.running = flag
 
-    # Get if running
     def IsRunning(self) -> bool:
+        """Check if the job is currently running.
+
+        Returns:
+            True if running, False otherwise
+        """
         return self.running
 
 
-# Coin info job class
 class CoinInfoJob:
+    """Class for managing and executing coin information jobs."""
 
     data: CoinInfoJobData
     logger: Logger
     coin_info_msg_sender: CoinInfoMessageSender
 
-    # Constructor
     def __init__(self,
                  client: pyrogram.Client,
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader,
                  data: CoinInfoJobData) -> None:
+        """Initialize coin info job.
+
+        Args:
+            client: Pyrogram client instance
+            config: Configuration object
+            logger: Logger instance
+            translator: Translation loader
+            data: Job data containing job parameters
+        """
         self.data = data
         self.logger = logger
         self.coin_info_msg_sender = CoinInfoMessageSender(client, config, logger, translator)
 
-    # Get data
     def Data(self) -> CoinInfoJobData:
+        """Get the job data.
+
+        Returns:
+            Job data object
+        """
         return self.data
 
-    # Set if running
-    def SetRunning(self,
-                   flag: bool) -> None:
+    def SetRunning(self, flag: bool) -> None:
+        """Set the running status of the job.
+
+        Args:
+            flag: True if job is running, False otherwise
+        """
         self.data.SetRunning(flag)
 
-    # Set delete last sent message
-    def DeleteLastSentMessage(self,
-                              flag: bool) -> None:
+    def DeleteLastSentMessage(self, flag: bool) -> None:
+        """Set whether to delete the last sent message.
+
+        Args:
+            flag: True to delete last message, False otherwise
+        """
         self.coin_info_msg_sender.DeleteLastSentMessage(flag)
 
-    # Set send in same message
-    def SendInSameMessage(self,
-                          flag: bool) -> None:
+    def SendInSameMessage(self, flag: bool) -> None:
+        """Set whether to send updates in the same message.
+
+        Args:
+            flag: True to send in same message, False otherwise
+        """
         self.coin_info_msg_sender.SendInSameMessage(flag)
 
-    # Do job
     def DoJob(self,
               chat: pyrogram.types.Chat,
               coin_id: str,
               coin_vs: str,
               last_days: int) -> None:
+        """Execute the job by sending coin information to the chat.
+
+        Args:
+            chat: Telegram chat to send the message to
+            coin_id: Cryptocurrency coin identifier
+            coin_vs: Currency to compare against
+            last_days: Number of days of historical data to display
+        """
         self.logger.GetLogger().info(f"Coin job started in chat {ChatHelper.GetTitleOrId(chat)}")
         self.coin_info_msg_sender.SendMessage(chat, coin_id, coin_vs, last_days)

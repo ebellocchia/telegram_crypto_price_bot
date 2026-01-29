@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,39 +18,58 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from typing import Optional
 
 
-#
-# Classes
-#
-
-# Coin ID formatter class
 class CoinIdFormatter:
-    # Format coin ID
+    """Formatter for cryptocurrency ID strings."""
+
     @staticmethod
     def Format(coin_id: str) -> str:
+        """Format a coin ID by title-casing and replacing hyphens with spaces.
+
+        Args:
+            coin_id: The coin identifier to format
+
+        Returns:
+            Formatted coin ID string
+        """
         return coin_id.title().replace("-", " ")
 
 
-# Coin pair formatter class
 class CoinPairFormatter:
-    # Format coin pair
+    """Formatter for cryptocurrency trading pairs."""
+
     @staticmethod
     def Format(coin_sym: str,
                coin_vs: str) -> str:
+        """Format a coin pair string.
+
+        Args:
+            coin_sym: The coin symbol
+            coin_vs: The currency symbol to compare against
+
+        Returns:
+            Formatted coin pair string
+        """
         return f"{coin_sym}/{coin_vs}"
 
 
-# Market cap formatter class
 class MarketCapFormatter:
-    # Format market cap
+    """Formatter for market capitalization values."""
+
     @staticmethod
     def Format(market_cap: int,
                coin_vs: Optional[str] = None) -> str:
+        """Format market cap with appropriate magnitude suffix (B/M).
+
+        Args:
+            market_cap: Market capitalization value
+            coin_vs: Optional currency symbol for formatting
+
+        Returns:
+            Formatted market cap string
+        """
         coin_vs = coin_vs or ""
         space = " " if coin_vs not in ("$", "€") else ""
 
@@ -63,12 +82,21 @@ class MarketCapFormatter:
         return formatted_str
 
 
-# Price formatter class
 class PriceFormatter:
-    # Format price
+    """Formatter for cryptocurrency prices with adaptive precision."""
+
     @staticmethod
     def Format(price: float,
                coin_vs: Optional[str] = None) -> str:
+        """Format price with precision based on value magnitude.
+
+        Args:
+            price: Price value to format
+            coin_vs: Optional currency symbol for formatting
+
+        Returns:
+            Formatted price string
+        """
         coin_vs = coin_vs or ""
         space = " " if coin_vs not in ("$", "€") else ""
 
@@ -85,20 +113,37 @@ class PriceFormatter:
         return formatted_str
 
 
-# Price change percentage formatter class
 class PriceChangePercFormatter:
-    # Format price change percentage
+    """Formatter for price change percentages with visual indicators."""
+
     @staticmethod
     def Format(price_change: float) -> str:
+        """Format price change percentage with red/green indicator.
+
+        Args:
+            price_change: Price change percentage value
+
+        Returns:
+            Formatted price change string with emoji indicator
+        """
         return f"{'🔴' if price_change < 0 else '🟢'} {price_change:+.2f}%"
 
 
-# Volume formatter class
 class VolumeFormatter:
-    # Format volume
+    """Formatter for trading volume values."""
+
     @staticmethod
     def Format(volume: int,
                coin_vs: Optional[str] = None) -> str:
+        """Format volume with appropriate magnitude suffix (B/M).
+
+        Args:
+            volume: Trading volume value
+            coin_vs: Optional currency symbol for formatting
+
+        Returns:
+            Formatted volume string
+        """
         coin_vs = coin_vs or ""
         space = " " if coin_vs not in ("$", "€") else ""
 

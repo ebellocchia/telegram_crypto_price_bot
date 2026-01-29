@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,20 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from typing import Callable, Dict, List, Optional, Type, Union
 
 from pyrogram.filters import Filter
 from pyrogram.handlers.handler import Handler
 
 
-#
-# Types
-#
-
-# Bot handlers configuration type
 BotHandlersConfigType = Dict[
     Type[Handler],
     List[

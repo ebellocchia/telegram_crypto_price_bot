@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,20 +18,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 import functools
 from threading import Lock
 from typing import Any, Callable, Optional
 
 
-#
-# Decorators
-#
-
-# Decorator for synchronized functions or methods
 def Synchronized(lock: Lock):
+    """Decorator for thread-safe synchronization of functions or methods.
+
+    Args:
+        lock: Threading lock to use for synchronization
+
+    Returns:
+        Decorated function with lock protection
+    """
     def _decorator(wrapped: Callable[..., Any]):
         @functools.wraps(wrapped)
         def _wrapper(*args: Any,
@@ -42,15 +42,22 @@ def Synchronized(lock: Lock):
     return _decorator
 
 
-#
-# Classes
-#
-
-# Wrapper for utility functions
 class Utils:
-    # Convert string to bool
+    """Utility class with static helper methods for type conversions."""
+
     @staticmethod
     def StrToBool(s: str) -> bool:
+        """Convert a string to boolean value.
+
+        Args:
+            s: String to convert
+
+        Returns:
+            Boolean value
+
+        Raises:
+            ValueError: If string is not a valid boolean representation
+        """
         s = s.lower()
         if s in ["true", "on", "yes", "y"]:
             res = True
@@ -60,16 +67,30 @@ class Utils:
             raise ValueError(f"Invalid boolean string: {s}")
         return res
 
-    # Convert string to integer
     @staticmethod
     def StrToInt(s: Optional[str]) -> int:
+        """Convert a string to integer, returning 0 if None.
+
+        Args:
+            s: String to convert, or None
+
+        Returns:
+            Integer value, or 0 if input is None
+        """
         if s is None:
             return 0
         return int(s)
 
-    # Convert string to float
     @staticmethod
     def StrToFloat(s: Optional[str]) -> float:
+        """Convert a string to float, returning 0.0 if None.
+
+        Args:
+            s: String to convert, or None
+
+        Returns:
+            Float value, or 0.0 if input is None
+        """
         if s is None:
             return 0.0
         return float(s)

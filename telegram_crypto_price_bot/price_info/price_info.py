@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,22 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from enum import Enum, auto, unique
 from typing import Any, Dict
 
 from telegram_crypto_price_bot.utils.utils import Utils
 
 
-#
-# Enumerations
-#
-
-# Price data types
 @unique
 class PriceInfoTypes(Enum):
+    """Enumeration of cryptocurrency price information data types."""
     COIN_NAME = auto()
     COIN_SYMBOL = auto()
     COIN_VS = auto()
@@ -50,19 +43,20 @@ class PriceInfoTypes(Enum):
     PRICE_CHANGE_PERC_30D = auto()
 
 
-#
-# Classes
-#
-
-# Price info class
 class PriceInfo:
+    """Class for storing cryptocurrency price information."""
 
     info: Dict[PriceInfoTypes, Any]
 
-    # Constructor
     def __init__(self,
                  coin_data: Dict[str, Any],
                  coin_vs: str) -> None:
+        """Initialize price information from coin data.
+
+        Args:
+            coin_data: Raw coin data from API
+            coin_vs: Currency to compare against
+        """
         self.info = {
             PriceInfoTypes.COIN_NAME: coin_data["name"],
             PriceInfoTypes.COIN_SYMBOL: coin_data["symbol"].upper(),
@@ -89,9 +83,19 @@ class PriceInfo:
             ),
         }
 
-    # Get info
     def GetData(self,
                 data_type: PriceInfoTypes) -> Any:
+        """Get price data by type.
+
+        Args:
+            data_type: Type of price data to retrieve
+
+        Returns:
+            Price data value
+
+        Raises:
+            TypeError: If data_type is not a PriceInfoTypes enumeration
+        """
         if not isinstance(data_type, PriceInfoTypes):
             raise TypeError("Invalid info type")
 

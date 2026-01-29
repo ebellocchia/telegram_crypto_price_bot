@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from typing import Any
 
 import pyrogram
@@ -33,50 +30,60 @@ from telegram_crypto_price_bot.price_info.price_info_builder import PriceInfoBui
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
 
 
-#
-# Classes
-#
-
-# Chart price info message sender class (chart and price in the same message)
 class ChartPriceInfoMessageSender(InfoMessageSenderBase):
+    """Message sender for chart and price information in the same message."""
 
     config: ConfigObject
     logger: Logger
     translator: TranslationLoader
     price_info_builder: PriceInfoBuilder
 
-    # Constructor
     def __init__(self,
                  client: pyrogram.Client,
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
+        """Initialize the chart price info message sender.
+
+        Args:
+            client: Pyrogram client instance
+            config: Configuration object
+            logger: Logger instance
+            translator: Translation loader
+        """
         super().__init__(client, config, logger)
         self.config = config
         self.logger = logger
         self.translator = translator
         self.price_info_builder = PriceInfoBuilder(config, translator)
 
-    # Send message
     def _SendMessage(self,
                      chat: pyrogram.types.Chat,
                      *args: Any,
                      **kwargs: Any) -> pyrogram.types.Message:
-        # Get chart and price information
+        """Send chart image with price information as caption.
+
+        Args:
+            chat: Telegram chat to send message to
+            *args: Arguments containing coin_id, coin_vs, last_days
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Sent message object
+
+        Raises:
+            RuntimeError: If unable to save chart to file
+        """
         chart_info = self._CoinGeckoPriceApi().GetChartInfo(args[0], args[1], args[2])
         price_info = self._CoinGeckoPriceApi().GetPriceInfo(args[0], args[1])
 
-        # Build price information string
         price_info_str = self.price_info_builder.Build(price_info)
-        # Save chart image
         chart_info_saver = ChartInfoTmpFileSaver(self.config, self.logger, self.translator)
         chart_info_saver.SaveToTmpFile(chart_info)
-        # Get temporary file name
         tmp_file_name = chart_info_saver.TmpFileName()
         if tmp_file_name is None:
             raise RuntimeError("Unable to save chart to file")
 
-        # Send chart image with price information as caption
         return self._MessageSender().SendPhoto(chat,
                                                tmp_file_name,
                                                caption=price_info_str,

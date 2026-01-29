@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 import time
 from typing import Any, List, Union
 
@@ -29,79 +26,106 @@ import pyrogram
 from telegram_crypto_price_bot.logger.logger import Logger
 
 
-#
-# Classes
-#
-
-# Constants for message sender class
 class MessageSenderConst:
-    # Maximum message length
+    """Constants for message sender configuration."""
+
     MSG_MAX_LEN: int = 4096
-    # Sleep time for sending messages
     SEND_MSG_SLEEP_TIME_SEC: float = 0.1
 
 
-# Message sender class
 class MessageSender:
+    """Class for sending Telegram messages with automatic splitting."""
 
     client: pyrogram.Client
     logger: Logger
 
-    # Constructor
     def __init__(self,
                  client: pyrogram.Client,
                  logger: Logger) -> None:
+        """Initialize the message sender.
+
+        Args:
+            client: Pyrogram client instance
+            logger: Logger instance
+        """
         self.client = client
         self.logger = logger
 
-    # Send message
     def SendMessage(self,
                     receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
                     msg: str,
                     **kwargs: Any) -> List[pyrogram.types.Message]:
-        # Log
+        """Send a message, automatically splitting if it exceeds maximum length.
+
+        Args:
+            receiver: Chat or user to send message to
+            msg: Message text to send
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            List of sent message objects
+        """
         self.logger.GetLogger().info(f"Sending message (length: {len(msg)}):\n{msg}")
-        # Split and send message
         return self.__SendSplitMessage(receiver, self.__SplitMessage(msg), **kwargs)
 
-    # Send photo
     def SendPhoto(self,
                   receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
                   photo: str,
                   **kwargs: Any) -> pyrogram.types.Message:
+        """Send a photo message.
+
+        Args:
+            receiver: Chat or user to send photo to
+            photo: Path to photo file
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Sent message object
+        """
         return self.client.send_photo(receiver.id, photo, **kwargs)     # type: ignore
 
-    # Send split message
     def __SendSplitMessage(self,
                            receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
                            split_msg: List[str],
                            **kwargs) -> List[pyrogram.types.Message]:
+        """Send multiple message parts with delay between sends.
+
+        Args:
+            receiver: Chat or user to send messages to
+            split_msg: List of message parts to send
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            List of sent message objects
+        """
         sent_msgs = []
 
-        # Send message
         for msg_part in split_msg:
             sent_msgs.append(self.client.send_message(receiver.id, msg_part, **kwargs))
             time.sleep(MessageSenderConst.SEND_MSG_SLEEP_TIME_SEC)
 
         return sent_msgs    # type: ignore
 
-    # Split message
     def __SplitMessage(self,
                        msg: str) -> List[str]:
+        """Split a message into parts respecting maximum length.
+
+        Args:
+            msg: Message to split
+
+        Returns:
+            List of message parts
+        """
         msg_parts = []
 
         while len(msg) > 0:
-            # If length is less than maximum, the operation is completed
             if len(msg) <= MessageSenderConst.MSG_MAX_LEN:
                 msg_parts.append(msg)
                 break
 
-            # Take the current part
             curr_part = msg[:MessageSenderConst.MSG_MAX_LEN]
-            # Get the last occurrence of a new line
             idx = curr_part.rfind("\n")
 
-            # Split with respect to the found occurrence
             if idx != -1:
                 msg_parts.append(curr_part[:idx])
                 msg = msg[idx + 1:]
@@ -109,7 +133,6 @@ class MessageSender:
                 msg_parts.append(curr_part)
                 msg = msg[MessageSenderConst.MSG_MAX_LEN + 1:]
 
-        # Log
         self.logger.GetLogger().info(f"Message split into {len(msg_parts)} part(s)")
 
         return msg_parts

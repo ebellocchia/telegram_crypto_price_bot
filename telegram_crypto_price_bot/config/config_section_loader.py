@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 import configparser
 
 from telegram_crypto_price_bot.config.config_loader_ex import ConfigFieldNotExistentError, ConfigFieldValueError
@@ -28,70 +25,91 @@ from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.config.config_typing import ConfigFieldType, ConfigSectionType
 
 
-#
-# Classes
-#
-
-# Configuration section loader class
 class ConfigSectionLoader:
+    """Loader for a single configuration section."""
 
     config_parser: configparser.ConfigParser
 
-    # Constructor
     def __init__(self,
                  config_parser: configparser.ConfigParser) -> None:
+        """Initialize the section loader.
+
+        Args:
+            config_parser: ConfigParser instance with loaded configuration
+        """
         self.config_parser = config_parser
 
-    # Load section
     def LoadSection(self,
                     config_obj: ConfigObject,
                     section_name: str,
                     section: ConfigSectionType) -> None:
-        # For each field
+        """Load a configuration section and populate the configuration object.
+
+        Args:
+            config_obj: Configuration object to populate
+            section_name: Name of the section to load
+            section: Section configuration structure
+        """
         for field in section:
-            # Load if needed
             if self.__FieldShallBeLoaded(config_obj, field):
-                # Set field value and print it
                 self.__SetFieldValue(config_obj, section_name, field)
                 self.__PrintFieldValue(config_obj, field)
-            # Otherwise set the default value
             elif "def_val" in field:
                 config_obj.SetValue(field["type"], field["def_val"])
 
-    # Get if field shall be loaded
     @staticmethod
     def __FieldShallBeLoaded(config_obj: ConfigObject,
                              field: ConfigFieldType) -> bool:
+        """Check if a field should be loaded based on conditions.
+
+        Args:
+            config_obj: Configuration object with current values
+            field: Field configuration
+
+        Returns:
+            True if field should be loaded, False otherwise
+        """
         return field["load_if"](config_obj) if "load_if" in field else True
 
-    # Set field value
     def __SetFieldValue(self,
                         config_obj: ConfigObject,
                         section: str,
                         field: ConfigFieldType) -> None:
+        """Set a field value in the configuration object.
+
+        Args:
+            config_obj: Configuration object to update
+            section: Section name containing the field
+            field: Field configuration
+
+        Raises:
+            ConfigFieldNotExistentError: If required field is missing
+            ConfigFieldValueError: If field value is invalid
+        """
         try:
             field_val = self.config_parser[section][field["name"]]
-        # Field not present, set default value if specified
         except KeyError as ex:
             if "def_val" not in field:
                 raise ConfigFieldNotExistentError(f"Configuration field \"{field['name']}\" not found") from ex
             field_val = field["def_val"]
         else:
-            # Convert value if needed
             if "conv_fct" in field:
                 field_val = field["conv_fct"](field_val)
 
-        # Validate value if needed
         if "valid_if" in field and not field["valid_if"](config_obj, field_val):
             raise ConfigFieldValueError(f"Value '{field_val}' is not valid for field \"{field['name']}\"")
 
-        # Set value
         config_obj.SetValue(field["type"], field_val)
 
-    # Print field value
     @staticmethod
     def __PrintFieldValue(config_obj: ConfigObject,
                           field: ConfigFieldType) -> None:
+        """Print a field value to the console.
+
+        Args:
+            config_obj: Configuration object containing the field value
+            field: Field configuration
+        """
         if "print_fct" in field:
             print(f"- {field['name']}: {field['print_fct'](config_obj.GetValue(field['type']))}")
         else:

@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from pycoingecko import CoinGeckoAPI
 
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
@@ -29,29 +26,40 @@ from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.price_info.price_info import PriceInfo
 
 
-#
-# Classes
-#
-
-# Error for coingecko price API class
 class CoinGeckoPriceApiError(Exception):
+    """Exception raised when CoinGecko API operations fail."""
+
     pass
 
 
-# Coingecko price API class
 class CoinGeckoPriceApi:
+    """API wrapper for retrieving cryptocurrency price and chart data from CoinGecko."""
 
     api: CoinGeckoAPI
 
-    # Constructor
-    def __init__(self,
-                 config: ConfigObject) -> None:
+    def __init__(self, config: ConfigObject) -> None:
+        """Initialize the CoinGecko price API.
+
+        Args:
+            config: Configuration object containing API key
+        """
         self.api = CoinGeckoAPI(api_key=config.GetValue(BotConfigTypes.COINGECKO_API_KEY))
 
-    # Get price info
     def GetPriceInfo(self,
                      coin_id: str,
                      coin_vs: str) -> PriceInfo:
+        """Get current price information for a cryptocurrency.
+
+        Args:
+            coin_id: Cryptocurrency coin identifier
+            coin_vs: Currency to compare against
+
+        Returns:
+            Price information object
+
+        Raises:
+            CoinGeckoPriceApiError: If API request fails
+        """
         try:
             coin_info = self.api.get_coin_by_id(id=coin_id)
         except ValueError as ex:
@@ -59,11 +67,23 @@ class CoinGeckoPriceApi:
 
         return PriceInfo(coin_info, coin_vs)
 
-    # Get chart info
     def GetChartInfo(self,
                      coin_id: str,
                      coin_vs: str,
                      last_days: int) -> ChartInfo:
+        """Get historical chart data for a cryptocurrency.
+
+        Args:
+            coin_id: Cryptocurrency coin identifier
+            coin_vs: Currency to compare against
+            last_days: Number of days of historical data to retrieve
+
+        Returns:
+            Chart information object
+
+        Raises:
+            CoinGeckoPriceApiError: If API request fails
+        """
         try:
             chart_info = self.api.get_coin_market_chart_by_id(id=coin_id, vs_currency=coin_vs, days=last_days)
         except ValueError as ex:

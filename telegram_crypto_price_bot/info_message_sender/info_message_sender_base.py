@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from abc import ABC, abstractmethod
 from typing import Any, Optional
 
@@ -33,54 +30,79 @@ from telegram_crypto_price_bot.message.message_deleter import MessageDeleter
 from telegram_crypto_price_bot.message.message_sender import MessageSender
 
 
-#
-# Classes
-#
-
-# Info message sender base class
 class InfoMessageSenderBase(ABC):
+    """Abstract base class for information message senders."""
 
     last_sent_msg: Optional[pyrogram.types.Message]
     coingecko_api: CoinGeckoPriceApi
     message_deleter: MessageDeleter
     message_sender: MessageSender
 
-    # Constructor
     def __init__(self,
                  client: pyrogram.Client,
                  config: ConfigObject,
                  logger: Logger) -> None:
+        """Initialize the info message sender base.
+
+        Args:
+            client: Pyrogram client instance
+            config: Configuration object
+            logger: Logger instance
+        """
         self.last_sent_msg = None
         self.coingecko_api = CoinGeckoPriceApi(config)
         self.message_deleter = MessageDeleter(client, logger)
         self.message_sender = MessageSender(client, logger)
 
-    # Send message
     def SendMessage(self,
                     chat: pyrogram.types.Chat,
                     *args: Any,
                     **kwargs: Any) -> None:
+        """Send message and store the last sent message.
+
+        Args:
+            chat: Telegram chat to send message to
+            *args: Additional positional arguments
+            **kwargs: Additional keyword arguments
+        """
         self.last_sent_msg = self._SendMessage(chat, *args, **kwargs)
 
-    # Delete last sent message
     def DeleteLastSentMessage(self) -> None:
+        """Delete the last sent message if it exists."""
         if self.last_sent_msg is not None:
             self.message_deleter.DeleteMessage(self.last_sent_msg)
 
         self.last_sent_msg = None
 
-    # Get CoinGecko API
     def _CoinGeckoPriceApi(self) -> CoinGeckoPriceApi:
+        """Get the CoinGecko API instance.
+
+        Returns:
+            CoinGecko API instance
+        """
         return self.coingecko_api
 
-    # Get message sender
     def _MessageSender(self) -> MessageSender:
+        """Get the message sender instance.
+
+        Returns:
+            Message sender instance
+        """
         return self.message_sender
 
-    # Send message (to be implemented by children classes)
     @abstractmethod
     def _SendMessage(self,
                      chat: pyrogram.types.Chat,
                      *args: Any,
                      **kwargs: Any) -> pyrogram.types.Message:
+        """Send message implementation to be provided by subclasses.
+
+        Args:
+            chat: Telegram chat to send message to
+            *args: Additional positional arguments
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            Sent message object
+        """
         pass

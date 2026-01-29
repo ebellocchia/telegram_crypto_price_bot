@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from typing import List
 
 import pyrogram
@@ -30,26 +27,34 @@ from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.utils.pyrogram_wrapper import PyrogramWrapper
 
 
-#
-# Classes
-#
-
-# Message deleter class
 class MessageDeleter:
+    """Class for deleting Telegram messages."""
 
     client: pyrogram.Client
     logger: Logger
 
-    # Constructor
     def __init__(self,
                  client: pyrogram.Client,
                  logger: Logger) -> None:
+        """Initialize the message deleter.
+
+        Args:
+            client: Pyrogram client instance
+            logger: Logger instance
+        """
         self.client = client
         self.logger = logger
 
-    # Delete message
     def DeleteMessage(self,
                       message: pyrogram.types.Message) -> bool:
+        """Delete a single message.
+
+        Args:
+            message: Message to delete
+
+        Returns:
+            True if message was deleted successfully, False otherwise
+        """
         try:
             if message.chat is not None:
                 self.client.delete_messages(message.chat.id, PyrogramWrapper.MessageId(message))
@@ -58,8 +63,12 @@ class MessageDeleter:
             self.logger.GetLogger().exception(f"Unable to delete message {PyrogramWrapper.MessageId(message)}")
         return False
 
-    # Delete messages
     def DeleteMessages(self,
                        messages: List[pyrogram.types.Message]) -> None:
+        """Delete multiple messages.
+
+        Args:
+            messages: List of messages to delete
+        """
         for message in messages:
             self.DeleteMessage(message)

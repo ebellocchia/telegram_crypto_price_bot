@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.misc.formatters import (
@@ -34,38 +31,44 @@ from telegram_crypto_price_bot.price_info.price_info import PriceInfo, PriceInfo
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
 
 
-#
-# Classes
-#
-
-# Constants for price info builder class
 class PriceInfoBuilderConst:
-    # Alignment size
+    """Constants for price information builder configuration."""
+
     ALIGN_LEN: int = 16
-    # Delimiter for Markdown code
     MARKDOWN_CODE_DELIM: str = "```"
 
 
-# Price info builder class
 class PriceInfoBuilder:
+    """Builder class for formatting cryptocurrency price information messages."""
 
     config: ConfigObject
     translator: TranslationLoader
 
-    # Constructor
     def __init__(self,
                  config: ConfigObject,
                  translator: TranslationLoader) -> None:
+        """Initialize the price info builder.
+
+        Args:
+            config: Configuration object
+            translator: Translation loader
+        """
         self.config = config
         self.translator = translator
 
-    # Build price info
     def Build(self,
               price_info: PriceInfo) -> str:
+        """Build a formatted price information message.
+
+        Args:
+            price_info: Price information to format
+
+        Returns:
+            Formatted price information message string
+        """
         coin_vs = price_info.GetData(PriceInfoTypes.COIN_VS)
         coin_vs_sym = price_info.GetData(PriceInfoTypes.COIN_VS_SYMBOL)
 
-        # Get and format data
         coin_pair = CoinPairFormatter.Format(price_info.GetData(PriceInfoTypes.COIN_SYMBOL), coin_vs)
         price = PriceFormatter.Format(price_info.GetData(PriceInfoTypes.CURR_PRICE), coin_vs_sym)
 
@@ -80,50 +83,49 @@ class PriceInfoBuilder:
         change_perc_14d = PriceChangePercFormatter.Format(price_info.GetData(PriceInfoTypes.PRICE_CHANGE_PERC_14D))
         change_perc_30d = PriceChangePercFormatter.Format(price_info.GetData(PriceInfoTypes.PRICE_CHANGE_PERC_30D))
 
-        #
-        # Build message string
-        #
-
-        # Title
         msg = self.translator.GetSentence("PRICE_INFO_TITLE_MSG",
                                           coin_name=price_info.GetData(PriceInfoTypes.COIN_NAME))
 
-        # Begin code
         msg += PriceInfoBuilderConst.MARKDOWN_CODE_DELIM
         msg += "\n"
 
-        # Price info
         msg += self.__PrintAligned(f"💵 {coin_pair}", price)
         msg += self.__PrintAligned("📈 High 24h", high_24h)
         msg += self.__PrintAligned("📈 Low 24h", low_24h)
         msg += self.__PrintAligned("📊 Volume 24h", volume)
 
-        # Market cap
         if self.config.GetValue(BotConfigTypes.PRICE_DISPLAY_MARKET_CAP):
             msg += self.__PrintAligned("💎 Market Cap", market_cap)
-        # Market cap rank
         if self.config.GetValue(BotConfigTypes.PRICE_DISPLAY_MARKET_CAP_RANK):
             msg += self.__PrintAligned("🏆 Rank", f"{market_cap_rank:d}")
 
-        # Price differences
         msg += "\n⚖ Diff.\n"
         msg += self.__PrintAligned("     24h", change_perc_24h, 1)
         msg += self.__PrintAligned("     7d", change_perc_7d, 1)
         msg += self.__PrintAligned("     14d", change_perc_14d, 1)
         msg += self.__PrintAligned("     30d", change_perc_30d, 1, False)
 
-        # End code
         msg += "\n"
         msg += PriceInfoBuilderConst.MARKDOWN_CODE_DELIM
 
         return msg
 
-    # Print string aligned
     @staticmethod
     def __PrintAligned(header: str,
                        value: str,
                        correction: int = 0,
                        add_new_line: bool = True) -> str:
+        """Format a string with aligned header and value.
+
+        Args:
+            header: Header text
+            value: Value text
+            correction: Alignment correction offset
+            add_new_line: Whether to add a newline character
+
+        Returns:
+            Formatted aligned string
+        """
         alignment = " " * (PriceInfoBuilderConst.ALIGN_LEN + correction - len(header))
         new_line = "\n" if add_new_line else ""
 

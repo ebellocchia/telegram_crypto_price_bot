@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#
-# Imports
-#
 from typing import Any
 
 import pyrogram
@@ -37,13 +34,8 @@ from telegram_crypto_price_bot.message.message_dispatcher import MessageDispatch
 from telegram_crypto_price_bot.translation.translation_loader import TranslationLoader
 
 
-#
-# Classes
-#
-
-
-# Bot base class
 class BotBase:
+    """Base class for Telegram bot using Pyrogram client."""
 
     config: ConfigObject
     logger: Logger
@@ -52,70 +44,78 @@ class BotBase:
     cmd_dispatcher: CommandDispatcher
     msg_dispatcher: MessageDispatcher
 
-    # Constructor
     def __init__(self,
                  config_file: str,
                  config_sections: ConfigSectionsType,
                  handlers_config: BotHandlersConfigType) -> None:
-        # Load configuration
+        """Initialize the bot with configuration, logger, translator, and handlers.
+
+        Args:
+            config_file: Path to the configuration file
+            config_sections: Configuration sections to load
+            handlers_config: Handlers configuration for the bot
+        """
         self.config = ConfigFileSectionsLoader.Load(config_file, config_sections)
-        # Initialize logger
         self.logger = Logger(self.config)
-        # Initialize translations
         self.translator = TranslationLoader(self.logger)
         self.translator.Load(self.config.GetValue(BotConfigTypes.APP_LANG_FILE))
-        # Initialize client
         self.client = Client(
             self.config.GetValue(BotConfigTypes.SESSION_NAME),
             api_id=self.config.GetValue(BotConfigTypes.API_ID),
             api_hash=self.config.GetValue(BotConfigTypes.API_HASH),
-            bot_token=self.config.GetValue(BotConfigTypes.BOT_TOKEN)
+            bot_token=self.config.GetValue(BotConfigTypes.BOT_TOKEN),
         )
-        # Initialize helper classes
         self.cmd_dispatcher = CommandDispatcher(self.config, self.logger, self.translator)
         self.msg_dispatcher = MessageDispatcher(self.config, self.logger, self.translator)
-        # Setup handlers
         self._SetupHandlers(handlers_config)
-        # Log
         self.logger.GetLogger().info("Bot initialization completed")
 
-    # Run bot
     def Run(self) -> None:
-        # Print
+        """Start the bot client."""
         self.logger.GetLogger().info("Bot started!\n")
-        # Run client
         self.client.run()
 
-    # Setup handlers
-    def _SetupHandlers(self,
-                       handlers_config: BotHandlersConfigType) -> None:
-        def create_handler(handler_type, handler_cfg):
-            return handler_type(
-                lambda client, message: handler_cfg["callback"](self, client, message),
-                handler_cfg["filters"]
-            )
+    def _SetupHandlers(self, handlers_config: BotHandlersConfigType) -> None:
+        """Setup message handlers for the bot.
 
-        # Add all configured handlers
+        Args:
+            handlers_config: Dictionary containing handler configurations
+        """
+
+        def create_handler(handler_type, handler_cfg):
+            return handler_type(lambda client, message: handler_cfg["callback"](self, client, message), handler_cfg["filters"])
+
         for curr_hnd_type, curr_hnd_cfg in handlers_config.items():
             for handler_cfg in curr_hnd_cfg:
-                self.client.add_handler(
-                    create_handler(curr_hnd_type, handler_cfg)
-                )
-        # Log
+                self.client.add_handler(create_handler(curr_hnd_type, handler_cfg))
         self.logger.GetLogger().info("Bot handlers set")
 
-    # Dispatch command
     def DispatchCommand(self,
                         client: pyrogram.Client,
                         message: pyrogram.types.Message,
                         cmd_type: CommandTypes,
                         **kwargs: Any) -> None:
+        """Dispatch a command to the command dispatcher.
+
+        Args:
+            client: Pyrogram client instance
+            message: Message containing the command
+            cmd_type: Type of command to dispatch
+            **kwargs: Additional keyword arguments for the command
+        """
         self.cmd_dispatcher.Dispatch(client, message, cmd_type, **kwargs)
 
-    # Handle message
     def HandleMessage(self,
                       client: pyrogram.Client,
                       message: pyrogram.types.Message,
                       msg_type: MessageTypes,
                       **kwargs: Any) -> None:
+        """Handle a message by dispatching it to the message dispatcher.
+
+        Args:
+            client: Pyrogram client instance
+            message: Message to handle
+            msg_type: Type of message
+            **kwargs: Additional keyword arguments for the message handler
+        """
         self.msg_dispatcher.Dispatch(client, message, msg_type, **kwargs)
