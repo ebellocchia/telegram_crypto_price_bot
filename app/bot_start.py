@@ -59,7 +59,7 @@ def print_header() -> None:
     print("**                               **")
     print("*    Telegram Crypto Price Bot    *")
     print("*   Author: Emanuele Bellocchia   *")
-    print("*         Version: %s          *" % __version__)
+    print(f"*         Version: {__version__}          *")
     print("**                               **")
     print("***                             ***")
     print("****                           ****")
