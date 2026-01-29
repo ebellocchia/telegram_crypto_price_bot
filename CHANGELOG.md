@@ -1,3 +1,8 @@
+# 0.5.0
+
+- Migrate to full async/await client
+- Replace `PyCoinGecko` (not maintained anymore) with custom async CoinGecko client with retry
+
 # 0.4.2
 
 - Topics support: if bot is started in a topic, it'll send messages in that specific topic (not in General like before).\
