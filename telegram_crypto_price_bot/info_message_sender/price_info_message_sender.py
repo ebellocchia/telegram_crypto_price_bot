@@ -52,12 +52,14 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
 
     def _SendMessage(self,
                      chat: pyrogram.types.Chat,
+                     topic_id: int,
                      *args: Any,
                      **kwargs: Any) -> pyrogram.types.Message:
         """Send price information message.
 
         Args:
             chat: Telegram chat to send message to
+            topic_id: Telegram topic to send message to
             *args: Arguments containing coin_id, coin_vs
             **kwargs: Additional keyword arguments
 
@@ -67,4 +69,4 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
         price_info = self._CoinGeckoPriceApi().GetPriceInfo(args[0], args[1])
         price_info_str = self.price_info_builder.Build(price_info)
 
-        return self._MessageSender().SendMessage(chat, price_info_str)[0]
+        return self._MessageSender().SendMessage(chat, topic_id, price_info_str)[0]

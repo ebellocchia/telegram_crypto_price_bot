@@ -59,12 +59,14 @@ class ChartPriceInfoMessageSender(InfoMessageSenderBase):
 
     def _SendMessage(self,
                      chat: pyrogram.types.Chat,
+                     topic_id: int,
                      *args: Any,
                      **kwargs: Any) -> pyrogram.types.Message:
         """Send chart image with price information as caption.
 
         Args:
             chat: Telegram chat to send message to
+            topic_id: Telegram topic to send message to
             *args: Arguments containing coin_id, coin_vs, last_days
             **kwargs: Additional keyword arguments
 
@@ -85,6 +87,7 @@ class ChartPriceInfoMessageSender(InfoMessageSenderBase):
             raise RuntimeError("Unable to save chart to file")
 
         return self._MessageSender().SendPhoto(chat,
+                                               topic_id,
                                                tmp_file_name,
                                                caption=price_info_str,
                                                **kwargs)

@@ -31,6 +31,7 @@ class CoinInfoJobData:
     """Data class for storing coin information job parameters."""
 
     chat: pyrogram.types.Chat
+    topic_id: int
     period_hours: int
     start_hour: int
     coin_id: str
@@ -40,6 +41,7 @@ class CoinInfoJobData:
 
     def __init__(self,
                  chat: pyrogram.types.Chat,
+                 topic_id: int,
                  period_hours: int,
                  start_hour: int,
                  coin_id: str,
@@ -49,6 +51,7 @@ class CoinInfoJobData:
 
         Args:
             chat: Telegram chat where the job will run
+            topic_id: Telegram topic where the job will run
             period_hours: Period in hours between job executions
             start_hour: Starting hour for the job
             coin_id: Cryptocurrency coin identifier
@@ -56,6 +59,7 @@ class CoinInfoJobData:
             last_days: Number of days of historical data to display
         """
         self.chat = chat
+        self.topic_id = topic_id
         self.period_hours = period_hours
         self.start_hour = start_hour
         self.coin_id = coin_id
@@ -70,6 +74,14 @@ class CoinInfoJobData:
             The Telegram chat object
         """
         return self.chat
+
+    def TopicId(self) -> int:
+        """Get the topic associated with this job.
+
+        Returns:
+            The Telegram topic ID
+        """
+        return self.topic_id
 
     def PeriodHours(self) -> int:
         """Get the period in hours between job executions.
@@ -188,6 +200,7 @@ class CoinInfoJob:
 
     def DoJob(self,
               chat: pyrogram.types.Chat,
+              topic_id: int,
               coin_id: str,
               coin_vs: str,
               last_days: int) -> None:
@@ -195,9 +208,10 @@ class CoinInfoJob:
 
         Args:
             chat: Telegram chat to send the message to
+            topic_id: Telegram topic to send the message to
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
             last_days: Number of days of historical data to display
         """
         self.logger.GetLogger().info(f"Coin job started in chat {ChatHelper.GetTitleOrId(chat)}")
-        self.coin_info_msg_sender.SendMessage(chat, coin_id, coin_vs, last_days)
+        self.coin_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)

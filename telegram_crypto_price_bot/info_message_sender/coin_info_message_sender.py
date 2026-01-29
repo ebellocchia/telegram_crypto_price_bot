@@ -87,6 +87,7 @@ class CoinInfoMessageSender:
 
     def SendMessage(self,
                     chat: pyrogram.types.Chat,
+                    topic_id: int,
                     coin_id: str,
                     coin_vs: str,
                     last_days: int) -> None:
@@ -94,6 +95,7 @@ class CoinInfoMessageSender:
 
         Args:
             chat: Telegram chat to send message to
+            topic_id: Telegram topic to send message to
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
             last_days: Number of days of historical data
@@ -105,18 +107,19 @@ class CoinInfoMessageSender:
 
         try:
             if self.send_in_same_msg and self.config.GetValue(BotConfigTypes.CHART_DISPLAY):
-                self.chart_price_info_msg_sender.SendMessage(chat, coin_id, coin_vs, last_days)
+                self.chart_price_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
             else:
-                self.price_info_msg_sender.SendMessage(chat, coin_id, coin_vs)
+                self.price_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs)
 
                 if self.config.GetValue(BotConfigTypes.CHART_DISPLAY):
-                    self.chart_info_msg_sender.SendMessage(chat, coin_id, coin_vs, last_days)
+                    self.chart_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
         except CoinGeckoPriceApiError:
             self.logger.GetLogger().exception(
                 f"Coingecko API error when retrieving data for coin {coin_id}/{coin_vs}"
             )
             self.msg_sender.SendMessage(
                 chat,
+                topic_id,
                 self.translator.GetSentence("API_ERR_MSG",
                                             coin_id=coin_id,
                                             coin_vs=coin_vs)

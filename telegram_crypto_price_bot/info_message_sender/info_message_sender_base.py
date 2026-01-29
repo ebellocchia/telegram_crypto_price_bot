@@ -56,16 +56,18 @@ class InfoMessageSenderBase(ABC):
 
     def SendMessage(self,
                     chat: pyrogram.types.Chat,
+                    topic_id: int,
                     *args: Any,
                     **kwargs: Any) -> None:
         """Send message and store the last sent message.
 
         Args:
             chat: Telegram chat to send message to
+            topic_id: Telegram topic to send message to
             *args: Additional positional arguments
             **kwargs: Additional keyword arguments
         """
-        self.last_sent_msg = self._SendMessage(chat, *args, **kwargs)
+        self.last_sent_msg = self._SendMessage(chat, topic_id, *args, **kwargs)
 
     def DeleteLastSentMessage(self) -> None:
         """Delete the last sent message if it exists."""
@@ -93,12 +95,14 @@ class InfoMessageSenderBase(ABC):
     @abstractmethod
     def _SendMessage(self,
                      chat: pyrogram.types.Chat,
+                     topic_id: int,
                      *args: Any,
                      **kwargs: Any) -> pyrogram.types.Message:
         """Send message implementation to be provided by subclasses.
 
         Args:
             chat: Telegram chat to send message to
+            topic_id: Telegram topic to send message to
             *args: Additional positional arguments
             **kwargs: Additional keyword arguments
 

@@ -24,7 +24,6 @@ import pyrogram
 import pyrogram.errors.exceptions as pyrogram_ex
 
 from telegram_crypto_price_bot.logger.logger import Logger
-from telegram_crypto_price_bot.utils.pyrogram_wrapper import PyrogramWrapper
 
 
 class MessageDeleter:
@@ -57,10 +56,10 @@ class MessageDeleter:
         """
         try:
             if message.chat is not None:
-                self.client.delete_messages(message.chat.id, PyrogramWrapper.MessageId(message))
+                self.client.delete_messages(message.chat.id, message.id)
                 return True
         except pyrogram_ex.forbidden_403.MessageDeleteForbidden:
-            self.logger.GetLogger().exception(f"Unable to delete message {PyrogramWrapper.MessageId(message)}")
+            self.logger.GetLogger().exception(f"Unable to delete message {message.id}")
         return False
 
     def DeleteMessages(self,

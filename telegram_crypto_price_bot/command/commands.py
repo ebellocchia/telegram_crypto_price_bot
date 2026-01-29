@@ -123,7 +123,7 @@ class PriceGetSingleCmd(CommandBase):
         else:
             coin_info_sender = CoinInfoMessageSender(self.client, self.config, self.logger, self.translator)
             coin_info_sender.SendInSameMessage(same_msg)
-            coin_info_sender.SendMessage(self.cmd_data.Chat(), coin_id, coin_vs, last_days)
+            coin_info_sender.SendMessage(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs, last_days)
 
 
 class PriceTaskStartCmd(CommandBase):
@@ -142,7 +142,13 @@ class PriceTaskStartCmd(CommandBase):
             self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
-                kwargs["coin_info_scheduler"].Start(self.cmd_data.Chat(), period_hours, start_hour, coin_id, coin_vs, last_days)
+                kwargs["coin_info_scheduler"].Start(self.cmd_data.Chat(),
+                                                    self.message.message_thread_id,
+                                                    period_hours,
+                                                    start_hour,
+                                                    coin_id,
+                                                    coin_vs,
+                                                    last_days)
                 self._SendMessage(
                     self.translator.GetSentence(
                         "PRICE_TASK_START_OK_CMD",
@@ -176,7 +182,7 @@ class PriceTaskStopCmd(CommandBase):
             self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
-                kwargs["coin_info_scheduler"].Stop(self.cmd_data.Chat(), coin_id, coin_vs)
+                kwargs["coin_info_scheduler"].Stop(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs)
                 self._SendMessage(self.translator.GetSentence("PRICE_TASK_STOP_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
             except CoinInfoJobNotExistentError:
                 self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
@@ -205,7 +211,7 @@ class PriceTaskPauseCmd(CommandBase):
             self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
-                kwargs["coin_info_scheduler"].Pause(self.cmd_data.Chat(), coin_id, coin_vs)
+                kwargs["coin_info_scheduler"].Pause(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs)
                 self._SendMessage(self.translator.GetSentence("PRICE_TASK_PAUSE_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
             except CoinInfoJobNotExistentError:
                 self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
@@ -224,7 +230,7 @@ class PriceTaskResumeCmd(CommandBase):
             self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
-                kwargs["coin_info_scheduler"].Resume(self.cmd_data.Chat(), coin_id, coin_vs)
+                kwargs["coin_info_scheduler"].Resume(self.cmd_data.Chat(), self.message.message_thread_id, coin_id, coin_vs)
                 self._SendMessage(self.translator.GetSentence("PRICE_TASK_RESUME_OK_CMD", coin_id=coin_id, coin_vs=coin_vs))
             except CoinInfoJobNotExistentError:
                 self._SendMessage(self.translator.GetSentence("TASK_NOT_EXISTENT_ERR_MSG", coin_id=coin_id, coin_vs=coin_vs))
@@ -244,7 +250,11 @@ class PriceTaskSendInSameMsgCmd(CommandBase):
             self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
-                kwargs["coin_info_scheduler"].SendInSameMessage(self.cmd_data.Chat(), coin_id, coin_vs, flag)
+                kwargs["coin_info_scheduler"].SendInSameMessage(self.cmd_data.Chat(),
+                                                                self.message.message_thread_id,
+                                                                coin_id,
+                                                                coin_vs,
+                                                                flag)
                 self._SendMessage(
                     self.translator.GetSentence("PRICE_TASK_SEND_IN_SAME_MSG_OK_CMD", coin_id=coin_id, coin_vs=coin_vs, flag=flag)
                 )
@@ -266,7 +276,11 @@ class PriceTaskDeleteLastMsgCmd(CommandBase):
             self._SendMessage(self.translator.GetSentence("PARAM_ERR_MSG"))
         else:
             try:
-                kwargs["coin_info_scheduler"].DeleteLastSentMessage(self.cmd_data.Chat(), coin_id, coin_vs, flag)
+                kwargs["coin_info_scheduler"].DeleteLastSentMessage(self.cmd_data.Chat(),
+                                                                    self.message.message_thread_id,
+                                                                    coin_id,
+                                                                    coin_vs,
+                                                                    flag)
                 self._SendMessage(
                     self.translator.GetSentence("PRICE_TASK_DELETE_LAST_MSG_OK_CMD", coin_id=coin_id, coin_vs=coin_vs, flag=flag)
                 )

@@ -76,7 +76,8 @@ class CoinInfoJobsList(WrappedList):
 
     translator: TranslationLoader
 
-    def __init__(self, translator: TranslationLoader) -> None:
+    def __init__(self,
+                 translator: TranslationLoader) -> None:
         """Initialize the jobs list.
 
         Args:
@@ -95,6 +96,7 @@ class CoinInfoJobsList(WrappedList):
             [
                 self.translator.GetSentence(
                     "SINGLE_TASK_INFO_MSG",
+                    topic_id=job_data.TopicId(),
                     coin_id=job_data.CoinId(),
                     coin_vs=job_data.CoinVs(),
                     period=job_data.PeriodHours(),
@@ -126,7 +128,7 @@ class CoinInfoScheduler:
     config: ConfigObject
     logger: Logger
     translator: TranslationLoader
-    jobs: Dict[int, Dict[str, CoinInfoJob]]
+    jobs: Dict[str, CoinInfoJob]
     scheduler: BackgroundScheduler
 
     def __init__(self,
@@ -150,7 +152,8 @@ class CoinInfoScheduler:
         self.scheduler = BackgroundScheduler()
         self.scheduler.start()
 
-    def GetJobsInChat(self, chat: pyrogram.types.Chat) -> CoinInfoJobsList:
+    def GetJobsInChat(self,
+                      chat: pyrogram.types.Chat) -> CoinInfoJobsList:
         """Get the list of active jobs in a chat.
 
         Args:
@@ -160,29 +163,32 @@ class CoinInfoScheduler:
             List of active jobs in the chat
         """
         jobs_list = CoinInfoJobsList(self.translator)
-        jobs_list.AddMultiple([job.Data() for (_, job) in self.jobs[chat.id].items()] if chat.id in self.jobs else [])
+        jobs_list.AddMultiple([job.Data() for (job_id, job) in self.jobs.items() if job_id.startswith(str(chat.id))])
 
         return jobs_list
 
     def IsActiveInChat(self,
                        chat: pyrogram.types.Chat,
+                       topic_id: int,
                        coin_id: str,
                        coin_vs: str) -> bool:
         """Check if a job is active in a chat.
 
         Args:
-            chat: Telegram chat to check
+            chat: Telegram chat
+            topic_id: Telegram topic
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
 
         Returns:
             True if job is active, False otherwise
         """
-        job_id = self.__GetJobId(chat, coin_id, coin_vs)
-        return chat.id in self.jobs and job_id in self.jobs[chat.id] and self.scheduler.get_job(job_id) is not None
+        job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
+        return job_id in self.jobs and self.scheduler.get_job(job_id) is not None
 
     def Start(self,
               chat: pyrogram.types.Chat,
+              topic_id: int,
               period_hours: int,
               start_hour: int,
               coin_id: str,
@@ -192,6 +198,7 @@ class CoinInfoScheduler:
 
         Args:
             chat: Telegram chat where the job will run
+            topic_id: Telegram topic where the job will run
             period_hours: Period in hours between executions
             start_hour: Starting hour for the job
             coin_id: Cryptocurrency coin identifier
@@ -204,10 +211,12 @@ class CoinInfoScheduler:
             CoinInfoJobInvalidStartError: If start hour is invalid
             CoinInfoJobMaxNumError: If maximum number of jobs reached
         """
-        job_id = self.__GetJobId(chat, coin_id, coin_vs)
+        job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
 
-        if self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f'Job "{job_id}" already active in chat {ChatHelper.GetTitleOrId(chat)}, cannot start it')
+        if self.IsActiveInChat(chat, topic_id, coin_id, coin_vs):
+            self.logger.GetLogger().error(
+                f'Job "{job_id}" already active in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id}), cannot start it'
+            )
             raise CoinInfoJobAlreadyExistentError()
 
         if period_hours < CoinInfoSchedulerConst.MIN_PERIOD_HOURS or period_hours > CoinInfoSchedulerConst.MAX_PERIOD_HOURS:
@@ -223,54 +232,59 @@ class CoinInfoScheduler:
             self.logger.GetLogger().error("Maximum number of jobs reached, cannot start a new one")
             raise CoinInfoJobMaxNumError()
 
-        self.__CreateJob(job_id, chat, period_hours, start_hour, coin_id, coin_vs, last_days)
-        self.__AddJob(job_id, chat, period_hours, start_hour, coin_id, coin_vs, last_days)
+        self.__CreateJob(job_id, chat, topic_id, period_hours, start_hour, coin_id, coin_vs, last_days)
+        self.__AddJob(job_id, chat, topic_id, period_hours, start_hour, coin_id, coin_vs, last_days)
 
     def Stop(self,
              chat: pyrogram.types.Chat,
+             topic_id: int,
              coin_id: str,
              coin_vs: str) -> None:
         """Stop a scheduled job.
 
         Args:
             chat: Telegram chat where the job is running
+            topic_id: Telegram topic where the job is running
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
 
         Raises:
             CoinInfoJobNotExistentError: If job does not exist
         """
-        job_id = self.__GetJobId(chat, coin_id, coin_vs)
+        job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
 
-        if not self.IsActiveInChat(chat, coin_id, coin_vs):
+        if not self.IsActiveInChat(chat, topic_id, coin_id, coin_vs):
             self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot stop it')
             raise CoinInfoJobNotExistentError()
 
-        del self.jobs[chat.id][job_id]
+        del self.jobs[job_id]
         self.scheduler.remove_job(job_id)
         self.logger.GetLogger().info(
             f'Stopped job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}'
         )
 
-    def StopAll(self, chat: pyrogram.types.Chat) -> None:
+    def StopAll(self,
+                chat: pyrogram.types.Chat) -> None:
         """Stop all jobs in a chat.
 
         Args:
             chat: Telegram chat to stop all jobs in
         """
-        if chat.id not in self.jobs:
+        job_ids = [job_id for job_id in self.jobs.keys() if job_id.startswith(str(chat.id))]
+        if len(job_ids) == 0:
             self.logger.GetLogger().info(f"No job to stop in chat {ChatHelper.GetTitleOrId(chat)}, exiting...")
             return
 
-        for job_id in self.jobs[chat.id].keys():
+        for job_id in job_ids:
             self.scheduler.remove_job(job_id)
             self.logger.GetLogger().info(f'Stopped job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}')
-        del self.jobs[chat.id]
+            del self.jobs[job_id]
         self.logger.GetLogger().info(
             f"Removed all jobs in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}"
         )
 
-    def ChatLeft(self, chat: pyrogram.types.Chat) -> None:
+    def ChatLeft(self,
+                 chat: pyrogram.types.Chat) -> None:
         """Handle bot leaving a chat by stopping all jobs.
 
         Args:
@@ -281,54 +295,63 @@ class CoinInfoScheduler:
 
     def Pause(self,
               chat: pyrogram.types.Chat,
+              topic_id: int,
               coin_id: str,
               coin_vs: str) -> None:
         """Pause a scheduled job.
 
         Args:
             chat: Telegram chat where the job is running
+            topic_id: Telegram topic where the job is running
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
 
         Raises:
             CoinInfoJobNotExistentError: If job does not exist
         """
-        job_id = self.__GetJobId(chat, coin_id, coin_vs)
+        job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
 
-        if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot pause it')
+        if not self.IsActiveInChat(chat, topic_id, coin_id, coin_vs):
+            self.logger.GetLogger().error(
+                f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id}), cannot pause it'
+            )
             raise CoinInfoJobNotExistentError()
 
-        self.jobs[chat.id][job_id].SetRunning(False)
+        self.jobs[job_id].SetRunning(False)
         self.scheduler.pause_job(job_id)
-        self.logger.GetLogger().info(f'Paused job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}')
+        self.logger.GetLogger().info(f'Paused job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id})')
 
     def Resume(self,
                chat: pyrogram.types.Chat,
+               topic_id: int,
                coin_id: str,
                coin_vs: str) -> None:
         """Resume a paused job.
 
         Args:
             chat: Telegram chat where the job is running
+            topic_id: Telegram topic where the job is running
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
 
         Raises:
             CoinInfoJobNotExistentError: If job does not exist
         """
-        job_id = self.__GetJobId(chat, coin_id, coin_vs)
+        job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
 
-        if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot resume it')
+        if not self.IsActiveInChat(chat, topic_id, coin_id, coin_vs):
+            self.logger.GetLogger().error(
+                f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id}), cannot resume it'
+            )
             raise CoinInfoJobNotExistentError()
 
-        self.jobs[chat.id][job_id].SetRunning(True)
+        self.jobs[job_id].SetRunning(True)
         self.scheduler.resume_job(job_id)
-        self.logger.GetLogger().info(f'Resumed job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}')
+        self.logger.GetLogger().info(f'Resumed job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id})')
 
     def SendInSameMessage(self,
                           chat: pyrogram.types.Chat,
+                          topic_id: int,
                           coin_id: str,
                           coin_vs: str,
                           flag: bool) -> None:
@@ -336,6 +359,7 @@ class CoinInfoScheduler:
 
         Args:
             chat: Telegram chat where the job is running
+            topic_id: Telegram topic where the job is running
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
             flag: True to send in same message, False otherwise
@@ -343,17 +367,20 @@ class CoinInfoScheduler:
         Raises:
             CoinInfoJobNotExistentError: If job does not exist
         """
-        job_id = self.__GetJobId(chat, coin_id, coin_vs)
+        job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
 
-        if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)}')
+        if not self.IsActiveInChat(chat, topic_id, coin_id, coin_vs):
+            self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id})')
             raise CoinInfoJobNotExistentError()
 
-        self.jobs[chat.id][job_id].SendInSameMessage(flag)
-        self.logger.GetLogger().info(f'Set send in same message to {flag} for job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}')
+        self.jobs[job_id].SendInSameMessage(flag)
+        self.logger.GetLogger().info(
+            f'Set send in same message to {flag} for job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id})'
+        )
 
     def DeleteLastSentMessage(self,
                               chat: pyrogram.types.Chat,
+                              topic_id: int,
                               coin_id: str,
                               coin_vs: str,
                               flag: bool) -> None:
@@ -361,6 +388,7 @@ class CoinInfoScheduler:
 
         Args:
             chat: Telegram chat where the job is running
+            topic_id: Telegram topic where the job is running
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
             flag: True to delete last message, False otherwise
@@ -368,18 +396,21 @@ class CoinInfoScheduler:
         Raises:
             CoinInfoJobNotExistentError: If job does not exist
         """
-        job_id = self.__GetJobId(chat, coin_id, coin_vs)
+        job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
 
-        if not self.IsActiveInChat(chat, coin_id, coin_vs):
-            self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)}')
+        if not self.IsActiveInChat(chat, topic_id, coin_id, coin_vs):
+            self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id})')
             raise CoinInfoJobNotExistentError()
 
-        self.jobs[chat.id][job_id].DeleteLastSentMessage(flag)
-        self.logger.GetLogger().info(f'Set delete last message to {flag} for job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}')
+        self.jobs[job_id].DeleteLastSentMessage(flag)
+        self.logger.GetLogger().info(
+            f'Set delete last message to {flag} for job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id})'
+        )
 
     def __CreateJob(self,
                     job_id: str,
                     chat: pyrogram.types.Chat,
+                    topic_id: int,
                     period: int,
                     start: int,
                     coin_id: str,
@@ -390,22 +421,23 @@ class CoinInfoScheduler:
         Args:
             job_id: Unique identifier for the job
             chat: Telegram chat where the job will run
+            topic_id: Telegram topic where the job will run
             period: Period in hours between executions
             start: Starting hour for the job
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
             last_days: Number of days of historical data
         """
-        if chat.id not in self.jobs:
-            self.jobs[chat.id] = {}
-
-        self.jobs[chat.id][job_id] = CoinInfoJob(
-            self.client, self.config, self.logger, self.translator, CoinInfoJobData(chat, period, start, coin_id, coin_vs, last_days)
-        )
+        self.jobs[job_id] = CoinInfoJob(self.client,
+                                        self.config,
+                                        self.logger,
+                                        self.translator,
+                                        CoinInfoJobData(chat, topic_id, period, start, coin_id, coin_vs, last_days))
 
     def __AddJob(self,
                  job_id: str,
                  chat: pyrogram.types.Chat,
+                 topic_id: int,
                  period: int,
                  start: int,
                  coin_id: str,
@@ -416,6 +448,7 @@ class CoinInfoScheduler:
         Args:
             job_id: Unique identifier for the job
             chat: Telegram chat where the job will run
+            topic_id: Telegram topic where the job will run
             period: Period in hours between executions
             start: Starting hour for the job
             coin_id: Cryptocurrency coin identifier
@@ -426,33 +459,43 @@ class CoinInfoScheduler:
         cron_str = self.__BuildCronString(period, start, is_test_mode)
         if is_test_mode:
             self.scheduler.add_job(
-                self.jobs[chat.id][job_id].DoJob, "cron", args=(chat, coin_id, coin_vs, last_days), minute=cron_str, id=job_id
+                self.jobs[job_id].DoJob,
+                "cron",
+                args=(chat, topic_id, coin_id, coin_vs, last_days),
+                minute=cron_str,
+                id=job_id
             )
         else:
             self.scheduler.add_job(
-                self.jobs[chat.id][job_id].DoJob, "cron", args=(chat, coin_id, coin_vs, last_days), hour=cron_str, id=job_id
+                self.jobs[job_id].DoJob,
+                "cron",
+                args=(chat, topic_id, coin_id, coin_vs, last_days),
+                hour=cron_str,
+                id=job_id
             )
         per_sym = "minute(s)" if is_test_mode else "hour(s)"
         self.logger.GetLogger().info(
-            f'Started job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)} [parameters: {period} {per_sym}, '
+            f'Started job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id}) [parameters: {period} {per_sym}, '
             f"{coin_id}, {coin_vs}, {last_days}], number of active jobs: {self.__GetTotalJobCount()}, cron: {cron_str}"
         )
 
     @staticmethod
     def __GetJobId(chat: pyrogram.types.Chat,
+                   topic_id: int,
                    coin_id: str,
                    coin_vs: str) -> str:
         """Generate a unique job identifier.
 
         Args:
             chat: Telegram chat
+            topic_id: Telegram topic
             coin_id: Cryptocurrency coin identifier
             coin_vs: Currency to compare against
 
         Returns:
             Unique job identifier string
         """
-        return f"{chat.id}-{coin_id}-{coin_vs}"
+        return f"{chat.id}-{topic_id}-{coin_id}-{coin_vs}"
 
     def __GetTotalJobCount(self) -> int:
         """Get the total number of active jobs across all chats.
@@ -460,7 +503,7 @@ class CoinInfoScheduler:
         Returns:
             Total number of jobs
         """
-        return sum([len(jobs) for (_, jobs) in self.jobs.items()])
+        return len(self.jobs)
 
     @staticmethod
     def __BuildCronString(period: int,
