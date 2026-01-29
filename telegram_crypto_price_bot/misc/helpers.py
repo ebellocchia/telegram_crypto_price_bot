@@ -21,8 +21,7 @@
 from typing import Optional
 
 import pyrogram
-
-from telegram_crypto_price_bot.utils.pyrogram_wrapper import PyrogramWrapper
+from pyrogram.enums import ChatType
 
 
 class ChatHelper:
@@ -38,7 +37,7 @@ class ChatHelper:
         Returns:
             True if chat is a channel, False otherwise
         """
-        return PyrogramWrapper.IsChannel(chat)
+        return chat.type == ChatType.CHANNEL
 
     @staticmethod
     def GetTitle(chat: pyrogram.types.Chat) -> str:
