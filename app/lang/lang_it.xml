@@ -7,20 +7,20 @@ benvenuto nel Telegram Price Bot.
 
 ℹ️ Qui trovi la lista dei comandi supportati.
 
-🔘 **/help** : mostra questo messaggio
-🔘 **/alive** : mostra se il bot è attivo
-🔘 **/pricebot_set_test_mode** __true/false__ : attiva/disattiva la modalità di test
-🔘 **/pricebot_is_test_mode** : mostra se la modalità di test è attiva
-🔘 **/pricebot_version** : mostra la versione del bot
-🔘 **/pricebot_get_single** __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : mostra i dati e grafico del prezzo (chiamata singola)
-🔘 **/pricebot_task_start** __PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS__ : avvia un task di avviso prezzo nella chat corrente
-🔘 **/pricebot_task_stop** __COIN_ID COIN_VS__ : ferma il task specificato nella chat corrente
-🔘 **/pricebot_task_stop_all** : ferma tutti i task nella chat corrente
-🔘 **/pricebot_task_pause** __COIN_ID COIN_VS__ : mette in pausa il task specificato nella chat corrente
-🔘 **/pricebot_task_resume** __COIN_ID COIN_VS__ : riavvia il task specificato nella chat corrente
-🔘 **/pricebot_task_send_in_same_msg** __COIN_ID COIN_VS true/false__ : attiva/disattiva l'invio del grafico e informazioni prezzo nello stesso messaggio per il task specificato nella chat corrente
-🔘 **/pricebot_task_delete_last_msg** __COIN_ID COIN_VS true/false__ : attiva/disattiva la rimozione degli ultimi messaggi inviati per il task specificato nella chat corrente
-🔘 **/pricebot_task_info** : mostra la lista di tutti i task attivi nella chat corrente
+• **/help** : mostra questo messaggio
+• **/alive** : mostra se il bot è attivo
+• **/pricebot_set_test_mode** __true/false__ : attiva/disattiva la modalità di test
+• **/pricebot_is_test_mode** : mostra se la modalità di test è attiva
+• **/pricebot_version** : mostra la versione del bot
+• **/pricebot_get_single** __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : mostra i dati e grafico del prezzo (chiamata singola)
+• **/pricebot_task_start** __PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS__ : avvia un task di avviso prezzo nella chat corrente
+• **/pricebot_task_stop** __COIN_ID COIN_VS__ : ferma il task specificato nella chat corrente
+• **/pricebot_task_stop_all** : ferma tutti i task nella chat corrente
+• **/pricebot_task_pause** __COIN_ID COIN_VS__ : mette in pausa il task specificato nella chat corrente
+• **/pricebot_task_resume** __COIN_ID COIN_VS__ : riavvia il task specificato nella chat corrente
+• **/pricebot_task_send_in_same_msg** __COIN_ID COIN_VS true/false__ : attiva/disattiva l'invio del grafico e informazioni prezzo nello stesso messaggio per il task specificato nella chat corrente
+• **/pricebot_task_delete_last_msg** __COIN_ID COIN_VS true/false__ : attiva/disattiva la rimozione degli ultimi messaggi inviati per il task specificato nella chat corrente
+• **/pricebot_task_info** : mostra la lista di tutti i task attivi nella chat corrente
 
 I parametri tra parentesi quadre sono opzionali.</sentence>
     <!-- Alive command message -->

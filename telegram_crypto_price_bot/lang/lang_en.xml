@@ -7,20 +7,20 @@ welcome to the Telegram Price Bot.
 
 ℹ️ Here is the list of supported commands.
 
-🔘 **/help** : show this message
-🔘 **/alive** : show if bot is active
-🔘 **/pricebot_set_test_mode** __true/false__ : enable/disable test mode
-🔘 **/pricebot_is_test_mode** : show if test mode is enabled
-🔘 **/pricebot_version** : show bot version
-🔘 **/pricebot_get_single** __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : show chart and price information of the specified pair (single call)
-🔘 **/pricebot_task_start** __PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS__ : start a price task in the current chat
-🔘 **/pricebot_task_stop** __COIN_ID COIN_VS__ : stop the specified price task in the current chat
-🔘 **/pricebot_task_stop_all** : stop all price tasks in the current chat
-🔘 **/pricebot_task_pause** __COIN_ID COIN_VS__ : pause the specified price task in the current chat
-🔘 **/pricebot_task_resume** __COIN_ID COIN_VS__ : resume the specified price task in the current chat
-🔘 **/pricebot_task_send_in_same_msg** __COIN_ID COIN_VS true/false__ : enable/disable sending chart and price information in the same message for the specified price task in the current chat
-🔘 **/pricebot_task_delete_last_msg** __COIN_ID COIN_VS true/false__ : enable/disable the deletion of last messages for the specified price task in the current chat
-🔘 **/pricebot_task_info** : show the list of active price tasks in the current chat
+• **/help** : show this message
+• **/alive** : show if bot is active
+• **/pricebot_set_test_mode** __true/false__ : enable/disable test mode
+• **/pricebot_is_test_mode** : show if test mode is enabled
+• **/pricebot_version** : show bot version
+• **/pricebot_get_single** __COIN_ID COIN_VS LAST_DAYS [SAME_MSG]__ : show chart and price information of the specified pair (single call)
+• **/pricebot_task_start** __PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS__ : start a price task in the current chat
+• **/pricebot_task_stop** __COIN_ID COIN_VS__ : stop the specified price task in the current chat
+• **/pricebot_task_stop_all** : stop all price tasks in the current chat
+• **/pricebot_task_pause** __COIN_ID COIN_VS__ : pause the specified price task in the current chat
+• **/pricebot_task_resume** __COIN_ID COIN_VS__ : resume the specified price task in the current chat
+• **/pricebot_task_send_in_same_msg** __COIN_ID COIN_VS true/false__ : enable/disable sending chart and price information in the same message for the specified price task in the current chat
+• **/pricebot_task_delete_last_msg** __COIN_ID COIN_VS true/false__ : enable/disable the deletion of last messages for the specified price task in the current chat
+• **/pricebot_task_info** : show the list of active price tasks in the current chat
 
 Parameters in square brakets are optional.</sentence>
     <!-- Alive command message -->
