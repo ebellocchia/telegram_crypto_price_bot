@@ -272,7 +272,7 @@ class CoinInfoScheduler:
         """
         job_ids = [job_id for job_id in self.jobs.keys() if job_id.startswith(str(chat.id))]
         if len(job_ids) == 0:
-            self.logger.GetLogger().info(f"No job to stop in chat {ChatHelper.GetTitleOrId(chat)}, exiting...")
+            self.logger.GetLogger().info(f"No job to stop in chat {ChatHelper.GetTitleOrId(chat)}")
             return
 
         for job_id in job_ids:
