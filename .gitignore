@@ -37,4 +37,6 @@ venv/
 # Additional
 *.log
 *.session
+*.session-shm
+*.session-wal
 *.session-journal
