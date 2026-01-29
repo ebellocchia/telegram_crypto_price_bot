@@ -257,8 +257,9 @@ class CoinInfoScheduler:
             self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot stop it')
             raise CoinInfoJobNotExistentError()
 
-        del self.jobs[job_id]
         self.scheduler.remove_job(job_id)
+        self.jobs.pop(job_id, None)
+
         self.logger.GetLogger().info(
             f'Stopped job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}'
         )
@@ -277,8 +278,8 @@ class CoinInfoScheduler:
 
         for job_id in job_ids:
             self.scheduler.remove_job(job_id)
+            self.jobs.pop(job_id, None)
             self.logger.GetLogger().info(f'Stopped job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}')
-            del self.jobs[job_id]
         self.logger.GetLogger().info(
             f"Removed all jobs in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}"
         )
