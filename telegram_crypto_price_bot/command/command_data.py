@@ -86,7 +86,8 @@ class CommandParametersList(WrappedList):
         """
         return self.__GetGenericParam(str, idx, def_val)
 
-    def IsLast(self, value: Union[int, str]) -> bool:
+    def IsLast(self,
+               value: Union[int, str]) -> bool:
         """Check if the last parameter matches the specified value.
 
         Args:
@@ -100,7 +101,8 @@ class CommandParametersList(WrappedList):
         except IndexError:
             return False
 
-    def IsValue(self, value: Union[int, str]) -> bool:
+    def IsValue(self,
+                value: Union[int, str]) -> bool:
         """Check if a value is present in the parameters list.
 
         Args:
@@ -144,7 +146,8 @@ class CommandData:
     cmd_chat: pyrogram.types.Chat
     cmd_user: Optional[pyrogram.types.User]
 
-    def __init__(self, message: pyrogram.types.Message) -> None:
+    def __init__(self,
+                 message: pyrogram.types.Message) -> None:
         """Initialize command data from a message.
 
         Args:

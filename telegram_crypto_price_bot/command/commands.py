@@ -57,7 +57,8 @@ def GroupChatOnly(exec_cmd_fct: Callable[..., None]) -> Callable[..., None]:
 class HelpCmd(CommandBase):
     """Command to display help information."""
 
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the help command."""
         self._SendMessage(self.translator.GetSentence("HELP_CMD", name=UserHelper.GetName(self.cmd_data.User())))
 
@@ -65,7 +66,8 @@ class HelpCmd(CommandBase):
 class AliveCmd(CommandBase):
     """Command to check if the bot is alive and responding."""
 
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the alive command."""
         self._SendMessage(self.translator.GetSentence("ALIVE_CMD"))
 
@@ -74,7 +76,8 @@ class SetTestModeCmd(CommandBase):
     """Command to enable or disable test mode."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the set test mode command."""
         try:
             flag = self.cmd_data.Params().GetAsBool(0)
@@ -92,7 +95,8 @@ class SetTestModeCmd(CommandBase):
 class IsTestModeCmd(CommandBase):
     """Command to check if test mode is enabled."""
 
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the is test mode command."""
         if self.config.GetValue(BotConfigTypes.APP_TEST_MODE):
             self._SendMessage(self.translator.GetSentence("IS_TEST_MODE_EN_CMD"))
@@ -103,7 +107,8 @@ class IsTestModeCmd(CommandBase):
 class VersionCmd(CommandBase):
     """Command to display bot version."""
 
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the version command."""
         self._SendMessage(self.translator.GetSentence("VERSION_CMD", version=__version__))
 
@@ -111,7 +116,8 @@ class VersionCmd(CommandBase):
 class PriceGetSingleCmd(CommandBase):
     """Command to get cryptocurrency price information once."""
 
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the get single price command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
@@ -130,7 +136,8 @@ class PriceTaskStartCmd(CommandBase):
     """Command to start a scheduled cryptocurrency price task."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the price task start command."""
         try:
             period_hours = self.cmd_data.Params().GetAsInt(0)
@@ -173,7 +180,8 @@ class PriceTaskStopCmd(CommandBase):
     """Command to stop a scheduled cryptocurrency price task."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the price task stop command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
@@ -192,7 +200,8 @@ class PriceTaskStopAllCmd(CommandBase):
     """Command to stop all scheduled cryptocurrency price tasks in a chat."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the price task stop all command."""
         kwargs["coin_info_scheduler"].StopAll(self.cmd_data.Chat())
         self._SendMessage(self.translator.GetSentence("PRICE_TASK_STOP_ALL_CMD"))
@@ -202,7 +211,8 @@ class PriceTaskPauseCmd(CommandBase):
     """Command to pause a scheduled cryptocurrency price task."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the price task pause command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
@@ -221,7 +231,8 @@ class PriceTaskResumeCmd(CommandBase):
     """Command to resume a paused cryptocurrency price task."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the price task resume command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
@@ -240,7 +251,8 @@ class PriceTaskSendInSameMsgCmd(CommandBase):
     """Command to configure whether task updates are sent in the same message."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the price task send in same message command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
@@ -266,7 +278,8 @@ class PriceTaskDeleteLastMsgCmd(CommandBase):
     """Command to configure whether the last sent message should be deleted."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the price task delete last message command."""
         try:
             coin_id = self.cmd_data.Params().GetAsString(0)
@@ -292,7 +305,8 @@ class PriceTaskInfoCmd(CommandBase):
     """Command to display information about active price tasks in a chat."""
 
     @GroupChatOnly
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the price task info command."""
         jobs_list = kwargs["coin_info_scheduler"].GetJobsInChat(self.cmd_data.Chat())
 

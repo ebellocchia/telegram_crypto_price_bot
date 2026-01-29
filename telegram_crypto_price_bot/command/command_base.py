@@ -156,7 +156,8 @@ class CommandBase(ABC):
         self.logger.GetLogger().debug(f"Received message: {self.message}")
 
     @abstractmethod
-    def _ExecuteCommand(self, **kwargs: Any) -> None:
+    def _ExecuteCommand(self,
+                        **kwargs: Any) -> None:
         """Execute the command implementation.
 
         Args:

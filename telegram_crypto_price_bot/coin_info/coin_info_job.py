@@ -174,7 +174,8 @@ class CoinInfoJob:
         """
         return self.data
 
-    def SetRunning(self, flag: bool) -> None:
+    def SetRunning(self,
+                   flag: bool) -> None:
         """Set the running status of the job.
 
         Args:
@@ -182,7 +183,8 @@ class CoinInfoJob:
         """
         self.data.SetRunning(flag)
 
-    def DeleteLastSentMessage(self, flag: bool) -> None:
+    def DeleteLastSentMessage(self,
+                              flag: bool) -> None:
         """Set whether to delete the last sent message.
 
         Args:
@@ -190,7 +192,8 @@ class CoinInfoJob:
         """
         self.coin_info_msg_sender.DeleteLastSentMessage(flag)
 
-    def SendInSameMessage(self, flag: bool) -> None:
+    def SendInSameMessage(self,
+                          flag: bool) -> None:
         """Set whether to send updates in the same message.
 
         Args:

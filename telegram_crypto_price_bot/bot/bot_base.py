@@ -75,7 +75,8 @@ class BotBase:
         self.logger.GetLogger().info("Bot started!\n")
         self.client.run()
 
-    def _SetupHandlers(self, handlers_config: BotHandlersConfigType) -> None:
+    def _SetupHandlers(self,
+                       handlers_config: BotHandlersConfigType) -> None:
         """Setup message handlers for the bot.
 
         Args:

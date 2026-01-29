@@ -37,7 +37,8 @@ class CoinGeckoPriceApi:
 
     api: CoinGeckoAPI
 
-    def __init__(self, config: ConfigObject) -> None:
+    def __init__(self,
+                 config: ConfigObject) -> None:
         """Initialize the CoinGecko price API.
 
         Args:

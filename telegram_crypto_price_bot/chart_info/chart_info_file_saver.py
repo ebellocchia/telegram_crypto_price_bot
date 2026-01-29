@@ -87,7 +87,8 @@ class ChartInfoFileSaver:
         self.__Plot(chart_info, fig, ax)
         self.__SaveAndClose(fig, file_name)
 
-    def __SetAxesFormatter(self, ax: plt.axes) -> None:
+    def __SetAxesFormatter(self,
+                           ax: plt.axes) -> None:
         """Set formatting for chart axes.
 
         Args:
@@ -114,7 +115,8 @@ class ChartInfoFileSaver:
         fig.patch.set_facecolor(bckg_color)
         ax.set_facecolor(bckg_color)
 
-    def __SetAxesColor(self, ax: plt.axes) -> None:
+    def __SetAxesColor(self,
+                       ax: plt.axes) -> None:
         """Set color for chart axes.
 
         Args:
@@ -124,7 +126,8 @@ class ChartInfoFileSaver:
 
         ax.tick_params(color=axes_color, labelcolor=axes_color)
 
-    def __SetFrameColor(self, ax: plt.axes) -> None:
+    def __SetFrameColor(self,
+                        ax: plt.axes) -> None:
         """Set color for chart frame.
 
         Args:
@@ -135,7 +138,8 @@ class ChartInfoFileSaver:
         for spine in ax.spines.values():
             spine.set_edgecolor(frame_color)
 
-    def __SetGrid(self, ax: plt.axes) -> None:
+    def __SetGrid(self,
+                  ax: plt.axes) -> None:
         """Set grid configuration for the chart.
 
         Args:
@@ -148,7 +152,8 @@ class ChartInfoFileSaver:
 
         ax.grid(display_grid, color=grid_color, linestyle=grid_line_style, linewidth=grid_line_width)
 
-    def __SetTitle(self, chart_info: ChartInfo) -> None:
+    def __SetTitle(self,
+                   chart_info: ChartInfo) -> None:
         """Set title for the chart.
 
         Args:
@@ -223,7 +228,8 @@ class ChartInfoTmpFileSaver:
         """Clean up temporary files on object destruction."""
         self.DeleteTmpFile()
 
-    def SaveToTmpFile(self, chart_info: ChartInfo) -> None:
+    def SaveToTmpFile(self,
+                      chart_info: ChartInfo) -> None:
         """Save chart to a temporary file.
 
         Args:
