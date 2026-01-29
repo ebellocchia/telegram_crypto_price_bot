@@ -495,7 +495,7 @@ class CoinInfoScheduler:
         Returns:
             Unique job identifier string
         """
-        return f"{chat.id}-{topic_id}-{coin_id}-{coin_vs}"
+        return f"{chat.id}|{topic_id}|{coin_id}|{coin_vs}"
 
     def __GetTotalJobCount(self) -> int:
         """Get the total number of active jobs across all chats.
