@@ -1,0 +1,20 @@
+services:
+  telegram-crypto-price-bot:
+    build: .
+    container_name: telegram_crypto_price_bot_container
+    environment:
+      - CONFIG_FILE=${CONFIG_FILE:-conf/config.ini}
+      - TZ=Europe/Rome
+    restart: unless-stopped
+
+    volumes:
+      - ./app/conf:/code/app/conf:ro
+      - ./app/lang:/code/app/lang:ro
+      - ./app/session:/code/app/session
+      - ./app/logs:/code/app/logs
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
