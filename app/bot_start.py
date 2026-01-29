@@ -68,11 +68,15 @@ def print_header() -> None:
     print("")
 
 
-if __name__ == "__main__":
-    print_header()
-
+async def main() -> None:
+    """Main async entry point for the bot."""
     args_parser = ArgumentsParser()
     args = args_parser.Parse()
 
     bot = PriceBot(args.config)
-    asyncio.run(bot.Run())
+    await bot.Run()
+
+
+if __name__ == "__main__":
+    print_header()
+    asyncio.run(main())

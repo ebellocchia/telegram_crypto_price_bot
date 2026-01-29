@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from abc import abstractmethod
 from typing import Any
 
 import pyrogram
@@ -65,9 +64,6 @@ class BotBase:
         self.cmd_dispatcher = CommandDispatcher(self.config, self.logger, self.translator)
         self.msg_dispatcher = MessageDispatcher(self.config, self.logger, self.translator)
         self.logger.GetLogger().info("Bot initialization completed")
-
-    async def __InitializeAsync(self) -> None:
-        """Initialize async components (client, handlers). Must be called inside async context."""
         self.client = Client(
             self.config.GetValue(BotConfigTypes.SESSION_NAME),
             api_id=self.config.GetValue(BotConfigTypes.API_ID),
@@ -80,8 +76,6 @@ class BotBase:
     async def Run(self) -> None:
         """Start the bot client."""
         self.logger.GetLogger().info("Bot started!\n")
-        await self.__InitializeAsync()
-        await self._OnRun()
         async with self.client:
             await idle()
 
@@ -132,11 +126,3 @@ class BotBase:
             **kwargs: Additional keyword arguments for the message handler
         """
         await self.msg_dispatcher.Dispatch(client, message, msg_type, **kwargs)
-
-    @abstractmethod
-    async def _OnRun(self) -> None:
-        """Hook for subclasses to initialize their components after client is ready.
-
-        Called after the client is initialized but before it starts.
-        Subclasses should override this to set up their specific components.
-        """
