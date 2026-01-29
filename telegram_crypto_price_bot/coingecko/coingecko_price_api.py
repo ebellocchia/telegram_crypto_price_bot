@@ -23,28 +23,31 @@ from pycoingecko import CoinGeckoAPI
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.chart_info.chart_info import ChartInfo
 from telegram_crypto_price_bot.config.config_object import ConfigObject
+from telegram_crypto_price_bot.logger.logger import Logger
 from telegram_crypto_price_bot.price_info.price_info import PriceInfo
 
 
 class CoinGeckoPriceApiError(Exception):
     """Exception raised when CoinGecko API operations fail."""
 
-    pass
-
 
 class CoinGeckoPriceApi:
     """API wrapper for retrieving cryptocurrency price and chart data from CoinGecko."""
 
     api: CoinGeckoAPI
+    logger: Logger
 
     def __init__(self,
-                 config: ConfigObject) -> None:
+                 config: ConfigObject,
+                 logger: Logger) -> None:
         """Initialize the CoinGecko price API.
 
         Args:
             config: Configuration object containing API key
+            logger: Logger instance
         """
-        self.api = CoinGeckoAPI(api_key=config.GetValue(BotConfigTypes.COINGECKO_API_KEY))
+        self.logger = logger
+        self.api_key = config.GetValue(BotConfigTypes.COINGECKO_API_KEY)
 
     def GetPriceInfo(self,
                      coin_id: str,

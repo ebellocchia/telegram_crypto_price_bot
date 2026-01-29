@@ -21,10 +21,6 @@
 class ConfigFieldNotExistentError(Exception):
     """Exception raised when a required configuration field is not found."""
 
-    pass
-
 
 class ConfigFieldValueError(Exception):
     """Exception raised when a configuration field value is invalid."""
-
-    pass

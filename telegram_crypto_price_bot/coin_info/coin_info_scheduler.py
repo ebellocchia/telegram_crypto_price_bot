@@ -35,31 +35,21 @@ from telegram_crypto_price_bot.utils.wrapped_list import WrappedList
 class CoinInfoJobAlreadyExistentError(Exception):
     """Exception raised when attempting to create a job that already exists."""
 
-    pass
-
 
 class CoinInfoJobNotExistentError(Exception):
     """Exception raised when attempting to access a non-existent job."""
-
-    pass
 
 
 class CoinInfoJobInvalidPeriodError(Exception):
     """Exception raised when job period is invalid."""
 
-    pass
-
 
 class CoinInfoJobInvalidStartError(Exception):
     """Exception raised when job start hour is invalid."""
 
-    pass
-
 
 class CoinInfoJobMaxNumError(Exception):
     """Exception raised when maximum number of jobs is reached."""
-
-    pass
 
 
 class CoinInfoSchedulerConst:

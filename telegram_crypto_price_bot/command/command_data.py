@@ -29,8 +29,6 @@ from telegram_crypto_price_bot.utils.wrapped_list import WrappedList
 class CommandParameterError(Exception):
     """Exception raised when command parameter is invalid or missing."""
 
-    pass
-
 
 class CommandParametersList(WrappedList):
     """List class for managing and accessing command parameters with type conversion."""

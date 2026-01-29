@@ -163,4 +163,3 @@ class CommandBase(ABC):
         Args:
             **kwargs: Additional keyword arguments for the command
         """
-        pass

@@ -50,7 +50,7 @@ class InfoMessageSenderBase(ABC):
             logger: Logger instance
         """
         self.last_sent_msg = None
-        self.coingecko_api = CoinGeckoPriceApi(config)
+        self.coingecko_api = CoinGeckoPriceApi(config, logger)
         self.message_deleter = MessageDeleter(client, logger)
         self.message_sender = MessageSender(client, logger)
 
@@ -109,4 +109,3 @@ class InfoMessageSenderBase(ABC):
         Returns:
             Sent message object
         """
-        pass

@@ -25,8 +25,6 @@ from typing import Any, Dict
 class ConfigTypes(Enum):
     """Base enumeration for configuration types."""
 
-    pass
-
 
 class ConfigObject:
     """Object for storing and accessing configuration values."""
