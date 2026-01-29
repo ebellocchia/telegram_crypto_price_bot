@@ -23,8 +23,15 @@ from typing import Any, Dict
 
 import httpx
 from httpx import AsyncClient
-from tenacity import AsyncRetrying, RetryError, before_sleep_log, retry_if_exception_type, stop_after_attempt, \
-    wait_exponential, retry_if_exception
+from tenacity import (
+    AsyncRetrying,
+    RetryError,
+    before_sleep_log,
+    retry_if_exception,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.chart_info.chart_info import ChartInfo
