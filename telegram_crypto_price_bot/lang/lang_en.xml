@@ -127,7 +127,7 @@ Do not forget to **make me administrator of the group** or I won't work properly
     <sentence id="MAX_TASK_ERR_MSG">**ERROR**
 ❌ Maximum number of tasks reached. Stop some tasks to start new ones.</sentence>
     <!-- Single task information message -->
-    <sentence id="SINGLE_TASK_INFO_MSG">• Topic: {topic_id}, coin: __{coin_id}/{coin_vs}__, period: __{period}h__, start: __{start:02d}:00__, last days: __{last_days}__, state: __{state}__</sentence>
+    <sentence id="SINGLE_TASK_INFO_MSG">• Topic: __{topic_id}__, coin: __{coin_id}/{coin_vs}__, period: __{period}h__, start: __{start:02d}:00__, last days: __{last_days}__, state: __{state}__</sentence>
     <!-- Task running message -->
     <sentence id="TASK_RUNNING_MSG">runnnig</sentence>
     <!-- Task paused message -->
