@@ -127,7 +127,7 @@ Non dimenticarti di **farmi amministratore del gruppo** o non potrò funzionare 
     <sentence id="MAX_TASK_ERR_MSG">**ERRORE**
 ❌ Massimo numero di task raggiunto. Ferma qualche task per avviarne dei nuovi.</sentence>
     <!-- Single task information message -->
-    <sentence id="SINGLE_TASK_INFO_MSG">• Topic: {topic_id}, coin: __{coin_id}/{coin_vs}__, periodo: __{period}h__, inizio: __{start:02d}:00__, ultimi giorni: __{last_days}__, stato: __{state}__</sentence>
+    <sentence id="SINGLE_TASK_INFO_MSG">• Topic: __{topic_id}__, coin: __{coin_id}/{coin_vs}__, periodo: __{period}h__, inizio: __{start:02d}:00__, ultimi giorni: __{last_days}__, stato: __{state}__</sentence>
     <!-- Task running message -->
     <sentence id="TASK_RUNNING_MSG">attivo</sentence>
     <!-- Task paused message -->
