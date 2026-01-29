@@ -37,8 +37,8 @@ To run the bot, edit the configuration file by specifying the API ID/hash and bo
 When run with no parameter, *conf/config.ini* will be the default configuration file (in this way it can be used for different groups).\
 To specify a different configuration file:
 
-    python bot.py -c another_conf.ini
-    python bot.py --config another_conf.ini
+    python bot_start.py -c another_conf.ini
+    python bot_start.py --config another_conf.ini
 
 Of course, the *app* folder can be moved elsewhere if needed.
 
@@ -111,23 +111,23 @@ Parameters:
     - `COIN_VS`: CoinGecko *vs_currency*
     - `LAST_DAYS`: Last number of days to show price chart
     - `SAME_MSG` (optional): true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages. Default value: true.
-- `/pricebot_task_start PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS`: start a price task in the current chat. If the task `COIN_ID/COIN_VS` already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the `pricebot_task_stop` command.\
+- `/pricebot_task_start PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS`: start a price task in the current chat/topic. If the task `COIN_ID/COIN_VS` already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the `pricebot_task_stop` command.\
 Parameters:
     - `PERIOD_HOURS`: Task period in hours, it shall be between 1 and 24
     - `START_HOUR`: Task start hour, it shall be between 0 and 23
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
     - `LAST_DAYS`: Last number of days to show price chart
-- `/pricebot_task_stop COIN_ID COIN_VS`: stop the specified price task in the current chat. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
+- `/pricebot_task_stop COIN_ID COIN_VS`: stop the specified price task in the current chat/topic. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
 Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-- `/pricebot_task_stop_all`: stop all price tasks in the current chat
-- `/pricebot_task_pause COIN_ID COIN_VS`: pause the specified price task in the current chat. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
+- `/pricebot_task_stop_all`: stop all price tasks in the current chat (jobs in all topics will be stopped)
+- `/pricebot_task_pause COIN_ID COIN_VS`: pause the specified price task in the current chat/topic. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
 Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-- `/pricebot_task_resume COIN_ID COIN_VS`: resume the specified price task in the current chat. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
+- `/pricebot_task_resume COIN_ID COIN_VS`: resume the specified price task in the current chat/topic. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
 Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
@@ -141,7 +141,7 @@ Parameters:
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
     - `flag`: true or false
-- `/pricebot_task_info`: show the list of active price tasks in the current chat
+- `/pricebot_task_info`: show the list of active price tasks in the current chat (jobs in all topics will be shown)
 
 By default:
 - a price task will send chart and price information in the same message. This can be enabled/disabled with the `pricebot_task_send_in_same_msg` command.
@@ -179,9 +179,10 @@ Set task so that it doesn't delete the last sent message:
 
 ## Run the Bot
 
-
 Since the bot deletes the last sent messages, it'd be better if it's an administrator of the group (otherwise the last messages cannot be deleted).\
 In order to display prices periodically, the bot shall run 24h/24h. So, it's suggested to run it on a VPS (there is no performance requirements, so a cheap VPS will suffice).
+
+Docker files are also provided, if you want to run the bot in a Docker container.
 
 ## Test Mode
 
