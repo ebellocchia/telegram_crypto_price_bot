@@ -105,6 +105,8 @@ class CoinInfoMessageSender:
             self.chart_price_info_msg_sender.DeleteLastSentMessage()
             self.price_info_msg_sender.DeleteLastSentMessage()
 
+        self.logger.GetLogger().info(f"Sending price info {coin_id}/{coin_vs} ({last_days}) to {chat.id} ({topic_id})")
+
         try:
             if self.send_in_same_msg and self.config.GetValue(BotConfigTypes.CHART_DISPLAY):
                 self.chart_price_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
