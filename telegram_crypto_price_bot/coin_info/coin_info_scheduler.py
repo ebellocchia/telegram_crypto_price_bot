@@ -162,8 +162,10 @@ class CoinInfoScheduler:
         Returns:
             List of active jobs in the chat
         """
+        chat_id_str = str(chat.id)
+
         jobs_list = CoinInfoJobsList(self.translator)
-        jobs_list.AddMultiple([job.Data() for (job_id, job) in self.jobs.items() if job_id.startswith(str(chat.id))])
+        jobs_list.AddMultiple([job.Data() for (job_id, job) in self.jobs.items() if job_id.startswith(chat_id_str)])
 
         return jobs_list
 
@@ -271,7 +273,8 @@ class CoinInfoScheduler:
         Args:
             chat: Telegram chat to stop all jobs in
         """
-        job_ids = [job_id for job_id in self.jobs.keys() if job_id.startswith(str(chat.id))]
+        chat_id_str = str(chat.id)
+        job_ids = [job_id for job_id in self.jobs.keys() if job_id.startswith(chat_id_str)]
         if len(job_ids) == 0:
             self.logger.GetLogger().info(f"No job to stop in chat {ChatHelper.GetTitleOrId(chat)}")
             return
