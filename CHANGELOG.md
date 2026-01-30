@@ -1,3 +1,7 @@
+# 0.5.1
+
+- Add support for CoinGecko free API keys (in addition to paid ones)
+
 # 0.5.0
 
 - Migrate to full async/await client
