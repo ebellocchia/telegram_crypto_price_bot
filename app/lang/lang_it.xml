@@ -52,11 +52,11 @@ Versione: **{version}**</sentence>
 ✅ Task di avviso prezzo avviato con successo.
 
 Parametri:
-- Periodo: __{period}h__
-- Inizio: __{start:02d}:00__
-- Coin ID: __{coin_id}__
-- Coin VS: __{coin_vs}__
-- Ultimi giorni: __{last_days}__</sentence>
+• Periodo: __{period}h__
+• Inizio: __{start:02d}:00__
+• Coin ID: __{coin_id}__
+• Coin VS: __{coin_vs}__
+• Ultimi giorni: __{last_days}__</sentence>
 
     <!-- Stop price task ok message -->
     <sentence id="PRICE_TASK_STOP_OK_CMD">**CONTROLLO TASK**
