@@ -39,8 +39,7 @@ from telegram_crypto_price_bot.utils.utils import Synchronized
 
 # Disable matplotlib GUI
 matplotlib.use("Agg")
-
-
+# Lock for thread safety when creating charts
 plot_lock: Lock = Lock()
 
 
