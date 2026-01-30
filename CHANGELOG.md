@@ -1,3 +1,10 @@
+# 0.5.2
+
+- Add configuration parameters for CoinGecko requests:
+  - `coingecko_api_max_retries`
+  - `coingecko_api_timeout_sec`
+
+
 # 0.5.1
 
 - Add support for CoinGecko free API keys (in addition to paid ones)
