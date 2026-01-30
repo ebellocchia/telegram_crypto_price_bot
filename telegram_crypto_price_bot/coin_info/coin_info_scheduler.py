@@ -246,14 +246,14 @@ class CoinInfoScheduler:
         job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
 
         if not self.IsActiveInChat(chat, topic_id, coin_id, coin_vs):
-            self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)}, cannot stop it')
+            self.logger.GetLogger().error(f'Job "{job_id}" not active in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id}), cannot stop it')
             raise CoinInfoJobNotExistentError()
 
         self.scheduler.remove_job(job_id)
         self.jobs.pop(job_id, None)
 
         self.logger.GetLogger().info(
-            f'Stopped job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)}, number of active jobs: {self.__GetTotalJobCount()}'
+            f'Stopped job "{job_id}" in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id}), number of active jobs: {self.__GetTotalJobCount()}'
         )
 
     def StopAll(self,

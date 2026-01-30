@@ -216,5 +216,5 @@ class CoinInfoJob:
             coin_vs: Currency to compare against
             last_days: Number of days of historical data to display
         """
-        self.logger.GetLogger().info(f"Coin job started in chat {ChatHelper.GetTitleOrId(chat)}")
+        self.logger.GetLogger().info(f"Coin job started in chat {ChatHelper.GetTitleOrId(chat)} ({topic_id})")
         await self.coin_info_msg_sender.SendMessage(chat, topic_id, coin_id, coin_vs, last_days)
