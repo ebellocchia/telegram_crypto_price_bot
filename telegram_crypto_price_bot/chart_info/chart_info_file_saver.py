@@ -98,8 +98,12 @@ class ChartInfoFileSaver:
         grid_max_size = self.config.GetValue(BotConfigTypes.CHART_GRID_MAX_SIZE)
 
         ax.xaxis.set_major_locator(plt.MaxNLocator(grid_max_size))
-        ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, p: datetime.fromtimestamp(int(x)).strftime(date_format)))
-        ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, p: PriceFormatter.Format(x)))
+        ax.xaxis.set_major_formatter(
+            matplotlib.ticker.FuncFormatter(lambda x, p: datetime.fromtimestamp(int(x)).strftime(date_format))
+        )
+        ax.yaxis.set_major_formatter(
+            matplotlib.ticker.FuncFormatter(lambda x, p: PriceFormatter.Format(x))
+        )
 
     def __SetBackgroundColor(self,
                              fig: plt.figure,
