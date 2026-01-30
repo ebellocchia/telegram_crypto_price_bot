@@ -191,6 +191,8 @@ In this case, the configuration file can be set by setting the `CONFIG_FILE` var
 
     CONFIG_FILE=conf/config.ini docker compose up -d --build
 
+**NOTE:** Depending on your timezone, you may want to adjust the `TZ=Europe/Rome` variable in `docker-compose.yml`.
+
 ## Test Mode
 
 During test mode, the bot will work as usual but the task period will be applied in minutes instead of hours. This allows to quickly check if it is working.
