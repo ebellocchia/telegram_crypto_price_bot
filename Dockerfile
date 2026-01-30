@@ -23,4 +23,5 @@ COPY . .
 RUN pip install --no-cache-dir .
 
 # Start bot
-CMD cd app && python bot_start.py -c ${CONFIG_FILE:-conf/config.ini}
+WORKDIR app
+CMD exec python bot_start.py -c ${CONFIG_FILE:-conf/config.ini}
