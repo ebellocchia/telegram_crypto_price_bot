@@ -52,11 +52,11 @@ Version: **{version}**</sentence>
 ✅ Price task successfully started.
 
 Parameters:
-- Period: __{period}h__
-- Start: __{start:02d}:00__
-- Coin ID: __{coin_id}__
-- Coin VS: __{coin_vs}__
-- Last days: __{last_days}__</sentence>
+• Period: __{period}h__
+• Start: __{start:02d}:00__
+• Coin ID: __{coin_id}__
+• Coin VS: __{coin_vs}__
+• Last days: __{last_days}__</sentence>
 
     <!-- Stop price task ok message -->
     <sentence id="PRICE_TASK_STOP_OK_CMD">**TASK CONTROL**
