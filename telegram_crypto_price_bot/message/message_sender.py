@@ -86,7 +86,7 @@ class MessageSender:
         Returns:
             Sent message object
         """
-        return await self.client.send_photo(receiver.id, photo, message_thread_id=topic_id, **kwargs)     # type: ignore
+        return await self.client.send_photo(receiver.id, photo, message_thread_id=topic_id, **kwargs)
 
     async def __SendSplitMessage(self,
                                  receiver: Union[pyrogram.types.Chat, pyrogram.types.User],
@@ -112,7 +112,7 @@ class MessageSender:
             )
             await asyncio.sleep(MessageSenderConst.SEND_MSG_SLEEP_TIME_SEC)
 
-        return sent_msgs    # type: ignore
+        return sent_msgs
 
     def __SplitMessage(self,
                        msg: str) -> List[str]:

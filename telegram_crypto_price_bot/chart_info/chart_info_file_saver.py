@@ -19,7 +19,8 @@
 # THE SOFTWARE.
 
 import os
-import tempfile
+import secrets
+import string
 from datetime import datetime
 from threading import Lock
 from typing import Optional
@@ -46,6 +47,7 @@ class ChartInfoFileSaverConst:
     """Constants for chart info file saver class."""
 
     CHART_IMG_EXT: str = ".png"
+    TMP_FILE_NAME_LEN: int = 16
 
 
 class ChartInfoFileSaver:
@@ -274,4 +276,7 @@ class ChartInfoTmpFileSaver:
         Returns:
             A new temporary file name with chart image extension
         """
-        return f"{next(tempfile._get_candidate_names())}{ChartInfoFileSaverConst.CHART_IMG_EXT}"  # type: ignore # noqa
+        tmp_name = "".join(
+            secrets.choice(string.ascii_letters + string.digits) for _ in range(ChartInfoFileSaverConst.TMP_FILE_NAME_LEN)
+        )
+        return f"{tmp_name}{ChartInfoFileSaverConst.CHART_IMG_EXT}"
