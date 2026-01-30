@@ -75,9 +75,6 @@ class CoinGeckoPriceApi:
         """
         self.logger = logger
         self.timeout = config.GetValue(BotConfigTypes.COINGECKO_API_TIMEOUT_SEC)
-
-        print(self.timeout)
-        print(config.GetValue(BotConfigTypes.COINGECKO_API_MAX_RETRIES))
         # Pro key
         api_key_pro = config.GetValue(BotConfigTypes.COINGECKO_API_KEY_PRO)
         if api_key_pro:
