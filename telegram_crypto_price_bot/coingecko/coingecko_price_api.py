@@ -52,9 +52,7 @@ class CoinGeckoPriceApiConst:
     HEADER_API_KEY_DEMO: str = "x-cg-demo-api-key"
     HEADER_API_KEY_PRO: str = "x-cg-pro-api-key"
 
-    RETRY_MAX_ATTEMPS: int = 7
     RETRY_DELAY: int = 2
-    TIMEOUT: int = 10
 
 
 class CoinGeckoPriceApi:
@@ -64,6 +62,7 @@ class CoinGeckoPriceApi:
     headers: Dict[str, str]
     logger: Logger
     retry_strategy: AsyncRetrying
+    timeout: float
 
     def __init__(self,
                  config: ConfigObject,
@@ -75,6 +74,10 @@ class CoinGeckoPriceApi:
             logger: Logger instance
         """
         self.logger = logger
+        self.timeout = config.GetValue(BotConfigTypes.COINGECKO_API_TIMEOUT_SEC)
+
+        print(self.timeout)
+        print(config.GetValue(BotConfigTypes.COINGECKO_API_MAX_RETRIES))
         # Pro key
         api_key_pro = config.GetValue(BotConfigTypes.COINGECKO_API_KEY_PRO)
         if api_key_pro:
@@ -94,7 +97,7 @@ class CoinGeckoPriceApi:
             self.api_base_url = CoinGeckoPriceApiConst.API_DEMO_URL_BASE
 
         self.retry_strategy = AsyncRetrying(
-            stop=stop_after_attempt(CoinGeckoPriceApiConst.RETRY_MAX_ATTEMPS),
+            stop=stop_after_attempt(config.GetValue(BotConfigTypes.COINGECKO_API_MAX_RETRIES)),
             wait=wait_exponential(multiplier=CoinGeckoPriceApiConst.RETRY_DELAY,
                                   min=CoinGeckoPriceApiConst.RETRY_DELAY),
             retry=(
@@ -200,7 +203,7 @@ class CoinGeckoPriceApi:
         async with AsyncClient(
             base_url=self.api_base_url,
             headers=self.headers,
-            timeout=CoinGeckoPriceApiConst.TIMEOUT
+            timeout=self.timeout
         ) as client:
             response = await client.get(url, params=params)
             response.raise_for_status()

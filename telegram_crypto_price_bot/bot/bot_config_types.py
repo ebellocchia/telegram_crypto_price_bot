@@ -39,6 +39,8 @@ class BotConfigTypes(ConfigTypes):
     # Coingecko
     COINGECKO_API_KEY_DEMO = auto()
     COINGECKO_API_KEY_PRO = auto()
+    COINGECKO_API_MAX_RETRIES = auto()
+    COINGECKO_API_TIMEOUT_SEC = auto()
     # Chart
     CHART_DISPLAY = auto()
     CHART_DATE_FORMAT = auto()

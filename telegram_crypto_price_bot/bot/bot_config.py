@@ -124,6 +124,18 @@ BotConfig: ConfigSectionsType = {
             "name": "coingecko_api_key_pro",
             "def_val": "",
         },
+        {
+            "type": BotConfigTypes.COINGECKO_API_MAX_RETRIES,
+            "name": "coingecko_api_max_retries",
+            "conv_fct": Utils.StrToInt,
+            "def_val": 7,
+        },
+        {
+            "type": BotConfigTypes.COINGECKO_API_TIMEOUT_SEC,
+            "name": "coingecko_api_timeout_sec",
+            "conv_fct": Utils.StrToFloat,
+            "def_val": 10.0,
+        },
         # For retro-compatibility
         {
             "type": BotConfigTypes.COINGECKO_API_KEY_PRO,

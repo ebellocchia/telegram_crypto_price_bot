@@ -67,6 +67,8 @@ The list of all possible fields that can be set is shown below.
 |**[coingecko]**|Configuration for Coingecko|
 |`coingecko_api_key_demo`|Demo key (free) for using Coingecko APIs. It's also possible to use free APIs with an empty key. Default: `empty string`.|
 |`coingecko_api_key_pro`|Pro key (paid) for using Coingecko APIs. Default: `empty string`.|
+|`coingecko_api_max_retries`|Maximum number of retries for failed CoinGecko requests. Default: `7`.|
+|`coingecko_api_timeout_sec`|Timeout in seconds for each CoinGecko request. Default: `10.0`.|
 |**[chart]**|Configuration for price chart|
 |`chart_display`|True to display price chart, false otherwise (default: true). If false, all the next fields will be skipped.|
 |`chart_date_format`|Date format for price chart (default: `%%d/%%m/%%Y %%H:00`)|
