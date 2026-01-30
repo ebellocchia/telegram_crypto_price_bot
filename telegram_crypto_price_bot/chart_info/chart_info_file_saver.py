@@ -86,7 +86,7 @@ class ChartInfoFileSaver:
         self.__SetAxesColor(ax)
         self.__SetFrameColor(ax)
         self.__SetGrid(ax)
-        self.__SetTitle(chart_info)
+        self.__SetTitle(chart_info, ax)
         self.__Plot(chart_info, fig, ax)
         self.__SaveAndClose(fig, file_name)
 
@@ -160,15 +160,17 @@ class ChartInfoFileSaver:
         ax.grid(display_grid, color=grid_color, linestyle=grid_line_style, linewidth=grid_line_width)
 
     def __SetTitle(self,
-                   chart_info: ChartInfo) -> None:
+                   chart_info: ChartInfo,
+                   ax: plt.axes) -> None:
         """Set title for the chart.
 
         Args:
             chart_info: Chart information containing coin details
+            ax: Matplotlib axes object to configure
         """
         title_color = self.config.GetValue(BotConfigTypes.CHART_TITLE_COLOR)
 
-        plt.title(
+        ax.set_title(
             self.translator.GetSentence(
                 "CHART_INFO_TITLE_MSG",
                 coin_id=CoinIdFormatter.Format(chart_info.CoinId()),
@@ -205,7 +207,7 @@ class ChartInfoFileSaver:
             fig: Matplotlib figure object to save
             file_name: Path to save the figure
         """
-        plt.savefig(file_name, bbox_inches="tight")
+        fig.savefig(file_name, bbox_inches="tight")
         plt.close(fig)
 
 
