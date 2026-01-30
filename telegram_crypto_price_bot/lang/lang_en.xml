@@ -129,7 +129,7 @@ Do not forget to **make me administrator of the group** or I won't work properly
     <!-- Single task information message -->
     <sentence id="SINGLE_TASK_INFO_MSG">• Topic: __{topic_id}__, coin: __{coin_id}/{coin_vs}__, period: __{period}h__, start: __{start:02d}:00__, last days: __{last_days}__, state: __{state}__</sentence>
     <!-- Task running message -->
-    <sentence id="TASK_RUNNING_MSG">runnnig</sentence>
+    <sentence id="TASK_RUNNING_MSG">running</sentence>
     <!-- Task paused message -->
     <sentence id="TASK_PAUSED_MSG">paused</sentence>
     <!-- Price info title message -->
