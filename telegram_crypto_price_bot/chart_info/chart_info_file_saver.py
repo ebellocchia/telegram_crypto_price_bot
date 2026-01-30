@@ -37,6 +37,7 @@ from telegram_crypto_price_bot.translation.translation_loader import Translation
 from telegram_crypto_price_bot.utils.utils import Synchronized
 
 
+# Disable matplotlib GUI
 matplotlib.use("Agg")
 
 
