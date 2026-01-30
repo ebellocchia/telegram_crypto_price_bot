@@ -186,6 +186,8 @@ Set task so that it doesn't delete the last sent message:
 Since the bot deletes the last sent messages, it'd be better if it's an administrator of the group (otherwise the last messages cannot be deleted).\
 In order to display prices periodically, the bot shall run 24h/24h. So, it's suggested to run it on a VPS (there is no performance requirements, so a cheap VPS will suffice).
 
+### Docker
+
 Docker files are also provided, to run the bot in a Docker container.
 In this case, the configuration file can be set by setting the `CONFIG_FILE` variable, for example:
 
