@@ -115,7 +115,18 @@ BotConfig: ConfigSectionsType = {
     # Coingecko
     "coingecko": [
         {
-            "type": BotConfigTypes.COINGECKO_API_KEY,
+            "type": BotConfigTypes.COINGECKO_API_KEY_DEMO,
+            "name": "coingecko_api_key_demo",
+            "def_val": "",
+        },
+        {
+            "type": BotConfigTypes.COINGECKO_API_KEY_PRO,
+            "name": "coingecko_api_key_pro",
+            "def_val": "",
+        },
+        # For retro-compatibility
+        {
+            "type": BotConfigTypes.COINGECKO_API_KEY_PRO,
             "name": "coingecko_api_key",
             "def_val": "",
         },

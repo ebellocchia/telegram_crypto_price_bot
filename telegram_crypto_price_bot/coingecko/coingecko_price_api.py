@@ -46,10 +46,12 @@ class CoinGeckoPriceApiError(Exception):
 
 class CoinGeckoPriceApiConst:
     """Constants for CoinGecko price API class."""
-    API_URL_BASE: str = "https://api.coingecko.com/api/v3"
-    PRO_API_URL_BASE: str = "https://pro-api.coingecko.com/api/v3"
+    API_DEMO_URL_BASE: str = "https://api.coingecko.com/api/v3"
+    API_PRO_URL_BASE: str = "https://pro-api.coingecko.com/api/v3"
 
-    API_KEY_HEADER: str = "x-cg-pro-api-key"
+    HEADER_API_KEY_DEMO: str = "x-cg-demo-api-key"
+    HEADER_API_KEY_PRO: str = "x-cg-pro-api-key"
+
     RETRY_MAX_ATTEMPS: int = 7
     RETRY_DELAY: int = 2
     TIMEOUT: int = 10
@@ -73,15 +75,23 @@ class CoinGeckoPriceApi:
             logger: Logger instance
         """
         self.logger = logger
-        api_key = config.GetValue(BotConfigTypes.COINGECKO_API_KEY)
-        if api_key:
+        # Pro key
+        api_key_pro = config.GetValue(BotConfigTypes.COINGECKO_API_KEY_PRO)
+        if api_key_pro:
             self.headers = {
-                CoinGeckoPriceApiConst.API_KEY_HEADER: api_key
+                CoinGeckoPriceApiConst.HEADER_API_KEY_PRO: api_key_pro
             }
-            self.api_base_url = CoinGeckoPriceApiConst.PRO_API_URL_BASE
+            self.api_base_url = CoinGeckoPriceApiConst.API_PRO_URL_BASE
         else:
-            self.headers = {}
-            self.api_base_url = CoinGeckoPriceApiConst.API_URL_BASE
+            # Demo key
+            api_key_demo = config.GetValue(BotConfigTypes.COINGECKO_API_KEY_DEMO)
+            if api_key_demo:
+                self.headers = {
+                    CoinGeckoPriceApiConst.HEADER_API_KEY_DEMO: api_key_demo
+                }
+            else:
+                self.headers = {}
+            self.api_base_url = CoinGeckoPriceApiConst.API_DEMO_URL_BASE
 
         self.retry_strategy = AsyncRetrying(
             stop=stop_after_attempt(CoinGeckoPriceApiConst.RETRY_MAX_ATTEMPS),

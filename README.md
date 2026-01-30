@@ -65,7 +65,8 @@ The list of all possible fields that can be set is shown below.
 |**[task]**|Configuration for tasks|
 |`tasks_max_num`|Maximum number of running tasks (totally, in all groups). Default: `20`.|
 |**[coingecko]**|Configuration for Coingecko|
-|`coingecko_api_key`|Key for using Coingecko APIs. If not specified, the free APIs will be used. Default: `empty string`.|
+|`coingecko_api_key_demo`|Demo key (free) for using Coingecko APIs. It's also possible to use free APIs with an empty key. Default: `empty string`.|
+|`coingecko_api_key_pro`|Pro key (paid) for using Coingecko APIs. Default: `empty string`.|
 |**[chart]**|Configuration for price chart|
 |`chart_display`|True to display price chart, false otherwise (default: true). If false, all the next fields will be skipped.|
 |`chart_date_format`|Date format for price chart (default: `%%d/%%m/%%Y %%H:00`)|
@@ -96,6 +97,9 @@ The list of all possible fields that can be set is shown below.
 
 All the colors can be either a name or a RGB color in format `#RRGGBB` (same as matplotlib colors).\
 Chart and price configurations will be applied to all coin information in all groups. It's not possible to configure a single coin.
+
+**NOTE:** While CoinGecko APIs still work with an empty API key, it's highly recommended to create a free API key.
+Please note that the free tier has strict rate limits: running too many price tasks simultaneously may lead to rate limit errors.
 
 ## Supported Commands
 
