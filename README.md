@@ -13,13 +13,13 @@ Telegram bot for displaying cryptocurrencies prices and charts based on *pyrogra
 Data is retrieved using CoinGecko APIs.\
 It is possible to show coin information either on demand (by manually calling a command) or periodically using background tasks.\
 A single bot instance can be used with multiple coins and in multiple groups.\
-The usage of the bot is restricted to admins, in order to avoid users to flood the chat with price requests.
+The usage of the bot is restricted to admins, in order to prevent users from flooding the chat with price requests.
 
 ## Setup
 
 ### Create Telegram app
 
-In order to use the bot, in addition to the bot token you also need an APP ID and hash.\
+In order to use the bot, in addition to the bot token you also need an API ID and hash.\
 To get them, create an app using the following website: [https://my.telegram.org/apps](https://my.telegram.org/apps).
 
 ### Installation
@@ -34,7 +34,7 @@ To run the bot, edit the configuration file by specifying the API ID/hash and bo
     cd app
     python bot_start.py
 
-When run with no parameter, *conf/config.ini* will be the default configuration file (in this way it can be used for different groups).\
+When run with no parameter, *conf/config.ini* will be the default configuration file (in this way different configuration files can be used for different groups).\
 To specify a different configuration file:
 
     python bot_start.py -c another_conf.ini
@@ -60,7 +60,7 @@ The list of all possible fields that can be set is shown below.
 |`api_hash`|API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
 |`bot_token`|Bot token from BotFather|
 |**[app]**|Configuration for app|
-|`app_is_test_mode`|True to activate test mode false otherwise|
+|`app_is_test_mode`|True to activate test mode, false otherwise|
 |`app_lang_file`|Language file in XML format (default: English)|
 |**[task]**|Configuration for tasks|
 |`tasks_max_num`|Maximum number of running tasks (totally, in all groups). Default: `20`.|
@@ -185,7 +185,7 @@ Set task so that it doesn't delete the last sent message:
 
 ## Run the Bot
 
-Since the bot deletes the last sent messages, it'd be better if it's an administrator of the group (otherwise the last messages cannot be deleted).\
+Since the bot deletes the last sent messages, it should be an administrator of the group (otherwise the last messages cannot be deleted).\
 In order to display prices periodically, the bot shall run 24h/24h. So, it's suggested to run it on a VPS (there is no performance requirements, so a cheap VPS will suffice).
 
 ### Docker
