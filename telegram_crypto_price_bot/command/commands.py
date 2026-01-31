@@ -116,6 +116,7 @@ class VersionCmd(CommandBase):
 class PriceGetSingleCmd(CommandBase):
     """Command to get cryptocurrency price information once."""
 
+    @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
         """Execute the get single price command."""
