@@ -82,109 +82,102 @@ ruff check .
 
 ## Configuration
 
-An example of configuration file is provided in the *app/conf* folder.\
-The list of all possible fields that can be set is shown below.
+An example configuration file is provided in the **app/conf** folder.
+The list of all configurable fields is shown below.
 
-|Name|Description|
+| Name | Description |
 |---|---|
-|**[pyrogram]**|Configuration for pyrogram|
-|`session_name`|Name of the file used to store the session|
-|`api_id`|API ID from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
-|`api_hash`|API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps)|
-|`bot_token`|Bot token from BotFather|
-|**[app]**|Configuration for app|
-|`app_is_test_mode`|True to activate test mode, false otherwise|
-|`app_lang_file`|Language file in XML format (default: English)|
-|**[task]**|Configuration for tasks|
-|`tasks_max_num`|Maximum number of running tasks (totally, in all groups). Default: `20`.|
-|**[coingecko]**|Configuration for Coingecko|
-|`coingecko_api_key_demo`|Demo key (free) for using Coingecko APIs. It's also possible to use free APIs with an empty key. Default: `empty string`.|
-|`coingecko_api_key_pro`|Pro key (paid) for using Coingecko APIs. Default: `empty string`.|
-|`coingecko_api_max_retries`|Maximum number of retries for failed CoinGecko requests. Default: `7`.|
-|`coingecko_api_timeout_sec`|Timeout in seconds for each CoinGecko request. Default: `10.0`.|
-|**[chart]**|Configuration for price chart|
-|`chart_display`|True to display price chart, false otherwise (default: true). If false, all the next fields will be skipped.|
-|`chart_date_format`|Date format for price chart (default: `%%d/%%m/%%Y %%H:00`)|
-|`chart_background_color`|Background color for price chart (default: `white`)|
-|`chart_title_color`|Title color for price chart (default: `black`)|
-|`chart_frame_color`|Frame color for price chart (default: `black`)|
-|`chart_axes_color`|Axes color for price chart (default: `black`)|
-|`chart_line_color`|Line color for price chart (default: `#3475AB`)|
-|`chart_line_style`|Line style for price chart (default: `-`). Same as matplotlib line styles: `-` `--` `-.` `:`|
-|`chart_line_width`|Line width for price chart (default: `1`)|
-|`chart_display_grid`|True to display price chart grid, false otherwise (default: `true`). If false, all the next fields will be skipped.|
-|`chart_grid_max_size`|Maximum size for price chart grid (default: `4`)|
-|`chart_grid_color`|Line color for price chart grid (default: `#DFDFDF`)|
-|`chart_grid_line_style`|Line style for price chart grid (default: `--`). Same as matplotlib line styles: `-` `--` `-.` `:`|
-|`chart_grid_line_width`|Line width for price chart grid (default: `1`)|
-|**[price]**|Configuration for price info|
-|`price_display_market_cap`|True to display market cap, false otherwise (default: `true`)|
-|`price_display_market_cap_rank`|True to display market cap rank, false otherwise (default: `false`)|
-|**[logging]**|Configuration for logging|
-|`log_level`|Log level, same of python logging (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`). Default: `INFO`.|
-|`log_console_enabled`|True to enable logging to console, false otherwise (default: `true`)|
-|`log_file_enabled`|True to enable logging to file, false otherwise (default: `false`). If false, all the next fields will be skipped.|
-|`log_file_name`|Log file name|
-|`log_file_use_rotating`|True for using a rotating log file, false otherwise|
-|`log_file_max_bytes`|Maximum size in bytes for a log file. When reached, a new log file is created up to `log_file_backup_cnt`. Valid only if `log_file_use_rotating` is true.|
-|`log_file_backup_cnt`|Maximum number of log files. Valid only if `log_file_use_rotating` is true.|
-|`log_file_append`|True to append to log file, false to start from a new file each time. Valid only if `log_file_use_rotating` is false.|
+| **[pyrogram]** | Configuration for Pyrogram |
+| `session_name` | Name of the file used to store the session |
+| `api_id` | API ID from [https://my.telegram.org/apps](https://my.telegram.org/apps) |
+| `api_hash` | API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps) |
+| `bot_token` | Bot token from BotFather |
+| **[app]** | Configuration for the app |
+| `app_is_test_mode` | Set to `true` to activate test mode, `false` otherwise |
+| `app_lang_file` | Language file in XML format (default: English) |
+| **[task]** | Configuration for tasks |
+| `tasks_max_num` | Maximum number of running tasks (total, across all groups). Default: `20`. |
+| **[coingecko]** | Configuration for CoinGecko |
+| `coingecko_api_key_demo` | Demo key (free) for CoinGecko APIs. Free APIs can also be used with an empty key. |
+| `coingecko_api_key_pro` | Pro key (paid) for CoinGecko APIs. |
+| `coingecko_api_max_retries` | Maximum number of retries for failed CoinGecko requests. Default: `7`. |
+| `coingecko_api_timeout_sec` | Timeout in seconds for each CoinGecko request. Default: `10.0`. |
+| **[chart]** | Configuration for the price chart |
+| `chart_display` | Set to `true` to display the price chart, `false` otherwise (default: `true`). If `false`, the following fields are ignored. |
+| `chart_date_format` | Date format for the price chart (default: `%%d/%%m/%%Y %%H:00`) |
+| `chart_background_color` | Background color for the price chart (default: `white`) |
+| `chart_title_color` | Title color for the price chart (default: `black`) |
+| `chart_frame_color` | Frame color for the price chart (default: `black`) |
+| `chart_axes_color` | Axes color for the price chart (default: `black`) |
+| `chart_line_color` | Line color for the price chart (default: `#3475AB`) |
+| `chart_line_style` | Line style for the price chart (default: `-`). Same as matplotlib styles: `-`, `--`, `-.`, `:` |
+| `chart_line_width` | Line width for the price chart (default: `1`) |
+| `chart_display_grid` | Set to `true` to display the grid, `false` otherwise (default: `true`). If `false`, the following fields are ignored. |
+| `chart_grid_max_size` | Maximum size for the price chart grid (default: `4`) |
+| `chart_grid_color` | Line color for the price chart grid (default: `#DFDFDF`) |
+| `chart_grid_line_style` | Line style for the grid (default: `--`). Same as matplotlib styles: `-`, `--`, `-.`, `:` |
+| `chart_grid_line_width` | Line width for the grid (default: `1`) |
+| **[price]** | Configuration for price info |
+| `price_display_market_cap` | Set to `true` to display market cap, `false` otherwise (default: `true`) |
+| `price_display_market_cap_rank` | Set to `true` to display market cap rank, `false` otherwise (default: `false`) |
+| **[logging]** | Configuration for logging |
+| `log_level` | Log level, same as Python logging (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`). Default: `INFO`. |
+| `log_console_enabled` | Set to `true` to enable logging to console, `false` otherwise (default: `true`) |
+| `log_file_enabled` | Set to `true` to enable logging to file, `false` otherwise (default: `false`). If `false`, the following fields are ignored. |
+| `log_file_name` | Log file name |
+| `log_file_use_rotating` | Set to `true` to use a rotating log file, `false` otherwise |
+| `log_file_max_bytes` | Maximum size in bytes before rotating. Valid only if `log_file_use_rotating` is `true`. |
+| `log_file_backup_cnt` | Maximum number of log files to keep. Valid only if `log_file_use_rotating` is `true`. |
+| `log_file_append` | Set to `true` to append to the log file, `false` to overwrite it. Valid only if `log_file_use_rotating` is `false`. |
 
-All the colors can be either a name or a RGB color in format `#RRGGBB` (same as matplotlib colors).\
-Chart and price configurations will be applied to all coin information in all groups. It's not possible to configure a single coin.
+All colors can be specified as a name or an RGB color in `#RRGGBB` format (same as *matplotlib*).
+Chart and price configurations are global and will be applied to all coins in all groups.
 
-**NOTE:** While CoinGecko APIs still work with an empty API key, it's highly recommended to create a free API key.
+**NOTE:** While CoinGecko APIs can still work with an empty API key, it is highly recommended to create a free API key.
 Please note that the free tier has strict rate limits: running too many price tasks simultaneously may lead to rate limit errors.
 
 ## Supported Commands
 
 List of supported commands:
-- `/help`: show this message
-- `/alive`: show if bot is active
+- `/help`: show help message
+- `/alive`: show if the bot is active
 - `/pricebot_set_test_mode true/false`: enable/disable test mode
 - `/pricebot_is_test_mode`: show if test mode is enabled
-- `/pricebot_version`: show bot version
-- `/pricebot_get_single COIN_ID COIN_VS LAST_DAYS [SAME_MSG]`: show chart and price information of the specified pair (single call).\
-Parameters:
+- `/pricebot_version`: show the bot version
+- `/pricebot_get_single COIN_ID COIN_VS LAST_DAYS [SAME_MSG]`: show chart and price information for the specified pair (single request).
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-    - `LAST_DAYS`: Last number of days to show price chart
-    - `SAME_MSG` (optional): true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages. Default value: true.
-- `/pricebot_task_start PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS`: start a price task in the current chat/topic. If the task `COIN_ID/COIN_VS` already exists in the current chat, an error message will be shown. To start it again, it shall be stopped with the `pricebot_task_stop` command.\
-Parameters:
-    - `PERIOD_HOURS`: Task period in hours, it shall be between 1 and 24
-    - `START_HOUR`: Task start hour, it shall be between 0 and 23
+    - `LAST_DAYS`: number of days for the price chart
+    - `SAME_MSG` (optional): `true` to send chart and price info in the same message (price info as a caption), `false` to send them separately. Default: `true`.
+- `/pricebot_task_start PERIOD_HOURS START_HOUR COIN_ID COIN_VS LAST_DAYS`: start a periodic price task (in the current chat/topic). If the task already exists, an error is shown. To restart it, stop it first with `/pricebot_task_stop`.
+    - `PERIOD_HOURS`: task period in hours (must be between 1 and 24)
+    - `START_HOUR`: task start hour (must be between 0 and 23)
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-    - `LAST_DAYS`: Last number of days to show price chart
-- `/pricebot_task_stop COIN_ID COIN_VS`: stop the specified price task in the current chat/topic. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
-Parameters:
+    - `LAST_DAYS`: number of days for the price chart
+- `/pricebot_task_stop COIN_ID COIN_VS`: stop the specified price task (in the current chat/topic).
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-- `/pricebot_task_stop_all`: stop all price tasks in the current chat (jobs in all topics will be stopped)
-- `/pricebot_task_pause COIN_ID COIN_VS`: pause the specified price task in the current chat/topic. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
-Parameters:
+- `/pricebot_task_stop_all`: stop all price tasks in the current chat (all topics included).
+- `/pricebot_task_pause COIN_ID COIN_VS`: pause the specified price task (in the current chat/topic).
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-- `/pricebot_task_resume COIN_ID COIN_VS`: resume the specified price task in the current chat/topic. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
-Parameters:
+- `/pricebot_task_resume COIN_ID COIN_VS`: resume the specified price task (in the current chat/topic).
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-- `/pricebot_task_send_in_same_msg COIN_ID COIN_VS true/false`: enable/disable the sending of chart and price information in the same message. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
-Parameters:
+- `/pricebot_task_send_in_same_msg COIN_ID COIN_VS true/false`: enable/disable sending chart and price info in the same message for the specified price task (in the current chat/topic).
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-    - `flag`: true for sending chart and price information in the same message (price information will be a caption of the chart image), false to send them in separate messages
-- `/pricebot_task_delete_last_msg COIN_ID COIN_VS true/false`: enable/disable the deletion of last messages for the specified price task in the current chat. If the task `COIN_ID/COIN_VS` does not exist in the current chat, an error message will be shown.\
-Parameters:
+    - `flag`: `true` for a single message (price as caption), `false` for separate messages.
+- `/pricebot_task_delete_last_msg COIN_ID COIN_VS true/false`: enable/disable deletion of the previous message for the specified price task (in the current chat/topic).
     - `COIN_ID`: CoinGecko *ID*
     - `COIN_VS`: CoinGecko *vs_currency*
-    - `flag`: true or false
-- `/pricebot_task_info`: show the list of active price tasks in the current chat (jobs in all topics will be shown)
+    - `flag`: `true` or `false`
+- `/pricebot_task_info`: show the list of active price tasks in the current chat (all topics included).
 
-By default:
-- a price task will send chart and price information in the same message. This can be enabled/disabled with the `pricebot_task_send_in_same_msg` command.
-- a price task will delete the last sent message when sending a new one. This can be enabled/disabled with the `pricebot_task_delete_last_msg` command.
+**Default behavior:**
+- Price tasks send chart and price info in the same message. This can be toggled via `/pricebot_task_send_in_same_msg`.
+- Price tasks delete the last sent message when sending a new one. This can be toggled via `/pricebot_task_delete_last_msg`.
 
 **Scheduling Logic:**
 The task period starts from the specified hour (ensure the VPS time is correct):
