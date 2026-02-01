@@ -9,7 +9,7 @@
 
 ## Introduction
 
-Telegram bot for displaying cryptocurrencies prices and charts based on *pyrogram* and *matplotlib* libraries.\
+Telegram bot for displaying cryptocurrencies prices and charts based on *pyrotgfork* (a maintained fork of the *pyrogram* library) and *matplotlib* libraries.\
 Data is retrieved using CoinGecko APIs.\
 It is possible to show coin information either on demand (by manually calling a command) or periodically using background tasks.\
 A single bot instance can be used with multiple coins and in multiple groups.\
@@ -19,33 +19,66 @@ The usage of the bot is restricted to admins, in order to prevent users from flo
 
 ### Create Telegram app
 
-In order to use the bot, in addition to the bot token you also need an API ID and hash.\
-To get them, create an app using the following website: [https://my.telegram.org/apps](https://my.telegram.org/apps).
+In order to use the bot, you need a Telegram bot token, an API ID, and an API hash.
+
+To obtain them, create an app on the following website: [https://my.telegram.org/apps](https://my.telegram.org/apps).
 
 ### Installation
 
-The package requires Python >= 3.7.\
-To install it:
+This package requires **Python >= 3.7**.
 
-    pip install telegram_crypto_price_bot
 
-To run the bot, edit the configuration file by specifying the API ID/hash and bot token. Then, move to the *app* folder and run the *bot.py* script:
+1. **Set up a virtual environment (optional but recommended)**:
 
-    cd app
-    python bot_start.py
+```
+python -m venv venv
+source venv/bin/activate    # On Windows use: venv\Scripts\activate
+```
 
-When run with no parameter, *conf/config.ini* will be the default configuration file (in this way different configuration files can be used for different groups).\
-To specify a different configuration file:
+2. **Install the bot:**
 
-    python bot_start.py -c another_conf.ini
-    python bot_start.py --config another_conf.ini
+```
+pip install telegram_crypto_price_bot
+```
 
-Of course, the *app* folder can be moved elsewhere if needed.
+**IMPORTANT NOTE:** This bot uses *pyrotgfork*. If you are not using a virtual environment, ensure that the standard *pyrogram* library (or forks) is not installed in your Python environment.
+Since both libraries use the same package name, having both installed will cause conflicts and the bot will not function correctly.
+
+3. **Set up the files:**
+Copy the **app** folder from the repository to your device. Edit the configuration file by specifying your API ID, API hash, bot token, and other parameters according to your needs (see the "Configuration" chapter).
+4. **Run the bot:**
+Inside the **app** folder, launch the **bot_start.py** script to start the bot:
+
+```
+python bot_start.py
+```
+
+---
+
+#### Custom Configuration
+
+When run without parameters, the bot uses **conf/config.ini** as the default configuration file. To specify a different configuration file, use:
+
+```
+python bot_start.py -c another_conf.ini
+```
+
+or:
+
+```
+python bot_start.py --config another_conf.ini
+```
+
+This allows you to manage different bots easily, each one with its own configuration file.
+
+### Code analysis
 
 To run code analysis:
 
-    mypy .
-    ruff check .
+```
+mypy .
+ruff check .
+```
 
 ## Configuration
 
@@ -153,59 +186,70 @@ By default:
 - a price task will send chart and price information in the same message. This can be enabled/disabled with the `pricebot_task_send_in_same_msg` command.
 - a price task will delete the last sent message when sending a new one. This can be enabled/disabled with the `pricebot_task_delete_last_msg` command.
 
-The task period starts from the specified starting hour (be sure to set the correct time on the VPS), for example:
-- A task period of 8 hours starting from 00:00 will send the message at: 00:00, 08:00 and 16:00
-- A task period of 6 hours starting from 08:00 will send the message at: 08:00, 14:00, 20:00 and 02:00
+**Scheduling Logic:**
+The task period starts from the specified hour (ensure the VPS time is correct):
 
-In case of API errors (e.g. network issues or invalid coin ID) an error message will be shown.
+- Period of 8h starting at 00:00: sends at 00:00, 08:00, 16:00
+- Period of 6h starting at 10:00: sends at 10:00, 16:00, 22:00, 04:00
 
 **Examples**
 
 Show the price of BTC/USD of the last 14 days in the current chat (single call):
 
-    /pricebot_get_single bitcoin usd 14
+```
+/pricebot_get_single bitcoin usd 14
+```
 
 Show the price of ETH/BTC of the last 30 days periodically every 8 hours starting from 10:00 in the current chat:
 
-    /pricebot_task_start 8 10 ethereum btc 30
+```
+/pricebot_task_start 8 10 ethereum btc 30
+```
 
 Pause/Resume/Stop the previous task:
 
-    /pricebot_task_pause ethereum btc
-    /pricebot_task_resume ethereum btc
-    /pricebot_task_stop ethereum btc
+```
+/pricebot_task_pause ethereum btc
+/pricebot_task_resume ethereum btc
+/pricebot_task_stop ethereum btc
+```
 
 Set task so that it sends chart and price information in the same message:
 
-    /pricebot_task_send_in_same_msg ethereum btc true
+```
+/pricebot_task_send_in_same_msg ethereum btc true
+```
 
 Set task so that it doesn't delete the last sent message:
 
-    /pricebot_task_delete_last_msg ethereum btc false
+```
+/pricebot_task_delete_last_msg ethereum btc false
+```
 
 ## Run the Bot
 
-Since the bot deletes the last sent messages, it should be an administrator of the group (otherwise the last messages cannot be deleted).\
-In order to display prices periodically, the bot shall run 24h/24h. So, it's suggested to run it on a VPS (there is no performance requirements, so a cheap VPS will suffice).
+The bot should be a group administrator to ensure it can delete previous messages.
+
+It is recommended to run the bot 24/7 on a VPS.
 
 ### Docker
 
 Docker files are also provided, to run the bot in a Docker container.
 In this case, the configuration file can be set by setting the `CONFIG_FILE` variable, for example:
 
-    CONFIG_FILE=conf/config.ini docker compose up -d --build
+```
+CONFIG_FILE=conf/config.ini docker compose up -d --build
+```
 
-**NOTE:** Depending on your timezone, you may want to adjust the `TZ=Europe/Rome` variable in `docker-compose.yml`.
+**NOTE:** Adjust the `TZ=Europe/Rome` variable in `docker-compose.yml` to match your timezone.
 
 ## Test Mode
 
-During test mode, the bot will work as usual but the task period will be applied in minutes instead of hours. This allows to quickly check if it is working.
+In test mode, the task period is applied in **minutes** instead of hours, allowing for rapid testing.
 
 ## Translation
 
-The messages sent by the bot on Telegram can be translated into different languages (the default language is English) by providing a custom XML file.\
-The XML file path is specified in the configuration file (`app_lang_file` field).\
-An example XML file in italian is provided in the folder *app/lang*.
+Bot messages can be translated using a custom XML file specified in the `app_lang_file` field. An Italian example is provided in **app/lang**.
 
 ## Image Examples
 
