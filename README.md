@@ -44,7 +44,7 @@ pip install telegram_crypto_price_bot
 **IMPORTANT NOTE:** This bot uses *pyrotgfork*. If you are not using a virtual environment, ensure that the standard *pyrogram* library (or forks) is not installed in your Python environment.
 Since both libraries use the same package name, having both installed will cause conflicts and the bot will not function correctly.
 
-3. **Set up the files:**
+3. **Set up the bot:**
 Copy the **app** folder from the repository to your device. Edit the configuration file by specifying your API ID, API hash, bot token, and other parameters according to your needs (see the "Configuration" chapter).
 4. **Run the bot:**
 Inside the **app** folder, launch the **bot_start.py** script to start the bot:
