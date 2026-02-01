@@ -1,4 +1,3 @@
-# Use a stable and lightweight Python base image
 FROM python:3.13-slim
 
 # Prevent Python from writing .pyc files and enable real-time logging
