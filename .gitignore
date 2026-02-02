@@ -35,6 +35,7 @@ venv/
 .ruff_cache/
 
 # Additional
+config_test.ini
 *.log
 *.session
 *.session-shm
