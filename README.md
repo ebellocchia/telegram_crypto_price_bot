@@ -87,22 +87,22 @@ The list of all configurable fields is shown below.
 
 | Name | Description |
 |---|---|
-| **[pyrogram]** | Configuration for Pyrogram |
+| **[pyrogram]** | *Configuration for Pyrogram* |
 | `session_name` | Path of the file used to store the session. |
 | `api_id` | API ID from [https://my.telegram.org/apps](https://my.telegram.org/apps). |
 | `api_hash` | API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps). |
 | `bot_token` | Bot token from *BotFather*. |
-| **[app]** | Configuration for the app |
+| **[app]** | *Configuration for the app* |
 | `app_is_test_mode` | Set to `true` to activate test mode, `false` otherwise. |
 | `app_lang_file` | Path of custom language file in XML format (default: English). |
-| **[task]** | Configuration for tasks |
-| `tasks_max_num` | Maximum number of running tasks (total, across all groups). Default: `20`. |
-| **[coingecko]** | Configuration for CoinGecko |
-| `coingecko_api_key_demo` | Demo key (free) for CoinGecko APIs. Free APIs can also be used with an empty key. |
-| `coingecko_api_key_pro` | Pro key (paid) for CoinGecko APIs. |
-| `coingecko_api_max_retries` | Maximum number of retries for failed CoinGecko requests. Default: `7`. |
-| `coingecko_api_timeout_sec` | Timeout in seconds for each CoinGecko request. Default: `10.0`. |
-| **[chart]** | Configuration for the price chart |
+| **[task]** | *Configuration for tasks* |
+| `tasks_max_num` | Maximum number of total running tasks, across all groups (default: `20`). |
+| **[coingecko]** | *Configuration for CoinGecko* |
+| `coingecko_api_key_demo` | Demo key (free) for CoinGecko APIs. Free APIs can also be used with an empty key (default: empty string). |
+| `coingecko_api_key_pro` | Pro key (paid) for CoinGecko APIs (default: empty string). |
+| `coingecko_api_max_retries` | Maximum number of retries for failed CoinGecko requests (default: `7`). |
+| `coingecko_api_timeout_sec` | Timeout in seconds for each CoinGecko request (default: `10.0`). |
+| **[chart]** | *Configuration for the price chart* |
 | `chart_display` | Set to `true` to display the price chart, `false` otherwise (default: `true`). If `false`, the following fields are ignored. |
 | `chart_date_format` | Date format for the price chart (default: `%%d/%%m/%%Y %%H:00`) |
 | `chart_background_color` | Background color for the price chart (default: `white`) |
@@ -117,10 +117,10 @@ The list of all configurable fields is shown below.
 | `chart_grid_color` | Line color for the price chart grid (default: `#DFDFDF`) |
 | `chart_grid_line_style` | Line style for the grid (default: `--`). Same as matplotlib styles: `-`, `--`, `-.`, `:` |
 | `chart_grid_line_width` | Line width for the grid (default: `1`) |
-| **[price]** | Configuration for price info |
+| **[price]** | *Configuration for price info* |
 | `price_display_market_cap` | Set to `true` to display market cap, `false` otherwise (default: `true`) |
 | `price_display_market_cap_rank` | Set to `true` to display market cap rank, `false` otherwise (default: `false`) |
-| **[logging]** | Configuration for logging |
+| **[logging]** | *Configuration for logging* |
 | `log_level` | Log level, same as Python logging (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`). Default: `INFO`. |
 | `log_console_enabled` | Set to `true` to enable logging to console, `false` otherwise (default: `true`) |
 | `log_file_enabled` | Set to `true` to enable logging to file, `false` otherwise (default: `false`). If `false`, the following fields are ignored. |
