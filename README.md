@@ -88,13 +88,13 @@ The list of all configurable fields is shown below.
 | Name | Description |
 |---|---|
 | **[pyrogram]** | Configuration for Pyrogram |
-| `session_name` | Name of the file used to store the session |
-| `api_id` | API ID from [https://my.telegram.org/apps](https://my.telegram.org/apps) |
-| `api_hash` | API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps) |
-| `bot_token` | Bot token from BotFather |
+| `session_name` | Path of the file used to store the session. |
+| `api_id` | API ID from [https://my.telegram.org/apps](https://my.telegram.org/apps). |
+| `api_hash` | API hash from [https://my.telegram.org/apps](https://my.telegram.org/apps). |
+| `bot_token` | Bot token from *BotFather*. |
 | **[app]** | Configuration for the app |
-| `app_is_test_mode` | Set to `true` to activate test mode, `false` otherwise |
-| `app_lang_file` | Language file in XML format (default: English) |
+| `app_is_test_mode` | Set to `true` to activate test mode, `false` otherwise. |
+| `app_lang_file` | Path of custom language file in XML format (default: English). |
 | **[task]** | Configuration for tasks |
 | `tasks_max_num` | Maximum number of running tasks (total, across all groups). Default: `20`. |
 | **[coingecko]** | Configuration for CoinGecko |
