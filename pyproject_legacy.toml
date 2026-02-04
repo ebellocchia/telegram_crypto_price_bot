@@ -56,7 +56,7 @@ Download = "https://github.com/ebellocchia/telegram_crypto_price_bot/archive/v{v
 
 [tool.setuptools.packages.find]
 where = ["."]
-exclude = ["app*", "build*", "dist*"]
+exclude = ["app*", "build*", "dist*", "venv*"]
 
 [tool.setuptools.package-data]
 telegram_crypto_price_bot = ["lang/lang_en.xml"]
