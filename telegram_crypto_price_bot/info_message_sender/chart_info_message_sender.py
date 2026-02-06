@@ -21,6 +21,7 @@
 from typing import Any
 
 import pyrogram
+from typing_extensions import override
 
 from telegram_crypto_price_bot.chart_info.chart_info_file_saver import ChartInfoTmpFileSaver
 from telegram_crypto_price_bot.config.config_object import ConfigObject
@@ -54,6 +55,7 @@ class ChartInfoMessageSender(InfoMessageSenderBase):
         self.logger = logger
         self.translator = translator
 
+    @override
     async def _SendMessage(self,
                            chat: pyrogram.types.Chat,
                            topic_id: int,

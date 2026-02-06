@@ -20,6 +20,8 @@
 
 from typing import Any, Callable, Coroutine
 
+from typing_extensions import override
+
 from telegram_crypto_price_bot._version import __version__
 from telegram_crypto_price_bot.bot.bot_config_types import BotConfigTypes
 from telegram_crypto_price_bot.coin_info.coin_info_scheduler import (
@@ -57,6 +59,7 @@ def GroupChatOnly(exec_cmd_fct: Callable[..., Coroutine[Any, Any, None]]) -> Cal
 class HelpCmd(CommandBase):
     """Command to display help information."""
 
+    @override
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
         """Execute the help command."""
@@ -66,6 +69,7 @@ class HelpCmd(CommandBase):
 class AliveCmd(CommandBase):
     """Command to check if the bot is alive and responding."""
 
+    @override
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
         """Execute the alive command."""
@@ -75,6 +79,7 @@ class AliveCmd(CommandBase):
 class SetTestModeCmd(CommandBase):
     """Command to enable or disable test mode."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -95,6 +100,7 @@ class SetTestModeCmd(CommandBase):
 class IsTestModeCmd(CommandBase):
     """Command to check if test mode is enabled."""
 
+    @override
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
         """Execute the is test mode command."""
@@ -107,6 +113,7 @@ class IsTestModeCmd(CommandBase):
 class VersionCmd(CommandBase):
     """Command to display bot version."""
 
+    @override
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
         """Execute the version command."""
@@ -116,6 +123,7 @@ class VersionCmd(CommandBase):
 class PriceGetSingleCmd(CommandBase):
     """Command to get cryptocurrency price information once."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -136,6 +144,7 @@ class PriceGetSingleCmd(CommandBase):
 class PriceTaskStartCmd(CommandBase):
     """Command to start a scheduled cryptocurrency price task."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -180,6 +189,7 @@ class PriceTaskStartCmd(CommandBase):
 class PriceTaskStopCmd(CommandBase):
     """Command to stop a scheduled cryptocurrency price task."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -200,6 +210,7 @@ class PriceTaskStopCmd(CommandBase):
 class PriceTaskStopAllCmd(CommandBase):
     """Command to stop all scheduled cryptocurrency price tasks in a chat."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -211,6 +222,7 @@ class PriceTaskStopAllCmd(CommandBase):
 class PriceTaskPauseCmd(CommandBase):
     """Command to pause a scheduled cryptocurrency price task."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -231,6 +243,7 @@ class PriceTaskPauseCmd(CommandBase):
 class PriceTaskResumeCmd(CommandBase):
     """Command to resume a paused cryptocurrency price task."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -251,6 +264,7 @@ class PriceTaskResumeCmd(CommandBase):
 class PriceTaskSendInSameMsgCmd(CommandBase):
     """Command to configure whether task updates are sent in the same message."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -278,6 +292,7 @@ class PriceTaskSendInSameMsgCmd(CommandBase):
 class PriceTaskDeleteLastMsgCmd(CommandBase):
     """Command to configure whether the last sent message should be deleted."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:
@@ -305,6 +320,7 @@ class PriceTaskDeleteLastMsgCmd(CommandBase):
 class PriceTaskInfoCmd(CommandBase):
     """Command to display information about active price tasks in a chat."""
 
+    @override
     @GroupChatOnly
     async def _ExecuteCommand(self,
                               **kwargs: Any) -> None:

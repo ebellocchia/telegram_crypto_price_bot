@@ -21,6 +21,7 @@
 from typing import Any
 
 import pyrogram
+from typing_extensions import override
 
 from telegram_crypto_price_bot.config.config_object import ConfigObject
 from telegram_crypto_price_bot.info_message_sender.info_message_sender_base import InfoMessageSenderBase
@@ -50,6 +51,7 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
         super().__init__(client, config, logger)
         self.price_info_builder = PriceInfoBuilder(config, translator)
 
+    @override
     async def _SendMessage(self,
                            chat: pyrogram.types.Chat,
                            topic_id: int,

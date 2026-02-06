@@ -5,3 +5,4 @@ apscheduler
 defusedxml
 httpx
 tenacity
+typing_extensions
