@@ -18,9 +18,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from typing import Any, Dict, List
+from typing import Any, Callable, Dict, List, TypedDict
+
+from typing_extensions import NotRequired
+
+from telegram_crypto_price_bot.config.config_object import ConfigObject, ConfigTypes
 
 
-ConfigFieldType = Dict[str, Any]
+class ConfigFieldType(TypedDict):
+    type: ConfigTypes
+    name: str
+    def_val: NotRequired[Any]
+    load_if: NotRequired[Callable[[ConfigObject], bool]]
+    valid_if: NotRequired[Callable[[ConfigObject, Any], bool]]
+    conv_fct: NotRequired[Callable[[Any], Any]]
+    print_fct: NotRequired[Callable[[Any], str]]
+
+
 ConfigSectionType = List[ConfigFieldType]
 ConfigSectionsType = Dict[str, ConfigSectionType]
