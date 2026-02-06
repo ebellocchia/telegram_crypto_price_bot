@@ -26,6 +26,8 @@ from telegram_crypto_price_bot.config.config_object import ConfigObject, ConfigT
 
 
 class ConfigFieldType(TypedDict):
+    """Represents a configuration field."""
+
     type: ConfigTypes
     name: str
     def_val: NotRequired[Any]
