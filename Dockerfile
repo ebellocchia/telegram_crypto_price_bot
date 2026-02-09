@@ -1,26 +1,29 @@
-FROM python:3.13-slim
+# Build stage
+FROM python:3.13-slim AS builder
 
-# Prevent Python from writing .pyc files and enable real-time logging
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Set the working directory inside the container
-WORKDIR /code/app
-
-# Install system dependencies required for compiling C-based Python packages
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     make \
     && rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip
-RUN pip install --no-cache-dir --upgrade pip
+WORKDIR /build
 
-# Install package
-COPY . .
-RUN pip install --no-cache-dir .
+COPY pyproject.toml requirements.txt ./
+COPY telegram_crypto_price_bot/ telegram_crypto_price_bot/
 
-# Start bot
-WORKDIR app
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir --prefix=/install .
+
+# Final stage
+FROM python:3.13-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+COPY --from=builder /install /usr/local
+
+WORKDIR /code
+COPY app/ ./
+
 CMD exec python bot_start.py -c ${CONFIG_FILE:-conf/config.ini}
