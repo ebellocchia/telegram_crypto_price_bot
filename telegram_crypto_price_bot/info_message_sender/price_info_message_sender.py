@@ -40,7 +40,8 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        """Initialize the price info message sender.
+        """
+        Initialize the price info message sender.
 
         Args:
             client: Pyrogram client instance
@@ -57,7 +58,8 @@ class PriceInfoMessageSender(InfoMessageSenderBase):
                            topic_id: int,
                            *args: Any,
                            **kwargs: Any) -> pyrogram.types.Message:
-        """Send price information message.
+        """
+        Send price information message.
 
         Args:
             chat: Telegram chat to send message to

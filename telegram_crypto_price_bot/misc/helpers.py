@@ -29,51 +29,55 @@ class ChatHelper:
 
     @staticmethod
     def IsChannel(chat: pyrogram.types.Chat) -> bool:
-        """Check if the chat is a channel.
+        """
+        Check if the chat is a channel.
 
         Args:
-            chat: Chat object to check
+            chat: Chat object to check.
 
         Returns:
-            True if chat is a channel, False otherwise
+            True if chat is a channel, False otherwise.
         """
         return chat.type == ChatType.CHANNEL
 
     @staticmethod
     def GetTitle(chat: pyrogram.types.Chat) -> str:
-        """Get the chat title.
+        """
+        Get the chat title.
 
         Args:
-            chat: Chat object to get title from
+            chat: Chat object to get title from.
 
         Returns:
-            Chat title or empty string if no title
+            Chat title or empty string if no title.
         """
         return chat.title if chat.title is not None else ""
 
     @staticmethod
     def GetTitleOrId(chat: pyrogram.types.Chat) -> str:
-        """Get the chat title with ID or just ID if no title.
+        """
+        Get the chat title with ID or just ID if no title.
 
         Args:
-            chat: Chat object to get information from
+            chat: Chat object to get information from.
 
         Returns:
-            Chat title with ID or just ID
+            Chat title with ID or just ID.
         """
         return f"'{chat.title}' (ID: {chat.id})" if chat.title is not None else f"{chat.id}"
 
     @staticmethod
     def IsPrivateChat(chat: pyrogram.types.Chat,
                       user: pyrogram.types.User):
-        """Check if the chat is a private chat with the user.
+        """
+        Check if the chat is a private chat with the user.
 
         Args:
-            chat: Chat object to check
-            user: User object to compare with
+            chat: Chat object to check.
+            user: User object to compare with.
 
         Returns:
-            True if chat is private with the user, False otherwise
+            True if chat is private with the user, False otherwise.
         """
         if ChatHelper.IsChannel(chat):
             return False
@@ -85,13 +89,14 @@ class UserHelper:
 
     @staticmethod
     def GetNameOrId(user: Optional[pyrogram.types.User]) -> str:
-        """Get user's name or ID with username if available.
+        """
+        Get user's name or ID with username if available.
 
         Args:
-            user: User object to get information from, or None
+            user: User object to get information from, or None.
 
         Returns:
-            User information string with name, username, and ID
+            User information string with name, username, and ID.
         """
         if user is None:
             return "Anonymous user"
@@ -104,13 +109,14 @@ class UserHelper:
 
     @staticmethod
     def GetName(user: Optional[pyrogram.types.User]) -> str:
-        """Get user's full name.
+        """
+        Get user's full name.
 
         Args:
-            user: User object to get name from, or None
+            user: User object to get name from, or None.
 
         Returns:
-            User's full name or "Anonymous user" if None
+            User's full name or "Anonymous user" if None.
         """
         if user is None:
             return "Anonymous user"

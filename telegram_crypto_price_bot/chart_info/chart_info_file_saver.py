@@ -59,11 +59,12 @@ class ChartInfoFileSaver:
     def __init__(self,
                  config: ConfigObject,
                  translator: TranslationLoader) -> None:
-        """Initialize the chart info file saver.
+        """
+        Initialize the chart info file saver.
 
         Args:
-            config: Configuration object containing chart settings
-            translator: Translation loader for internationalization
+            config: Configuration object containing chart settings.
+            translator: Translation loader for internationalization.
         """
         self.config = config
         self.translator = translator
@@ -72,7 +73,8 @@ class ChartInfoFileSaver:
     def SaveToFile(self,
                    chart_info: ChartInfo,
                    file_name: str) -> None:
-        """Save chart to a file.
+        """
+        Save chart to a file.
 
         Args:
             chart_info: Chart information to plot and save
@@ -91,10 +93,11 @@ class ChartInfoFileSaver:
 
     def __SetAxesFormatter(self,
                            ax: plt.axes) -> None:
-        """Set formatting for chart axes.
+        """
+        Set formatting for chart axes.
 
         Args:
-            ax: Matplotlib axes object to configure
+            ax: Matplotlib axes object to configure.
         """
         date_format = self.config.GetValue(BotConfigTypes.CHART_DATE_FORMAT)
         grid_max_size = self.config.GetValue(BotConfigTypes.CHART_GRID_MAX_SIZE)
@@ -110,11 +113,12 @@ class ChartInfoFileSaver:
     def __SetBackgroundColor(self,
                              fig: plt.figure,
                              ax: plt.axes) -> None:
-        """Set background color for the chart.
+        """
+        Set background color for the chart.
 
         Args:
-            fig: Matplotlib figure object
-            ax: Matplotlib axes object
+            fig: Matplotlib figure object.
+            ax: Matplotlib axes object.
         """
         bckg_color = self.config.GetValue(BotConfigTypes.CHART_BACKGROUND_COLOR)
 
@@ -123,10 +127,11 @@ class ChartInfoFileSaver:
 
     def __SetAxesColor(self,
                        ax: plt.axes) -> None:
-        """Set color for chart axes.
+        """
+        Set color for chart axes.
 
         Args:
-            ax: Matplotlib axes object to configure
+            ax: Matplotlib axes object to configure.
         """
         axes_color = self.config.GetValue(BotConfigTypes.CHART_AXES_COLOR)
 
@@ -134,10 +139,11 @@ class ChartInfoFileSaver:
 
     def __SetFrameColor(self,
                         ax: plt.axes) -> None:
-        """Set color for chart frame.
+        """
+        Set color for chart frame.
 
         Args:
-            ax: Matplotlib axes object to configure
+            ax: Matplotlib axes object to configure.
         """
         frame_color = self.config.GetValue(BotConfigTypes.CHART_FRAME_COLOR)
 
@@ -146,10 +152,11 @@ class ChartInfoFileSaver:
 
     def __SetGrid(self,
                   ax: plt.axes) -> None:
-        """Set grid configuration for the chart.
+        """
+        Set grid configuration for the chart.
 
         Args:
-            ax: Matplotlib axes object to configure
+            ax: Matplotlib axes object to configure.
         """
         display_grid = self.config.GetValue(BotConfigTypes.CHART_DISPLAY_GRID)
         grid_color = self.config.GetValue(BotConfigTypes.CHART_GRID_COLOR)
@@ -161,11 +168,12 @@ class ChartInfoFileSaver:
     def __SetTitle(self,
                    chart_info: ChartInfo,
                    ax: plt.axes) -> None:
-        """Set title for the chart.
+        """
+        Set title for the chart.
 
         Args:
-            chart_info: Chart information containing coin details
-            ax: Matplotlib axes object to configure
+            chart_info: Chart information containing coin details.
+            ax: Matplotlib axes object to configure.
         """
         title_color = self.config.GetValue(BotConfigTypes.CHART_TITLE_COLOR)
 
@@ -183,12 +191,13 @@ class ChartInfoFileSaver:
                chart_info: ChartInfo,
                fig: plt.figure,
                ax: plt.axes) -> None:
-        """Plot the chart data.
+        """
+        Plot the chart data.
 
         Args:
-            chart_info: Chart information to plot
-            fig: Matplotlib figure object
-            ax: Matplotlib axes object
+            chart_info: Chart information to plot.
+            fig: Matplotlib figure object.
+            ax: Matplotlib axes object.
         """
         line_color = self.config.GetValue(BotConfigTypes.CHART_LINE_COLOR)
         line_style = self.config.GetValue(BotConfigTypes.CHART_LINE_STYLE)
@@ -200,11 +209,12 @@ class ChartInfoFileSaver:
     @staticmethod
     def __SaveAndClose(fig: plt.figure,
                        file_name: str) -> None:
-        """Save figure to file and close it.
+        """
+        Save figure to file and close it.
 
         Args:
-            fig: Matplotlib figure object to save
-            file_name: Path to save the figure
+            fig: Matplotlib figure object to save.
+            file_name: Path to save the figure.
         """
         fig.savefig(file_name, bbox_inches="tight")
         plt.close(fig)
@@ -221,12 +231,13 @@ class ChartInfoTmpFileSaver:
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        """Initialize the temporary chart file saver.
+        """
+        Initialize the temporary chart file saver.
 
         Args:
-            config: Configuration object containing chart settings
-            logger: Logger instance for logging operations
-            translator: Translation loader for internationalization
+            config: Configuration object containing chart settings.
+            logger: Logger instance for logging operations.
+            translator: Translation loader for internationalization.
         """
         self.logger = logger
         self.tmp_file_name = None
@@ -238,10 +249,11 @@ class ChartInfoTmpFileSaver:
 
     def SaveToTmpFile(self,
                       chart_info: ChartInfo) -> None:
-        """Save chart to a temporary file.
+        """
+        Save chart to a temporary file.
 
         Args:
-            chart_info: Chart information to save
+            chart_info: Chart information to save.
         """
         self.DeleteTmpFile()
         self.tmp_file_name = self.__NewTmpFileName()
@@ -253,10 +265,11 @@ class ChartInfoTmpFileSaver:
         )
 
     def TmpFileName(self) -> Optional[str]:
-        """Get the temporary file name.
+        """
+        Get the temporary file name.
 
         Returns:
-            The temporary file name or None if no file exists
+            The temporary file name or None if no file exists.
         """
         return self.tmp_file_name
 
@@ -273,10 +286,11 @@ class ChartInfoTmpFileSaver:
 
     @staticmethod
     def __NewTmpFileName() -> str:
-        """Generate a new temporary file name.
+        """
+        Generate a new temporary file name.
 
         Returns:
-            A new temporary file name with chart image extension
+            A new temporary file name with chart image extension.
         """
         tmp_name = "".join(
             secrets.choice(string.ascii_letters + string.digits) for _ in range(ChartInfoFileSaverConst.TMP_FILE_NAME_LEN)

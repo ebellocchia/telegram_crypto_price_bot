@@ -42,7 +42,8 @@ class ChartInfoMessageSender(InfoMessageSenderBase):
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        """Initialize the chart info message sender.
+        """
+        Initialize the chart info message sender.
 
         Args:
             client: Pyrogram client instance
@@ -61,7 +62,8 @@ class ChartInfoMessageSender(InfoMessageSenderBase):
                            topic_id: int,
                            *args: Any,
                            **kwargs: Any) -> pyrogram.types.Message:
-        """Send chart image message.
+        """
+        Send chart image message.
 
         Args:
             chat: Telegram chat to send message to

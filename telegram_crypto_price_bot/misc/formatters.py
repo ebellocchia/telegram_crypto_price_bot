@@ -26,13 +26,14 @@ class CoinIdFormatter:
 
     @staticmethod
     def Format(coin_id: str) -> str:
-        """Format a coin ID by title-casing and replacing hyphens with spaces.
+        """
+        Format a coin ID by title-casing and replacing hyphens with spaces.
 
         Args:
-            coin_id: The coin identifier to format
+            coin_id: The coin identifier to format.
 
         Returns:
-            Formatted coin ID string
+            Formatted coin ID string.
         """
         return coin_id.title().replace("-", " ")
 
@@ -43,14 +44,15 @@ class CoinPairFormatter:
     @staticmethod
     def Format(coin_sym: str,
                coin_vs: str) -> str:
-        """Format a coin pair string.
+        """
+        Format a coin pair string.
 
         Args:
-            coin_sym: The coin symbol
-            coin_vs: The currency symbol to compare against
+            coin_sym: The coin symbol.
+            coin_vs: The currency symbol to compare against.
 
         Returns:
-            Formatted coin pair string
+            Formatted coin pair string.
         """
         return f"{coin_sym}/{coin_vs}"
 
@@ -61,14 +63,15 @@ class MarketCapFormatter:
     @staticmethod
     def Format(market_cap: int,
                coin_vs: Optional[str] = None) -> str:
-        """Format market cap with appropriate magnitude suffix (B/M).
+        """
+        Format market cap with appropriate magnitude suffix (B/M).
 
         Args:
-            market_cap: Market capitalization value
-            coin_vs: Optional currency symbol for formatting
+            market_cap: Market capitalization value.
+            coin_vs: Optional currency symbol for formatting.
 
         Returns:
-            Formatted market cap string
+            Formatted market cap string.
         """
         coin_vs = coin_vs or ""
         space = " " if coin_vs not in ("$", "€") else ""
@@ -88,14 +91,15 @@ class PriceFormatter:
     @staticmethod
     def Format(price: float,
                coin_vs: Optional[str] = None) -> str:
-        """Format price with precision based on value magnitude.
+        """
+        Format price with precision based on value magnitude.
 
         Args:
-            price: Price value to format
-            coin_vs: Optional currency symbol for formatting
+            price: Price value to format.
+            coin_vs: Optional currency symbol for formatting.
 
         Returns:
-            Formatted price string
+            Formatted price string.
         """
         coin_vs = coin_vs or ""
         space = " " if coin_vs not in ("$", "€") else ""
@@ -118,13 +122,14 @@ class PriceChangePercFormatter:
 
     @staticmethod
     def Format(price_change: float) -> str:
-        """Format price change percentage with red/green indicator.
+        """
+        Format price change percentage with red/green indicator.
 
         Args:
-            price_change: Price change percentage value
+            price_change: Price change percentage value.
 
         Returns:
-            Formatted price change string with emoji indicator
+            Formatted price change string with emoji indicator.
         """
         return f"{'🔴' if price_change < 0 else '🟢'} {price_change:+.2f}%"
 
@@ -135,14 +140,15 @@ class VolumeFormatter:
     @staticmethod
     def Format(volume: int,
                coin_vs: Optional[str] = None) -> str:
-        """Format volume with appropriate magnitude suffix (B/M).
+        """
+        Format volume with appropriate magnitude suffix (B/M).
 
         Args:
-            volume: Trading volume value
-            coin_vs: Optional currency symbol for formatting
+            volume: Trading volume value.
+            coin_vs: Optional currency symbol for formatting.
 
         Returns:
-            Formatted volume string
+            Formatted volume string.
         """
         coin_vs = coin_vs or ""
         space = " " if coin_vs not in ("$", "€") else ""

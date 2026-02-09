@@ -32,22 +32,24 @@ class ConfigSectionsLoader:
 
     def __init__(self,
                  config_parser: configparser.ConfigParser) -> None:
-        """Initialize the sections loader.
+        """
+        Initialize the sections loader.
 
         Args:
-            config_parser: ConfigParser instance with loaded configuration
+            config_parser: ConfigParser instance with loaded configuration.
         """
         self.config_section_loader = ConfigSectionLoader(config_parser)
 
     def LoadSections(self,
                      sections: ConfigSectionsType) -> ConfigObject:
-        """Load all configuration sections.
+        """
+        Load all configuration sections.
 
         Args:
-            sections: Dictionary of section names to section configurations
+            sections: Dictionary of section names to section configurations.
 
         Returns:
-            Configuration object with loaded values from all sections
+            Configuration object with loaded values from all sections.
         """
         config_obj = ConfigObject()
 

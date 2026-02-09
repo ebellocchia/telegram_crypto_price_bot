@@ -51,11 +51,12 @@ class PriceInfo:
     def __init__(self,
                  coin_data: Dict[str, Any],
                  coin_vs: str) -> None:
-        """Initialize price information from coin data.
+        """
+        Initialize price information from coin data.
 
         Args:
-            coin_data: Raw coin data from API
-            coin_vs: Currency to compare against
+            coin_data: Raw coin data from API.
+            coin_vs: Currency to compare against.
         """
         self.info = {
             PriceInfoTypes.COIN_NAME: coin_data["name"],
@@ -85,16 +86,17 @@ class PriceInfo:
 
     def GetData(self,
                 data_type: PriceInfoTypes) -> Any:
-        """Get price data by type.
+        """
+        Get price data by type.
 
         Args:
-            data_type: Type of price data to retrieve
+            data_type: Type of price data to retrieve.
 
         Returns:
-            Price data value
+            Price data value.
 
         Raises:
-            TypeError: If data_type is not a PriceInfoTypes enumeration
+            TypeError: If data_type is not a PriceInfoTypes enumeration.
         """
         if not isinstance(data_type, PriceInfoTypes):
             raise TypeError("Invalid info type")

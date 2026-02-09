@@ -42,20 +42,22 @@ class TranslationLoader:
 
     def __init__(self,
                  logger: Logger) -> None:
-        """Initialize the translation loader.
+        """
+        Initialize the translation loader.
 
         Args:
-            logger: Logger instance
+            logger: Logger instance.
         """
         self.logger = logger
         self.sentences = {}
 
     def Load(self,
              file_name: Optional[str] = None) -> None:
-        """Load translation file, falling back to default if not found.
+        """
+        Load translation file, falling back to default if not found.
 
         Args:
-            file_name: Path to translation file, or None for default
+            file_name: Path to translation file, or None for default.
         """
         def_file_path = os.path.join(os.path.dirname(__file__),
                                      TranslationLoaderConst.DEF_LANG_FOLDER,
@@ -77,23 +79,25 @@ class TranslationLoader:
     def GetSentence(self,
                     sentence_id: str,
                     **kwargs: Any) -> str:
-        """Get a translated sentence by ID with optional formatting.
+        """
+        Get a translated sentence by ID with optional formatting.
 
         Args:
-            sentence_id: The sentence identifier
-            **kwargs: Keyword arguments for string formatting
+            sentence_id: The sentence identifier.
+            **kwargs: Keyword arguments for string formatting.
 
         Returns:
-            Formatted translated sentence
+            Formatted translated sentence.
         """
         return self.sentences[sentence_id].format(**kwargs)
 
     def __LoadFile(self,
                    file_name: str) -> None:
-        """Load and parse translation XML file.
+        """
+        Load and parse translation XML file.
 
         Args:
-            file_name: Path to XML translation file
+            file_name: Path to XML translation file.
         """
         tree = ElementTree.parse(file_name)
         root = tree.getroot()

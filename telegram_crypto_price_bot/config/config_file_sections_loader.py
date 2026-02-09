@@ -31,14 +31,15 @@ class ConfigFileSectionsLoader:
     @staticmethod
     def Load(file_name: str,
              sections: ConfigSectionsType) -> ConfigObject:
-        """Load configuration from file and parse sections.
+        """
+        Load configuration from file and parse sections.
 
         Args:
-            file_name: Path to the configuration file
-            sections: Configuration sections structure to load
+            file_name: Path to the configuration file.
+            sections: Configuration sections structure to load.
 
         Returns:
-            Configuration object with loaded values
+            Configuration object with loaded values.
         """
         print(f"\nLoading configuration file {file_name}...\n")
 

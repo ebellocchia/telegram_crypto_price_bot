@@ -42,11 +42,12 @@ class MessageSender:
     def __init__(self,
                  client: pyrogram.Client,
                  logger: Logger) -> None:
-        """Initialize the message sender.
+        """
+        Initialize the message sender.
 
         Args:
-            client: Pyrogram client instance
-            logger: Logger instance
+            client: Pyrogram client instance.
+            logger: Logger instance.
         """
         self.client = client
         self.logger = logger
@@ -56,16 +57,17 @@ class MessageSender:
                           topic_id: int,
                           msg: str,
                           **kwargs: Any) -> List[pyrogram.types.Message]:
-        """Send a message, automatically splitting if it exceeds maximum length.
+        """
+        Send a message, automatically splitting if it exceeds maximum length.
 
         Args:
-            receiver: Chat or user to send message to
-            topic_id: Topic to send message to
-            msg: Message text to send
-            **kwargs: Additional keyword arguments
+            receiver: Chat or user to send message to.
+            topic_id: Topic to send message to.
+            msg: Message text to send.
+            **kwargs: Additional keyword arguments.
 
         Returns:
-            List of sent message objects
+            List of sent message objects.
         """
         self.logger.GetLogger().info(f"Sending message (length: {len(msg)}):\n{msg}")
         return await self.__SendSplitMessage(receiver, topic_id, self.__SplitMessage(msg), **kwargs)
@@ -75,16 +77,17 @@ class MessageSender:
                         topic_id: int,
                         photo: str,
                         **kwargs: Any) -> pyrogram.types.Message:
-        """Send a photo message.
+        """
+        Send a photo message.
 
         Args:
-            receiver: Chat or user to send photo to
-            topic_id: Topic to send photo to
-            photo: Path to photo file
-            **kwargs: Additional keyword arguments
+            receiver: Chat or user to send photo to.
+            topic_id: Topic to send photo to.
+            photo: Path to photo file.
+            **kwargs: Additional keyword arguments.
 
         Returns:
-            Sent message object
+            Sent message object.
         """
         return await self.client.send_photo(receiver.id, photo, message_thread_id=topic_id, **kwargs)
 
@@ -93,16 +96,17 @@ class MessageSender:
                                  topic_id: int,
                                  split_msg: List[str],
                                  **kwargs) -> List[pyrogram.types.Message]:
-        """Send multiple message parts with delay between sends.
+        """
+        Send multiple message parts with delay between sends.
 
         Args:
-            receiver: Chat or user to send messages to
-            topic_id: Topic to send messages to
-            split_msg: List of message parts to send
-            **kwargs: Additional keyword arguments
+            receiver: Chat or user to send messages to.
+            topic_id: Topic to send messages to.
+            split_msg: List of message parts to send.
+            **kwargs: Additional keyword arguments.
 
         Returns:
-            List of sent message objects
+            List of sent message objects.
         """
         sent_msgs = []
 
@@ -116,13 +120,14 @@ class MessageSender:
 
     def __SplitMessage(self,
                        msg: str) -> List[str]:
-        """Split a message into parts respecting maximum length.
+        """
+        Split a message into parts respecting maximum length.
 
         Args:
-            msg: Message to split
+            msg: Message to split.
 
         Returns:
-            List of message parts
+            List of message parts.
         """
         msg_parts = []
 

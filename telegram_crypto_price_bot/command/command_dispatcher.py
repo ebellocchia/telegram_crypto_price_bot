@@ -99,7 +99,8 @@ class CommandDispatcher:
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        """Initialize the command dispatcher.
+        """
+        Initialize the command dispatcher.
 
         Args:
             config: Configuration object
@@ -115,7 +116,8 @@ class CommandDispatcher:
                        message: pyrogram.types.Message,
                        cmd_type: CommandTypes,
                        **kwargs: Any) -> None:
-        """Dispatch a command to its corresponding handler.
+        """
+        Dispatch a command to its corresponding handler.
 
         Args:
             client: Pyrogram client instance

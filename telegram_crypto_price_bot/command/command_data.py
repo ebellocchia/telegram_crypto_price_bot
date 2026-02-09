@@ -36,63 +36,67 @@ class CommandParametersList(WrappedList):
     def GetAsBool(self,
                   idx: int,
                   def_val: Optional[bool] = None) -> bool:
-        """Get parameter as boolean value.
+        """
+        Get parameter as boolean value.
 
         Args:
-            idx: Parameter index
-            def_val: Default value if parameter is missing or invalid
+            idx: Parameter index.
+            def_val: Default value if parameter is missing or invalid.
 
         Returns:
-            Boolean parameter value
+            Boolean parameter value.
 
         Raises:
-            CommandParameterError: If parameter is invalid and no default value provided
+            CommandParameterError: If parameter is invalid and no default value provided.
         """
         return self.__GetGenericParam(Utils.StrToBool, idx, def_val)
 
     def GetAsInt(self,
                  idx: int,
                  def_val: Optional[int] = None) -> int:
-        """Get parameter as integer value.
+        """
+        Get parameter as integer value.
 
         Args:
-            idx: Parameter index
-            def_val: Default value if parameter is missing or invalid
+            idx: Parameter index.
+            def_val: Default value if parameter is missing or invalid.
 
         Returns:
-            Integer parameter value
+            Integer parameter value.
 
         Raises:
-            CommandParameterError: If parameter is invalid and no default value provided
+            CommandParameterError: If parameter is invalid and no default value provided.
         """
         return self.__GetGenericParam(Utils.StrToInt, idx, def_val)
 
     def GetAsString(self,
                     idx: int,
                     def_val: Optional[str] = None) -> str:
-        """Get parameter as string value.
+        """
+        Get parameter as string value.
 
         Args:
-            idx: Parameter index
-            def_val: Default value if parameter is missing or invalid
+            idx: Parameter index.
+            def_val: Default value if parameter is missing or invalid.
 
         Returns:
-            String parameter value
+            String parameter value.
 
         Raises:
-            CommandParameterError: If parameter is invalid and no default value provided
+            CommandParameterError: If parameter is invalid and no default value provided.
         """
         return self.__GetGenericParam(str, idx, def_val)
 
     def IsLast(self,
                value: Union[int, str]) -> bool:
-        """Check if the last parameter matches the specified value.
+        """
+        Check if the last parameter matches the specified value.
 
         Args:
-            value: Value to check against
+            value: Value to check against.
 
         Returns:
-            True if last parameter matches, False otherwise
+            True if last parameter matches, False otherwise.
         """
         try:
             return value == self.list_elements[self.Count() - 1]
@@ -101,13 +105,14 @@ class CommandParametersList(WrappedList):
 
     def IsValue(self,
                 value: Union[int, str]) -> bool:
-        """Check if a value is present in the parameters list.
+        """
+        Check if a value is present in the parameters list.
 
         Args:
-            value: Value to check for
+            value: Value to check for.
 
         Returns:
-            True if value is present, False otherwise
+            True if value is present, False otherwise.
         """
         return value in self.list_elements
 
@@ -115,18 +120,19 @@ class CommandParametersList(WrappedList):
                           conv_fct: Callable[[str], Any],
                           idx: int,
                           def_val: Optional[Any]) -> Any:
-        """Get parameter with type conversion.
+        """
+        Get parameter with type conversion.
 
         Args:
-            conv_fct: Conversion function to apply
-            idx: Parameter index
-            def_val: Default value if parameter is missing or invalid
+            conv_fct: Conversion function to apply.
+            idx: Parameter index.
+            def_val: Default value if parameter is missing or invalid.
 
         Returns:
-            Converted parameter value
+            Converted parameter value.
 
         Raises:
-            CommandParameterError: If parameter is invalid and no default value provided
+            CommandParameterError: If parameter is invalid and no default value provided.
         """
         try:
             return conv_fct(self.list_elements[idx])
@@ -146,13 +152,14 @@ class CommandData:
 
     def __init__(self,
                  message: pyrogram.types.Message) -> None:
-        """Initialize command data from a message.
+        """
+        Initialize command data from a message.
 
         Args:
-            message: Telegram message containing the command
+            message: Telegram message containing the command.
 
         Raises:
-            ValueError: If message does not contain a valid command
+            ValueError: If message does not contain a valid command.
         """
         if message.command is None or message.chat is None:
             raise ValueError("Invalid command")
@@ -164,33 +171,37 @@ class CommandData:
         self.cmd_user = message.from_user
 
     def Name(self) -> str:
-        """Get the command name.
+        """
+        Get the command name.
 
         Returns:
-            Command name string
+            Command name string.
         """
         return self.cmd_name
 
     def Chat(self) -> pyrogram.types.Chat:
-        """Get the chat where the command was sent.
+        """
+        Get the chat where the command was sent.
 
         Returns:
-            Telegram chat object
+            Telegram chat object.
         """
         return self.cmd_chat
 
     def User(self) -> Optional[pyrogram.types.User]:
-        """Get the user who sent the command.
+        """
+        Get the user who sent the command.
 
         Returns:
-            Telegram user object or None if user is anonymous
+            Telegram user object or None if user is anonymous.
         """
         return self.cmd_user
 
     def Params(self) -> CommandParametersList:
-        """Get the command parameters list.
+        """
+        Get the command parameters list.
 
         Returns:
-            List of command parameters
+            List of command parameters.
         """
         return self.cmd_params

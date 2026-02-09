@@ -31,7 +31,8 @@ class PriceBot(BotBase):
 
     def __init__(self,
                  config_file: str) -> None:
-        """Initialize the price bot with configuration.
+        """
+        Initialize the price bot with configuration.
 
         Args:
             config_file: Path to configuration file

@@ -49,12 +49,13 @@ class MessageDispatcher:
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        """Initialize the message dispatcher.
+        """
+        Initialize the message dispatcher.
 
         Args:
-            config: Configuration object
-            logger: Logger instance
-            translator: Translation loader
+            config: Configuration object.
+            logger: Logger instance.
+            translator: Translation loader.
         """
         self.config = config
         self.logger = logger
@@ -65,16 +66,17 @@ class MessageDispatcher:
                        message: pyrogram.types.Message,
                        msg_type: MessageTypes,
                        **kwargs: Any) -> None:
-        """Dispatch a message to its corresponding handler.
+        """
+        Dispatch a message to its corresponding handler.
 
         Args:
-            client: Pyrogram client instance
-            message: Telegram message to dispatch
-            msg_type: Type of message to dispatch
-            **kwargs: Additional keyword arguments
+            client: Pyrogram client instance.
+            message: Telegram message to dispatch.
+            msg_type: Type of message to dispatch.
+            **kwargs: Additional keyword arguments.
 
         Raises:
-            TypeError: If msg_type is not a MessageTypes enumeration
+            TypeError: If msg_type is not a MessageTypes enumeration.
         """
         if not isinstance(msg_type, MessageTypes):
             raise TypeError("Message type is not an enumerative of MessageTypes")
@@ -92,7 +94,8 @@ class MessageDispatcher:
                               client,
                               message: pyrogram.types.Message,
                               **kwargs: Any) -> None:
-        """Handle new chat creation event.
+        """
+        Handle new chat creation event.
 
         Args:
             client: Pyrogram client instance
@@ -112,7 +115,8 @@ class MessageDispatcher:
                              client,
                              message: pyrogram.types.Message,
                              **kwargs: Any) -> None:
-        """Handle member leaving chat event.
+        """
+        Handle member leaving chat event.
 
         Args:
             client: Pyrogram client instance
@@ -126,7 +130,8 @@ class MessageDispatcher:
                                client,
                                message: pyrogram.types.Message,
                                **kwargs: Any) -> None:
-        """Handle member joining chat event.
+        """
+        Handle member joining chat event.
 
         Args:
             client: Pyrogram client instance

@@ -35,13 +35,14 @@ class ChartInfo:
                  coin_id: str,
                  coin_vs: str,
                  last_days: int) -> None:
-        """Initialize chart information from price data.
+        """
+        Initialize chart information from price data.
 
         Args:
-            chart_info: Dictionary containing price data with timestamps
-            coin_id: Cryptocurrency coin identifier
-            coin_vs: Currency to compare against (e.g., 'usd')
-            last_days: Number of days of historical data
+            chart_info: Dictionary containing price data with timestamps.
+            coin_id: Cryptocurrency coin identifier.
+            coin_vs: Currency to compare against (e.g., 'usd').
+            last_days: Number of days of historical data.
         """
         self.coin_id = coin_id
         self.coin_vs = coin_vs
@@ -54,41 +55,46 @@ class ChartInfo:
             self.y.append(price[1])
 
     def CoinId(self) -> str:
-        """Get the cryptocurrency coin identifier.
+        """
+        Get the cryptocurrency coin identifier.
 
         Returns:
-            The coin identifier string
+            The coin identifier string.
         """
         return self.coin_id
 
     def CoinVs(self) -> str:
-        """Get the currency to compare against.
+        """
+        Get the currency to compare against.
 
         Returns:
-            The comparison currency string
+            The comparison currency string.
         """
         return self.coin_vs
 
     def LastDays(self) -> int:
-        """Get the number of days of historical data.
+        """
+        Get the number of days of historical data.
 
         Returns:
-            Number of days
+            Number of days.
         """
         return self.last_days
 
     def X(self) -> List[int]:
-        """Get the x coordinates (timestamps) for the chart.
+        """
+        Get the x coordinates (timestamps) for the chart.
 
         Returns:
-            List of timestamps in seconds
+            List of timestamps in seconds.
         """
         return self.x
 
     def Y(self) -> List[float]:
-        """Get the y coordinates (prices) for the chart.
+        """
+        Get the y coordinates (prices) for the chart.
 
         Returns:
-            List of price values
+            List of price values.
         """
         return self.y

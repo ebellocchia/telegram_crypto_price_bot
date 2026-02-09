@@ -37,16 +37,17 @@ class ConfigObject:
 
     def GetValue(self,
                  config_type: ConfigTypes) -> Any:
-        """Get a configuration value.
+        """
+        Get a configuration value.
 
         Args:
-            config_type: Configuration type to retrieve
+            config_type: Configuration type to retrieve.
 
         Returns:
-            Configuration value for the specified type
+            Configuration value for the specified type.
 
         Raises:
-            TypeError: If config_type is not a ConfigTypes enumeration
+            TypeError: If config_type is not a ConfigTypes enumeration.
         """
         if not isinstance(config_type, ConfigTypes):
             raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
@@ -55,14 +56,15 @@ class ConfigObject:
     def SetValue(self,
                  config_type: ConfigTypes,
                  value: Any) -> None:
-        """Set a configuration value.
+        """
+        Set a configuration value.
 
         Args:
-            config_type: Configuration type to set
-            value: Value to set for the configuration type
+            config_type: Configuration type to set.
+            value: Value to set for the configuration type.
 
         Raises:
-            TypeError: If config_type is not a ConfigTypes enumeration
+            TypeError: If config_type is not a ConfigTypes enumeration.
         """
         if not isinstance(config_type, ConfigTypes):
             raise TypeError("BotConfig type is not an enumerative of ConfigTypes")
@@ -70,12 +72,13 @@ class ConfigObject:
 
     def IsValueSet(self,
                    config_type: ConfigTypes) -> bool:
-        """Check if a configuration value is set.
+        """
+        Check if a configuration value is set.
 
         Args:
-            config_type: Configuration type to check
+            config_type: Configuration type to check.
 
         Returns:
-            True if the value is set, False otherwise
+            True if the value is set, False otherwise.
         """
         return config_type in self.config

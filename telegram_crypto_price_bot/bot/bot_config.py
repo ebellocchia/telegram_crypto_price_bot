@@ -39,25 +39,27 @@ class _ConfigTypeConverter:
 
     @staticmethod
     def StrToLogLevel(log_level: str) -> int:
-        """Convert string representation to logging level.
+        """
+        Convert string representation to logging level.
 
         Args:
-            log_level: String representation of log level
+            log_level: String representation of log level.
 
         Returns:
-            Logging level integer, defaults to INFO if not found
+            Logging level integer, defaults to INFO if not found.
         """
         return _ConfigTypeConverter.STR_TO_LOG_LEVEL[log_level] if log_level in _ConfigTypeConverter.STR_TO_LOG_LEVEL else logging.INFO
 
     @staticmethod
     def LogLevelToStr(log_level: int) -> str:
-        """Convert logging level to string representation.
+        """
+        Convert logging level to string representation.
 
         Args:
-            log_level: Logging level integer
+            log_level: Logging level integer.
 
         Returns:
-            String representation of the log level
+            String representation of the log level.
         """
         idx = list(_ConfigTypeConverter.STR_TO_LOG_LEVEL.values()).index(log_level)
         return list(_ConfigTypeConverter.STR_TO_LOG_LEVEL.keys())[idx]

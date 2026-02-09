@@ -47,16 +47,17 @@ class CoinInfoJobData:
                  coin_id: str,
                  coin_vs: str,
                  last_days: int) -> None:
-        """Initialize coin info job data.
+        """
+        Initialize coin info job data.
 
         Args:
-            chat: Telegram chat where the job will run
-            topic_id: Telegram topic where the job will run
-            period_hours: Period in hours between job executions
-            start_hour: Starting hour for the job
-            coin_id: Cryptocurrency coin identifier
-            coin_vs: Currency to compare against
-            last_days: Number of days of historical data to display
+            chat: Telegram chat where the job will run.
+            topic_id: Telegram topic where the job will run.
+            period_hours: Period in hours between job executions.
+            start_hour: Starting hour for the job.
+            coin_id: Cryptocurrency coin identifier.
+            coin_vs: Currency to compare against.
+            last_days: Number of days of historical data to display.
         """
         self.chat = chat
         self.topic_id = topic_id
@@ -68,74 +69,83 @@ class CoinInfoJobData:
         self.running = True
 
     def Chat(self) -> pyrogram.types.Chat:
-        """Get the chat associated with this job.
+        """
+        Get the chat associated with this job.
 
         Returns:
-            The Telegram chat object
+            The Telegram chat object.
         """
         return self.chat
 
     def TopicId(self) -> int:
-        """Get the topic associated with this job.
+        """
+        Get the topic associated with this job.
 
         Returns:
-            The Telegram topic ID
+            The Telegram topic ID.
         """
         return self.topic_id
 
     def PeriodHours(self) -> int:
-        """Get the period in hours between job executions.
+        """
+        Get the period in hours between job executions.
 
         Returns:
-            Period in hours
+            Period in hours.
         """
         return self.period_hours
 
     def StartHour(self) -> int:
-        """Get the starting hour for the job.
+        """
+        Get the starting hour for the job.
 
         Returns:
-            Starting hour
+            Starting hour.
         """
         return self.start_hour
 
     def CoinId(self) -> str:
-        """Get the cryptocurrency coin identifier.
+        """
+        Get the cryptocurrency coin identifier.
 
         Returns:
-            Coin identifier
+            Coin identifier.
         """
         return self.coin_id
 
     def CoinVs(self) -> str:
-        """Get the currency to compare against.
+        """
+        Get the currency to compare against.
 
         Returns:
-            Comparison currency
+            Comparison currency.
         """
         return self.coin_vs
 
     def LastDays(self) -> int:
-        """Get the number of days of historical data.
+        """
+        Get the number of days of historical data.
 
         Returns:
-            Number of days
+            Number of days.
         """
         return self.last_days
 
     def SetRunning(self, flag: bool) -> None:
-        """Set the running status of the job.
+        """
+        Set the running status of the job.
 
         Args:
-            flag: True if job is running, False otherwise
+            flag: True if job is running, False otherwise.
         """
         self.running = flag
 
     def IsRunning(self) -> bool:
-        """Check if the job is currently running.
+        """
+        Check if the job is currently running.
 
         Returns:
-            True if running, False otherwise
+            True if running, False otherwise.
         """
         return self.running
 
@@ -153,30 +163,33 @@ class CoinInfoJob:
                  logger: Logger,
                  translator: TranslationLoader,
                  data: CoinInfoJobData) -> None:
-        """Initialize coin info job.
+        """
+        Initialize coin info job.
 
         Args:
-            client: Pyrogram client instance
-            config: Configuration object
-            logger: Logger instance
-            translator: Translation loader
-            data: Job data containing job parameters
+            client: Pyrogram client instance.
+            config: Configuration object.
+            logger: Logger instance.
+            translator: Translation loader.
+            data: Job data containing job parameters.
         """
         self.data = data
         self.logger = logger
         self.coin_info_msg_sender = CoinInfoMessageSender(client, config, logger, translator)
 
     def Data(self) -> CoinInfoJobData:
-        """Get the job data.
+        """
+        Get the job data.
 
         Returns:
-            Job data object
+            Job data object.
         """
         return self.data
 
     def SetRunning(self,
                    flag: bool) -> None:
-        """Set the running status of the job.
+        """
+        Set the running status of the job.
 
         Args:
             flag: True if job is running, False otherwise
@@ -185,7 +198,8 @@ class CoinInfoJob:
 
     def DeleteLastSentMessage(self,
                               flag: bool) -> None:
-        """Set whether to delete the last sent message.
+        """
+        Set whether to delete the last sent message.
 
         Args:
             flag: True to delete last message, False otherwise
@@ -194,7 +208,8 @@ class CoinInfoJob:
 
     def SendInSameMessage(self,
                           flag: bool) -> None:
-        """Set whether to send updates in the same message.
+        """
+        Set whether to send updates in the same message.
 
         Args:
             flag: True to send in same message, False otherwise
@@ -207,7 +222,8 @@ class CoinInfoJob:
                     coin_id: str,
                     coin_vs: str,
                     last_days: int) -> None:
-        """Execute the job by sending coin information to the chat.
+        """
+        Execute the job by sending coin information to the chat.
 
         Args:
             chat: Telegram chat to send the message to

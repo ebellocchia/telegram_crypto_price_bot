@@ -42,12 +42,13 @@ class InfoMessageSenderBase(ABC):
                  client: pyrogram.Client,
                  config: ConfigObject,
                  logger: Logger) -> None:
-        """Initialize the info message sender base.
+        """
+        Initialize the info message sender base.
 
         Args:
-            client: Pyrogram client instance
-            config: Configuration object
-            logger: Logger instance
+            client: Pyrogram client instance.
+            config: Configuration object.
+            logger: Logger instance.
         """
         self.last_sent_msg = None
         self.coingecko_api = CoinGeckoPriceApi(config, logger)
@@ -59,13 +60,14 @@ class InfoMessageSenderBase(ABC):
                           topic_id: int,
                           *args: Any,
                           **kwargs: Any) -> None:
-        """Send message and store the last sent message.
+        """
+        Send message and store the last sent message.
 
         Args:
-            chat: Telegram chat to send message to
-            topic_id: Telegram topic to send message to
-            *args: Additional positional arguments
-            **kwargs: Additional keyword arguments
+            chat: Telegram chat to send message to.
+            topic_id: Telegram topic to send message to.
+            *args: Additional positional arguments.
+            **kwargs: Additional keyword arguments.
         """
         self.last_sent_msg = await self._SendMessage(chat, topic_id, *args, **kwargs)
 
@@ -77,18 +79,20 @@ class InfoMessageSenderBase(ABC):
         self.last_sent_msg = None
 
     def _CoinGeckoPriceApi(self) -> CoinGeckoPriceApi:
-        """Get the CoinGecko API instance.
+        """
+        Get the CoinGecko API instance.
 
         Returns:
-            CoinGecko API instance
+            CoinGecko API instance.
         """
         return self.coingecko_api
 
     def _MessageSender(self) -> MessageSender:
-        """Get the message sender instance.
+        """
+        Get the message sender instance.
 
         Returns:
-            Message sender instance
+            Message sender instance.
         """
         return self.message_sender
 
@@ -98,7 +102,8 @@ class InfoMessageSenderBase(ABC):
                            topic_id: int,
                            *args: Any,
                            **kwargs: Any) -> pyrogram.types.Message:
-        """Send message implementation to be provided by subclasses.
+        """
+        Send message implementation to be provided by subclasses.
 
         Args:
             chat: Telegram chat to send message to

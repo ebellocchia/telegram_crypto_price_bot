@@ -47,24 +47,26 @@ class PriceInfoBuilder:
     def __init__(self,
                  config: ConfigObject,
                  translator: TranslationLoader) -> None:
-        """Initialize the price info builder.
+        """
+        Initialize the price info builder.
 
         Args:
-            config: Configuration object
-            translator: Translation loader
+            config: Configuration object.
+            translator: Translation loader.
         """
         self.config = config
         self.translator = translator
 
     def Build(self,
               price_info: PriceInfo) -> str:
-        """Build a formatted price information message.
+        """
+        Build a formatted price information message.
 
         Args:
-            price_info: Price information to format
+            price_info: Price information to format.
 
         Returns:
-            Formatted price information message string
+            Formatted price information message string.
         """
         coin_vs = price_info.GetData(PriceInfoTypes.COIN_VS)
         coin_vs_sym = price_info.GetData(PriceInfoTypes.COIN_VS_SYMBOL)
@@ -115,16 +117,17 @@ class PriceInfoBuilder:
                        value: str,
                        correction: int = 0,
                        add_new_line: bool = True) -> str:
-        """Format a string with aligned header and value.
+        """
+        Format a string with aligned header and value.
 
         Args:
-            header: Header text
-            value: Value text
-            correction: Alignment correction offset
-            add_new_line: Whether to add a newline character
+            header: Header text.
+            value: Value text.
+            correction: Alignment correction offset.
+            add_new_line: Whether to add a newline character.
 
         Returns:
-            Formatted aligned string
+            Formatted aligned string.
         """
         alignment = " " * (PriceInfoBuilderConst.ALIGN_LEN + correction - len(header))
         new_line = "\n" if add_new_line else ""

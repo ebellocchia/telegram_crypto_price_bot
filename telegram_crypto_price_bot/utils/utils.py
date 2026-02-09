@@ -24,13 +24,14 @@ from typing import Any, Callable, Optional
 
 
 def Synchronized(lock: Lock):
-    """Decorator for thread-safe synchronization of functions or methods.
+    """
+    Decorator for thread-safe synchronization of functions or methods.
 
     Args:
-        lock: Threading lock to use for synchronization
+        lock: Threading lock to use for synchronization.
 
     Returns:
-        Decorated function with lock protection
+        Decorated function with lock protection.
     """
     def _decorator(wrapped: Callable[..., Any]):
         @functools.wraps(wrapped)
@@ -47,16 +48,17 @@ class Utils:
 
     @staticmethod
     def StrToBool(s: str) -> bool:
-        """Convert a string to boolean value.
+        """
+        Convert a string to boolean value.
 
         Args:
-            s: String to convert
+            s: String to convert.
 
         Returns:
-            Boolean value
+            Boolean value.
 
         Raises:
-            ValueError: If string is not a valid boolean representation
+            ValueError: If string is not a valid boolean representation.
         """
         s = s.lower()
         if s in ["true", "on", "yes", "y"]:
@@ -69,13 +71,14 @@ class Utils:
 
     @staticmethod
     def StrToInt(s: Optional[str]) -> int:
-        """Convert a string to integer, returning 0 if None.
+        """
+        Convert a string to integer, returning 0 if None.
 
         Args:
-            s: String to convert, or None
+            s: String to convert, or None.
 
         Returns:
-            Integer value, or 0 if input is None
+            Integer value, or 0 if input is None.
         """
         if s is None:
             return 0
@@ -83,13 +86,14 @@ class Utils:
 
     @staticmethod
     def StrToFloat(s: Optional[str]) -> float:
-        """Convert a string to float, returning 0.0 if None.
+        """
+        Convert a string to float, returning 0.0 if None.
 
         Args:
-            s: String to convert, or None
+            s: String to convert, or None.
 
         Returns:
-            Float value, or 0.0 if input is None
+            Float value, or 0.0 if input is None.
         """
         if s is None:
             return 0.0

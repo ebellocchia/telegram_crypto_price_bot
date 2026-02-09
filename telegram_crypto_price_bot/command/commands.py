@@ -38,7 +38,8 @@ from telegram_crypto_price_bot.misc.helpers import UserHelper
 
 
 def GroupChatOnly(exec_cmd_fct: Callable[..., Coroutine[Any, Any, None]]) -> Callable[..., Coroutine[Any, Any, None]]:
-    """Decorator to restrict commands to group chats only.
+    """
+    Decorator to restrict commands to group chats only.
 
     Args:
         exec_cmd_fct: Command execution function to decorate

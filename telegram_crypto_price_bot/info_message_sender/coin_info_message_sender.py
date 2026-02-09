@@ -49,7 +49,8 @@ class CoinInfoMessageSender:
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        """Initialize the coin info message sender.
+        """
+        Initialize the coin info message sender.
 
         Args:
             client: Pyrogram client instance
@@ -69,7 +70,8 @@ class CoinInfoMessageSender:
 
     def DeleteLastSentMessage(self,
                               flag: bool) -> None:
-        """Set whether to delete the last sent message.
+        """
+        Set whether to delete the last sent message.
 
         Args:
             flag: True to delete last message, False otherwise
@@ -78,7 +80,8 @@ class CoinInfoMessageSender:
 
     def SendInSameMessage(self,
                           flag: bool) -> None:
-        """Set whether to send chart and price in the same message.
+        """
+        Set whether to send chart and price in the same message.
 
         Args:
             flag: True to send in same message, False otherwise
@@ -91,7 +94,8 @@ class CoinInfoMessageSender:
                           coin_id: str,
                           coin_vs: str,
                           last_days: int) -> None:
-        """Send cryptocurrency information message to chat.
+        """
+        Send cryptocurrency information message to chat.
 
         Args:
             chat: Telegram chat to send message to

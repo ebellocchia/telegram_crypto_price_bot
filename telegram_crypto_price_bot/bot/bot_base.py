@@ -49,12 +49,13 @@ class BotBase:
                  config_file: str,
                  config_sections: ConfigSectionsType,
                  handlers_config: BotHandlersConfigType) -> None:
-        """Initialize the bot with configuration, logger, translator, and handlers.
+        """
+        Initialize the bot with configuration, logger, translator, and handlers.
 
         Args:
-            config_file: Path to the configuration file
-            config_sections: Configuration sections to load
-            handlers_config: Handlers configuration for the bot
+            config_file: Path to the configuration file.
+            config_sections: Configuration sections to load.
+            handlers_config: Handlers configuration for the bot.
         """
         self.config = ConfigFileSectionsLoader.Load(config_file, config_sections)
         self.logger = Logger(self.config)
@@ -81,7 +82,8 @@ class BotBase:
 
     def __SetupHandlers(self,
                         handlers_config: BotHandlersConfigType) -> None:
-        """Setup message handlers for the bot.
+        """
+        Setup message handlers for the bot.
 
         Args:
             handlers_config: Dictionary containing handler configurations
@@ -102,7 +104,8 @@ class BotBase:
                               message: pyrogram.types.Message,
                               cmd_type: CommandTypes,
                               **kwargs: Any) -> None:
-        """Dispatch a command to the command dispatcher.
+        """
+        Dispatch a command to the command dispatcher.
 
         Args:
             client: Pyrogram client instance
@@ -117,7 +120,8 @@ class BotBase:
                             message: pyrogram.types.Message,
                             msg_type: MessageTypes,
                             **kwargs: Any) -> None:
-        """Handle a message by dispatching it to the message dispatcher.
+        """
+        Handle a message by dispatching it to the message dispatcher.
 
         Args:
             client: Pyrogram client instance

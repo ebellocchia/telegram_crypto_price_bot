@@ -43,20 +43,22 @@ class Logger:
 
     def __init__(self,
                  config: ConfigObject) -> None:
-        """Initialize the logger with configuration.
+        """
+        Initialize the logger with configuration.
 
         Args:
-            config: Configuration object containing logging settings
+            config: Configuration object containing logging settings.
         """
         self.config = config
         self.logger = logging.getLogger(LoggerConst.LOGGER_NAME)
         self.__Init()
 
     def GetLogger(self) -> logging.Logger:
-        """Get the logger instance.
+        """
+        Get the logger instance.
 
         Returns:
-            Logger instance
+            Logger instance.
         """
         return self.logger
 
@@ -102,10 +104,11 @@ class Logger:
 
     @staticmethod
     def __MakeLogDir(file_name: str) -> None:
-        """Create log directory if it doesn't exist.
+        """
+        Create log directory if it doesn't exist.
 
         Args:
-            file_name: Path to the log file
+            file_name: Path to the log file.
         """
         try:
             os.makedirs(os.path.dirname(file_name))

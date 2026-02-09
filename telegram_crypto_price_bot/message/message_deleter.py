@@ -35,24 +35,26 @@ class MessageDeleter:
     def __init__(self,
                  client: pyrogram.Client,
                  logger: Logger) -> None:
-        """Initialize the message deleter.
+        """
+        Initialize the message deleter.
 
         Args:
-            client: Pyrogram client instance
-            logger: Logger instance
+            client: Pyrogram client instance.
+            logger: Logger instance.
         """
         self.client = client
         self.logger = logger
 
     async def DeleteMessage(self,
                             message: pyrogram.types.Message) -> bool:
-        """Delete a single message.
+        """
+        Delete a single message.
 
         Args:
-            message: Message to delete
+            message: Message to delete.
 
         Returns:
-            True if message was deleted successfully, False otherwise
+            True if message was deleted successfully, False otherwise.
         """
         try:
             if message.chat is not None:
@@ -64,10 +66,11 @@ class MessageDeleter:
 
     async def DeleteMessages(self,
                              messages: List[pyrogram.types.Message]) -> None:
-        """Delete multiple messages.
+        """
+        Delete multiple messages.
 
         Args:
-            messages: List of messages to delete
+            messages: List of messages to delete.
         """
         for message in messages:
             await self.DeleteMessage(message)

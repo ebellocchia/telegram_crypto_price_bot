@@ -67,11 +67,12 @@ class CoinGeckoPriceApi:
     def __init__(self,
                  config: ConfigObject,
                  logger: Logger) -> None:
-        """Initialize the CoinGecko price API.
+        """
+        Initialize the CoinGecko price API.
 
         Args:
-            config: Configuration object containing API key
-            logger: Logger instance
+            config: Configuration object containing API key.
+            logger: Logger instance.
         """
         self.logger = logger
         self.timeout = config.GetValue(BotConfigTypes.COINGECKO_API_TIMEOUT_SEC)
@@ -113,17 +114,18 @@ class CoinGeckoPriceApi:
     async def GetPriceInfo(self,
                            coin_id: str,
                            coin_vs: str) -> PriceInfo:
-        """Get current price information for a cryptocurrency.
+        """
+        Get current price information for a cryptocurrency.
 
         Args:
-            coin_id: Cryptocurrency coin identifier
-            coin_vs: Currency to compare against
+            coin_id: Cryptocurrency coin identifier.
+            coin_vs: Currency to compare against.
 
         Returns:
-            Price information object
+            Price information object.
 
         Raises:
-            CoinGeckoPriceApiError: If API request fails
+            CoinGeckoPriceApiError: If API request fails.
         """
         coin_info = await self.__SendRequestWithRetry(f"coins/{coin_id}", {})
         return PriceInfo(coin_info, coin_vs)
@@ -132,18 +134,19 @@ class CoinGeckoPriceApi:
                            coin_id: str,
                            coin_vs: str,
                            last_days: int) -> ChartInfo:
-        """Get historical chart data for a cryptocurrency.
+        """
+        Get historical chart data for a cryptocurrency.
 
         Args:
-            coin_id: Cryptocurrency coin identifier
-            coin_vs: Currency to compare against
-            last_days: Number of days of historical data to retrieve
+            coin_id: Cryptocurrency coin identifier.
+            coin_vs: Currency to compare against.
+            last_days: Number of days of historical data to retrieve.
 
         Returns:
-            Chart information object
+            Chart information object.
 
         Raises:
-            CoinGeckoPriceApiError: If API request fails
+            CoinGeckoPriceApiError: If API request fails.
         """
         chart_info = await self.__SendRequestWithRetry(
             f"coins/{coin_id}/market_chart",
@@ -159,17 +162,18 @@ class CoinGeckoPriceApi:
         url: str,
         params: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """Send HTTP request with retry logic.
+        """
+        Send HTTP request with retry logic.
 
         Args:
-            url: API endpoint path
-            params: Query parameters for the request
+            url: API endpoint path.
+            params: Query parameters for the request.
 
         Returns:
-            JSON response as dictionary
+            JSON response as dictionary.
 
         Raises:
-            CoinGeckoPriceApiError: If all retry attempts fail
+            CoinGeckoPriceApiError: If all retry attempts fail.
         """
         try:
             return await self.retry_strategy(self.__SendRequest, url, params)
@@ -182,20 +186,21 @@ class CoinGeckoPriceApi:
         url: str,
         params: Dict[str, Any]
     ) -> Dict[str, Any]:
-        """Send HTTP request to CoinGecko API.
+        """
+        Send HTTP request to CoinGecko API.
 
         Args:
-            url: API endpoint path
-            params: Query parameters for the request
+            url: API endpoint path.
+            params: Query parameters for the request.
 
         Returns:
-            JSON response as dictionary
+            JSON response as dictionary.
 
         Raises:
-            httpx.HTTPStatusError: If HTTP request fails
-            httpx.NetworkError: If network error occurs
-            httpx.ProtocolError: If protocol error occurs
-            httpx.TimeoutException: If request times out
+            httpx.HTTPStatusError: If HTTP request fails.
+            httpx.NetworkError: If network error occurs.
+            httpx.ProtocolError: If protocol error occurs.
+            httpx.TimeoutException: If request times out.
         """
         async with AsyncClient(
             base_url=self.api_base_url,

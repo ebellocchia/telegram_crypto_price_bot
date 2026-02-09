@@ -68,19 +68,21 @@ class CoinInfoJobsList(WrappedList):
 
     def __init__(self,
                  translator: TranslationLoader) -> None:
-        """Initialize the jobs list.
+        """
+        Initialize the jobs list.
 
         Args:
-            translator: Translation loader for formatting job information
+            translator: Translation loader for formatting job information.
         """
         super().__init__()
         self.translator = translator
 
     def ToString(self) -> str:
-        """Convert the jobs list to a formatted string.
+        """
+        Convert the jobs list to a formatted string.
 
         Returns:
-            Formatted string with all job information
+            Formatted string with all job information.
         """
         return "\n".join(
             [
@@ -103,10 +105,11 @@ class CoinInfoJobsList(WrappedList):
         )
 
     def __str__(self) -> str:
-        """Convert the jobs list to a string.
+        """
+        Convert the jobs list to a string.
 
         Returns:
-            Formatted string with all job information
+            Formatted string with all job information.
         """
         return self.ToString()
 
@@ -126,13 +129,14 @@ class CoinInfoScheduler:
                  config: ConfigObject,
                  logger: Logger,
                  translator: TranslationLoader) -> None:
-        """Initialize the coin info scheduler.
+        """
+        Initialize the coin info scheduler.
 
         Args:
-            client: Pyrogram client instance
-            config: Configuration object
-            logger: Logger instance
-            translator: Translation loader
+            client: Pyrogram client instance.
+            config: Configuration object.
+            logger: Logger instance.
+            translator: Translation loader.
         """
         self.client = client
         self.config = config
@@ -144,13 +148,14 @@ class CoinInfoScheduler:
 
     def GetJobsInChat(self,
                       chat: pyrogram.types.Chat) -> CoinInfoJobsList:
-        """Get the list of active jobs in a chat.
+        """
+        Get the list of active jobs in a chat.
 
         Args:
-            chat: Telegram chat to get jobs for
+            chat: Telegram chat to get jobs for.
 
         Returns:
-            List of active jobs in the chat
+            List of active jobs in the chat.
         """
         chat_id_str = str(chat.id)
 
@@ -164,16 +169,17 @@ class CoinInfoScheduler:
                        topic_id: int,
                        coin_id: str,
                        coin_vs: str) -> bool:
-        """Check if a job is active in a chat.
+        """
+        Check if a job is active in a chat.
 
         Args:
-            chat: Telegram chat
-            topic_id: Telegram topic
-            coin_id: Cryptocurrency coin identifier
-            coin_vs: Currency to compare against
+            chat: Telegram chat.
+            topic_id: Telegram topic.
+            coin_id: Cryptocurrency coin identifier.
+            coin_vs: Currency to compare against.
 
         Returns:
-            True if job is active, False otherwise
+            True if job is active, False otherwise.
         """
         job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
         return job_id in self.jobs and self.scheduler.get_job(job_id) is not None
@@ -186,22 +192,23 @@ class CoinInfoScheduler:
               coin_id: str,
               coin_vs: str,
               last_days: int) -> None:
-        """Start a new scheduled job.
+        """
+        Start a new scheduled job.
 
         Args:
-            chat: Telegram chat where the job will run
-            topic_id: Telegram topic where the job will run
-            period_hours: Period in hours between executions
-            start_hour: Starting hour for the job
-            coin_id: Cryptocurrency coin identifier
-            coin_vs: Currency to compare against
-            last_days: Number of days of historical data
+            chat: Telegram chat where the job will run.
+            topic_id: Telegram topic where the job will run.
+            period_hours: Period in hours between executions.
+            start_hour: Starting hour for the job.
+            coin_id: Cryptocurrency coin identifier.
+            coin_vs: Currency to compare against.
+            last_days: Number of days of historical data.
 
         Raises:
-            CoinInfoJobAlreadyExistentError: If job already exists
-            CoinInfoJobInvalidPeriodError: If period is invalid
-            CoinInfoJobInvalidStartError: If start hour is invalid
-            CoinInfoJobMaxNumError: If maximum number of jobs reached
+            CoinInfoJobAlreadyExistentError: If job already exists.
+            CoinInfoJobInvalidPeriodError: If period is invalid.
+            CoinInfoJobInvalidStartError: If start hour is invalid.
+            CoinInfoJobMaxNumError: If maximum number of jobs reached.
         """
         job_id = self.__GetJobId(chat, topic_id, coin_id, coin_vs)
 
@@ -232,7 +239,8 @@ class CoinInfoScheduler:
              topic_id: int,
              coin_id: str,
              coin_vs: str) -> None:
-        """Stop a scheduled job.
+        """
+        Stop a scheduled job.
 
         Args:
             chat: Telegram chat where the job is running
@@ -261,7 +269,8 @@ class CoinInfoScheduler:
 
     def StopAll(self,
                 chat: pyrogram.types.Chat) -> None:
-        """Stop all jobs in a chat.
+        """
+        Stop all jobs in a chat.
 
         Args:
             chat: Telegram chat to stop all jobs in
@@ -282,7 +291,8 @@ class CoinInfoScheduler:
 
     def ChatLeft(self,
                  chat: pyrogram.types.Chat) -> None:
-        """Handle bot leaving a chat by stopping all jobs.
+        """
+        Handle bot leaving a chat by stopping all jobs.
 
         Args:
             chat: Telegram chat that was left
@@ -295,7 +305,8 @@ class CoinInfoScheduler:
               topic_id: int,
               coin_id: str,
               coin_vs: str) -> None:
-        """Pause a scheduled job.
+        """
+        Pause a scheduled job.
 
         Args:
             chat: Telegram chat where the job is running
@@ -323,7 +334,8 @@ class CoinInfoScheduler:
                topic_id: int,
                coin_id: str,
                coin_vs: str) -> None:
-        """Resume a paused job.
+        """
+        Resume a paused job.
 
         Args:
             chat: Telegram chat where the job is running
@@ -352,7 +364,8 @@ class CoinInfoScheduler:
                           coin_id: str,
                           coin_vs: str,
                           flag: bool) -> None:
-        """Set whether to send updates in the same message.
+        """
+        Set whether to send updates in the same message.
 
         Args:
             chat: Telegram chat where the job is running
@@ -381,7 +394,8 @@ class CoinInfoScheduler:
                               coin_id: str,
                               coin_vs: str,
                               flag: bool) -> None:
-        """Set whether to delete the last sent message.
+        """
+        Set whether to delete the last sent message.
 
         Args:
             chat: Telegram chat where the job is running
@@ -413,7 +427,8 @@ class CoinInfoScheduler:
                     coin_id: str,
                     coin_vs: str,
                     last_days: int) -> None:
-        """Create a new job instance.
+        """
+        Create a new job instance.
 
         Args:
             job_id: Unique identifier for the job
@@ -440,7 +455,8 @@ class CoinInfoScheduler:
                  coin_id: str,
                  coin_vs: str,
                  last_days: int) -> None:
-        """Add a job to the scheduler.
+        """
+        Add a job to the scheduler.
 
         Args:
             job_id: Unique identifier for the job
@@ -481,7 +497,8 @@ class CoinInfoScheduler:
                    topic_id: int,
                    coin_id: str,
                    coin_vs: str) -> str:
-        """Generate a unique job identifier.
+        """
+        Generate a unique job identifier.
 
         Args:
             chat: Telegram chat
@@ -495,7 +512,8 @@ class CoinInfoScheduler:
         return f"{chat.id}|{topic_id}|{coin_id}|{coin_vs}"
 
     def __GetTotalJobCount(self) -> int:
-        """Get the total number of active jobs across all chats.
+        """
+        Get the total number of active jobs across all chats.
 
         Returns:
             Total number of jobs
@@ -506,7 +524,8 @@ class CoinInfoScheduler:
     def __BuildCronString(period: int,
                           start_val: int,
                           is_test_mode: bool) -> str:
-        """Build a cron expression string for job scheduling.
+        """
+        Build a cron expression string for job scheduling.
 
         Args:
             period: Period between executions
