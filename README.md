@@ -248,11 +248,11 @@ Bot messages can be translated using a custom XML file specified in the `app_lan
 
 **Example with chart and price information on different messages:**
 
-<img src="img/example_diff_msg.png" width="450px">
+<img src="https://github.com/ebellocchia/telegram_crypto_price_bot/blob/master/img/example_diff_msg.png" width="450px">
 
 **Example with chart and price information on the same message:**
 
-<img src="img/example_same_msg.png" width="450px">
+<img src="https://github.com/ebellocchia/telegram_crypto_price_bot/blob/master/img/example_same_msg.png" width="450px">
 
 # License
 
