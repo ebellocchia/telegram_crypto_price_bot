@@ -1,1 +1,2 @@
 include pyproject_legacy.toml
+prune app
