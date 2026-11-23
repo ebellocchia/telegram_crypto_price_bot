@@ -1,3 +1,7 @@
+# 0.6.0
+
+- Add Python 3.14 support
+
 # 0.5.2
 
 - Add configuration parameters for CoinGecko requests:
